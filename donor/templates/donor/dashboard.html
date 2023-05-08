@@ -25,7 +25,7 @@
         </div>
       </div>
       <section class="py-8">
-        <div class="container px-4 mx-auto">
+        <div class="container px-4 mx-auto" id="welcome-card-1">
           <div class="px-7 py-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
             <div class="flex flex-wrap">
               <div class="w-full md:w-1/2 pt-6 mb-10 md:mb-0">
@@ -34,7 +34,7 @@
                 </h3>
                 <h3 class="mb-1 text-2xl font-bold">
                   <span class="text-greenish">Happy to see you !</span>
-                  <i class="fa-solid fa-face-smile-wink" style="color: #AF8905;"></i>
+                  <i class="fa-solid fa-face-smile" style="color: #AF8905;"></i>
                 </h3>
 
                 <p class="mb-8 md:mb-16 text-lg font-medium text-gray-600">Thank you for joining us on this journey to build a world where everyone has enough to eat</p>
@@ -50,7 +50,7 @@
       <section class="py-8">
         <div class="container px-4 mx-auto">
           <div class="flex flex-wrap -m-4">
-            <div class="w-full lg:w-1/3 p-4">
+            <div class="w-full lg:w-1/3 p-4" id="food-donated-card">
               <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
                 <div class="flex items-center mb-2">
                   <span class="inline-block mr-2">
@@ -66,7 +66,7 @@
               </div>
             </div>
 
-            <div class="w-full lg:w-1/3 p-4">
+            <div class="w-full lg:w-1/3 p-4" id="food-pickup-card-1">
               <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
                 <div class="flex items-center mb-2">
                   <span class="inline-block mr-2">
@@ -81,7 +81,7 @@
                 </span>
               </div>
             </div>
-            <div class="w-full lg:w-1/3 p-4">
+            <div class="w-full lg:w-1/3 p-4" id="ngo-served-card">
               <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
                 <div class="flex items-center mb-2">
                   <span class="inline-block mr-2">
@@ -224,6 +224,54 @@
               </div>
         </div>
       </section>
+
+            <script>
+const foodPickupCard_1 = document.getElementById('food-pickup-card-1');
+const ngoServedCard = document.getElementById('ngo-served-card')
+const foodDonatedCard = document.getElementById('food-donated-card')
+const welcomeCard_1 = document.getElementById('welcome-card-1')
+
+const icon = foodPickupCard_1.querySelector('i');
+const icon_2 = ngoServedCard.querySelector('i');
+const icon_3 = foodDonatedCard.querySelector('i');
+const icon_4 = welcomeCard_1.querySelector('i');
+
+foodPickupCard_1.addEventListener('mouseover', () => {
+  icon.classList.replace('fa-truck', 'fa-truck-fast');
+});
+
+foodPickupCard_1.addEventListener('mouseout', () => {
+  icon.classList.replace('fa-truck-fast', 'fa-truck');
+});
+
+ngoServedCard.addEventListener('mouseover', () => {
+  icon_2.classList.replace('fa-solid', 'fa-regular');
+});
+
+ngoServedCard.addEventListener('mouseout', () => {
+  icon_2.classList.replace('fa-regular', 'fa-solid');
+});
+
+foodDonatedCard.addEventListener('mouseover', () => {
+  icon_3.classList.replace('fa-hand-holding', 'fa-hand-holding-heart');
+});
+
+foodDonatedCard.addEventListener('mouseout', () => {
+  icon_3.classList.replace('fa-hand-holding-heart', 'fa-hand-holding');
+});
+
+welcomeCard_1.addEventListener('mouseover', () => {
+  icon_4.classList.replace('fa-face-smile', 'fa-face-laugh-beam');
+});
+
+welcomeCard_1.addEventListener('mouseout', () => {
+  icon_4.classList.replace('fa-face-laugh-beam', 'fa-face-smile');
+});
+
+
+</script>
+
+
     </div>
 
 {% endblock content %}

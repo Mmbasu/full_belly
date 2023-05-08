@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'tailwind',
     'theme',
+    'donor',
     'django_browser_reload',
     'users',
     'recipient'
