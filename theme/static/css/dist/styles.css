@@ -1823,6 +1823,11 @@ select {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.hover\:text-blue-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -1998,6 +2003,10 @@ select {
 
   .lg\:w-auto {
     width: auto;
+  }
+
+  .lg\:w-1\/4 {
+    width: 25%;
   }
 
   .lg\:max-w-6xl {

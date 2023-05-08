@@ -30,5 +30,9 @@ urlpatterns = [
     path('restaurant_details/', views.restaurant_details, name="restaurant_details"),
     path('ngo_details/', views.ngo_details, name="ngo_details"),
     path('edit_ngo_details/', views.edit_ngo_details, name="edit_ngo_details"),
+    path('drivers/', views.drivers, name="drivers"),
+    path('edit_driver/', views.edit_driver, name="edit_driver"),
+    path('driver_details/', views.driver_details, name="driver_details"),
+    path('add_driver/', views.add_driver, name="add_driver"),
 
 ]

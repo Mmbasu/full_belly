@@ -25,18 +25,17 @@
         </div>
       </div>
       <section class="py-8">
-        <div class="container px-4 mx-auto">
+        <div class="container px-4 mx-auto" id="welcome-card">
           <div class="px-7 py-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
             <div class="flex flex-wrap">
               <div class="w-full md:w-1/2 pt-6 mb-10 md:mb-0">
-                <h3 class="mb-1 text-2xl font-bold">
+                <h3 class="mb-2 text-2xl font-bold">
                   <span class="text-greenish">Welcome Dear Recipient</span>
                 </h3>
                 <h3 class="mb-1 text-2xl font-bold">
                   <span class="text-greenish">Happy to see you !</span>
-                  <i class="fa-solid fa-face-smile-wink" style="color: #AF8905;"></i>
+                  <i class="fa-solid fa-face-smile fa-sm" style="color: #AF8905;"></i>
                 </h3>
-
                 <p class="mb-8 md:mb-16 text-lg font-medium text-gray-600">Thank you for joining us on this journey to build a world where everyone has enough to eat</p>
 
               </div>
@@ -50,7 +49,7 @@
 <section class="py-8">
         <div class="container px-4 mx-auto">
           <div class="flex flex-wrap -m-4">
-            <div class="w-full lg:w-1/3 p-4">
+            <div class="w-full lg:w-1/4 p-4" id="food-received-card">
               <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
                 <div class="flex items-center mb-2">
                   <span class="inline-block mr-2">
@@ -66,7 +65,7 @@
               </div>
             </div>
 
-            <div class="w-full lg:w-1/3 p-4">
+            <div class="w-full lg:w-1/4 p-4" id="food-pickup-card">
               <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
                 <div class="flex items-center mb-2">
                   <span class="inline-block mr-2">
@@ -81,7 +80,9 @@
                 </span>
               </div>
             </div>
-            <div class="w-full lg:w-1/3 p-4">
+
+
+            <div class="w-full lg:w-1/4 p-4" id="restaurants-served-card">
               <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
                 <div class="flex items-center mb-2">
                   <span class="inline-block mr-2">
@@ -93,6 +94,23 @@
                 <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">21</h2>
                 <span class="text-sm text-greenish">
                   <p>30 Communities Served</p>
+                </span>
+              </div>
+            </div>
+
+
+            <div class="w-full lg:w-1/4 p-4" id="driver-card">
+              <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
+                <div class="flex items-center mb-2">
+                  <span class="inline-block mr-2">
+                    <i class="fa-solid fa-user fa-lg" style="color: #AF8905;"></i>
+                  </span>
+                  <h2 class="text-lg text-gray-600 font-bold">NGO Drivers</h2>
+                </div>
+
+                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">5</h2>
+                <span class="text-sm text-greenish">
+                  <p>65 Total Deliveries</p>
                 </span>
               </div>
             </div>
@@ -216,6 +234,61 @@
               </div>
         </div>
       </section>
+
+      <script>
+const foodPickupCard = document.getElementById('food-pickup-card');
+const restaurantServedCard = document.getElementById('restaurants-served-card')
+const foodReceivedCard = document.getElementById('food-received-card')
+const welcomeCard = document.getElementById('welcome-card')
+const driverCard = document.getElementById('driver-card')
+const icon = foodPickupCard.querySelector('i');
+const icon_2 = restaurantServedCard.querySelector('i');
+const icon_3 = foodReceivedCard.querySelector('i');
+const icon_4 = welcomeCard.querySelector('i');
+const icon_5 = driverCard.querySelector('i');
+
+foodPickupCard.addEventListener('mouseover', () => {
+  icon.classList.replace('fa-truck', 'fa-truck-fast');
+});
+
+foodPickupCard.addEventListener('mouseout', () => {
+  icon.classList.replace('fa-truck-fast', 'fa-truck');
+});
+
+restaurantServedCard.addEventListener('mouseover', () => {
+  icon_2.classList.replace('fa-utensils', 'fa-spoon');
+});
+
+restaurantServedCard.addEventListener('mouseout', () => {
+  icon_2.classList.replace('fa-spoon', 'fa-utensils');
+});
+
+foodReceivedCard.addEventListener('mouseover', () => {
+  icon_3.classList.replace('fa-hand-holding-heart', 'fa-hand-holding');
+});
+
+foodReceivedCard.addEventListener('mouseout', () => {
+  icon_3.classList.replace('fa-hand-holding', 'fa-hand-holding-heart');
+});
+
+welcomeCard.addEventListener('mouseover', () => {
+  icon_4.classList.replace('fa-face-smile', 'fa-face-laugh-beam');
+});
+
+welcomeCard.addEventListener('mouseout', () => {
+  icon_4.classList.replace('fa-face-laugh-beam', 'fa-face-smile');
+});
+
+driverCard.addEventListener('mouseover', () => {
+  icon_5.classList.replace('fa-user', 'fa-user-tie');
+});
+
+driverCard.addEventListener('mouseout', () => {
+  icon_5.classList.replace('fa-user-tie', 'fa-user');
+});
+
+</script>
+
     </div>
 
 {% endblock content %}

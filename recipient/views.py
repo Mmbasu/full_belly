@@ -117,3 +117,19 @@ def restaurant_details(request):
 
 def edit_ngo_details(request):
     return render(request, 'recipient/edit_ngo_details.html')
+
+
+def drivers(request):
+    return render(request, 'recipient/driver.html')
+
+
+def edit_driver(request):
+    return render(request, 'recipient/edit_driver.html')
+
+
+def driver_details(request):
+    return render(request, 'recipient/driver_details.html')
+
+
+def add_driver(request):
+    return render(request, 'recipient/add_driver.html')
