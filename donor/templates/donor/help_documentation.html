@@ -1,0 +1,807 @@
+{% extends "donor/fullbellybase.html" %}
+
+{% block title %}Help{% endblock %}
+
+{% block content %}
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto">
+            <section>
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-greenish font-medium">Help & Documentation</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+
+      <section class="bg-coolGray-50 py-4">
+        <div class="container px-4 mx-auto">
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pb-6 border-b border-coolGray-100">
+              <div class="flex flex-wrap items-center justify-between -m-2">
+                <div class="w-full md:w-auto p-2">
+                  <p class="text-xl text-coolGray-500 font-medium">Having trouble navigating ? </p>
+                  <p class="text-sm text-coolGray-500 font-medium">Don't worry. Select from the following cards for guidance</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative flex flex-row w-full overflow-x-scroll hide-scroll-bar card-container" style="scrollbar-width: none;">
+
+              <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                  <a class="block mt-6 mb-2 hover:bg-transparent">
+                    <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">1/10</span>
+                    <div class="ml-4">
+                      <i class="fa-xl fa-solid fa-rocket" style="color: #AF8905;"></i>
+                      <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Get Started</h3>
+                    </div>
+                  </a>
+                  <div class="w-full md:w-auto p-2">
+                    <div class="flex justify-center md:justify-between">
+                      <div class="w-full md:w-auto ml-auto">
+                        <button id="get-started-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                          <p>View</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+              <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                  <a class="block mt-6 mb-2 hover:bg-transparent">
+                    <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">2/10</span>
+                    <div class="ml-4">
+                      <i class="fa-xl fa-solid fa-table-columns" style="color: #AF8905;"></i>
+                      <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Dashboard</h3>
+                    </div>
+                  </a>
+                  <div class="w-full md:w-auto p-2">
+                    <div class="flex justify-center md:justify-between">
+                      <div class="w-full md:w-auto ml-auto">
+                        <button id="dashboard-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                          <p>View</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                  <a class="block mt-6 mb-2 hover:bg-transparent">
+                    <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">3/10</span>
+                    <div class="ml-4">
+                      <i class="fa-xl fa-solid fa-utensils" style="color: #AF8905;"></i>
+                      <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Restaurants</h3>
+                    </div>
+                  </a>
+                  <div class="w-full md:w-auto p-2">
+                    <div class="flex justify-center md:justify-between">
+                      <div class="w-full md:w-auto ml-auto">
+                        <button id="restaurant-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                          <p>View</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                  <a class="block mt-6 mb-2 hover:bg-transparent">
+                    <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">4/10</span>
+                    <div class="ml-4">
+                      <i class="fa-xl fa-solid fa-hand-holding" style="color: #AF8905;"></i>
+                      <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Donate</h3>
+                    </div>
+                  </a>
+                  <div class="w-full md:w-auto p-2">
+                    <div class="flex justify-center md:justify-between">
+                      <div class="w-full md:w-auto ml-auto">
+                        <button id="donate-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button view-button">
+                          <p>View</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                  <a class="block mt-6 mb-2 hover:bg-transparent">
+                    <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">5/10</span>
+                    <div class="ml-4">
+                      <i class="fa-xl fa-solid fa-clock-rotate-left" style="color: #AF8905;"></i>
+                      <h3 class="mt-2 mb-2 text-xl font-bold font-heading">History</h3>
+                    </div>
+                  </a>
+                  <div class="w-full md:w-auto p-2">
+                    <div class="flex justify-center md:justify-between">
+                      <div class="w-full md:w-auto ml-auto">
+                        <button id="history-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                          <p>View</p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                  <a class="block mt-6 mb-2 hover:bg-transparent">
+                    <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">6/10</span>
+                    <div class="ml-4">
+                      <i class="fa-xl fa-solid fa-headset" style="color: #AF8905;"></i>
+                      <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Support Center</h3>
+                    </div>
+                          </a>
+                          <div class="w-full md:w-auto p-2">
+                            <div class="flex justify-center md:justify-between">
+                              <div class="w-full md:w-auto ml-auto">
+                                <button id="support-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                                  <p>View</p>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                        <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                          <a class="block mt-6 mb-2 hover:bg-transparent">
+                            <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">7/10</span>
+                            <div class="ml-4">
+                              <i class="fa-xl fa-solid fa-message" style="color: #AF8905;"></i>
+                              <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Messaging</h3>
+                            </div>
+                          </a>
+                          <div class="w-full md:w-auto p-2">
+                            <div class="flex justify-center md:justify-between">
+                              <div class="w-full md:w-auto ml-auto">
+                                <button id="messaging-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                                  <p>View</p>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                        <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                          <a class="block mt-6 mb-2 hover:bg-transparent">
+                            <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">8/10</span>
+                            <div class="ml-4">
+                              <i class="fa-xl fa-solid fa-gears" style="color: #AF8905;"></i>
+                              <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Settings</h3>
+                            </div>
+                          </a>
+                          <div class="w-full md:w-auto p-2">
+                            <div class="flex justify-center md:justify-between">
+                              <div class="w-full md:w-auto ml-auto">
+                                <button id="settings-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                                  <p>View</p>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                        <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                          <a class="block mt-6 mb-2 hover:bg-transparent">
+                            <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">9/10</span>
+                            <div class="ml-4">
+                              <i class="fa-xl fa-solid fa-bell" style="color: #AF8905;"></i>
+                              <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Notifications</h3>
+                            </div>
+                          </a>
+                          <div class="w-full md:w-auto p-2">
+                            <div class="flex justify-center md:justify-between">
+                              <div class="w-full md:w-auto ml-auto">
+                                <button id="notification-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                                  <p>View</p>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="relative flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 max-w-sm p-4 flex flex-col">
+                        <div class="p-4 bg-gray-50 rounded-lg border border-coolGray-100 transform hover:-translate-y-2 transition-all duration-500">
+                          <a class="block mt-6 mb-2 hover:bg-transparent">
+                            <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold font-heading border-2 custom-border rounded-full text-greenish bg-white">10/10</span>
+                            <div class="ml-4">
+                              <i class="fa-xl fa-solid fa-user" style="color: #AF8905;"></i>
+                              <h3 class="mt-2 mb-2 text-xl font-bold font-heading">Profile</h3>
+                            </div>
+                          </a>
+                          <div class="w-full md:w-auto p-2">
+                            <div class="flex justify-center md:justify-between">
+                              <div class="w-full md:w-auto ml-auto">
+                                <button id="profile-view-button" class="flex justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
+                                  <p>View</p>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+
+                    <!-- Left arrow button -->
+                    <div class="absolute top-1/2 left-4 transform -translate-y-1/2 arrow-btn left-btn">
+                      <button class="px-2 py-1 rounded-full bg-gray-200 text-gray-500 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"><i class="fas fa-angle-left"></i></button>
+                    </div>
+
+                    <!-- Right arrow button -->
+                    <div class="absolute top-1/2 right-4 transform -translate-y-1/2 arrow-btn right-btn">
+                      <button class="px-2 py-1 rounded-full bg-gray-200 text-gray-500 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"><i class="fas fa-angle-right"></i></button>
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+              </section>
+
+            <section class="bg-coolGray-50 py-4 mt-10">
+              <div id="other-fields-container" class="container px-4 mx-auto">
+
+              </div>
+
+            </section>
+
+      <script>
+
+const sectionDetails = [
+
+  {
+    buttonId: 'get-started-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Get Started</h2>
+                        <p class="text-gray-500 leading-loose">To access our web application, please visit https://fullbellyproject.com . If you are a food service provider or a charity/organization interested in reducing food waste and addressing food insecurity in Kenya, you can sign up by clicking on the "Sign up" button. During registration, select your account type and provide the necessary information to complete the registration process. Once registered, you will be able to connect with other users and start sharing excess food with those in need.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-5 flex flex-wrap justify-center">
+                    <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/kJC7zfk/login.png" alt="login">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-5 flex flex-wrap justify-center">
+                    <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/YZsbPbW/register.png" alt="register">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    `
+  },
+
+  {
+    buttonId: 'dashboard-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Dashboard</h2>
+                        <p class="text-gray-500 leading-loose">The dashboard of our web application is the central hub that connects food service providers with local charities and organizations. It displays relevant information such as total food donations, total food pickups and total NGO's served. It also shows your recent donations both perishable and non-perishable. if you want to see more donations or details in each donations, click the 'view more donations' text at the bottom of each table</p>
+                      </div>
+                    </div>
+                  </div>
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/HDyg0Mz/dashboard1.png" alt="dashboard1">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/M2CBWVs/dashboard2.png" alt="dashboard2">
+                    </div>
+                  </div>
+                </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+    `
+  },
+  {
+    buttonId: 'restaurant-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Restaurants</h2>
+                        <p class="text-gray-500 leading-loose">The restaurants page of our web application allows restaurants to join our platform and offer their excess food to local charities and organizations. Restaurants can easily create a profile and list the food items they have available for donation.</p>
+                        <p class="text-gray-500 leading-loose">To ensure the authenticity and quality of the food being donated, we have a verification process in place for new restaurants. Once a restaurant submits their information and food offerings, our team verifies their details before making their profile live on our platform.</p>
+                        <p class="text-gray-500 leading-loose">One can also add more restaurants, edit restaurants information and delete information</p>
+                      </div>
+                    </div>
+                  </div>
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/drTWC2K/restaurants1.png" alt="restaurants1">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/jRcBzgk/restaurants2.png" alt="restaurants2">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/ZzB1nnm/restaurants3.png" alt="restaurants3">
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  },
+  {
+    buttonId: 'donate-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Donate</h2>
+                        <p class="text-gray-500 leading-loose">The donate page of our web application allows restaurants to select organizations to donate to and even one is able to view the NGO's details by clicking the view button</p>
+                      </div>
+                    </div>
+                  </div>
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/xMS3k6g/donate1.png" alt="donate1">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/mDCnkHw/donate2.png" alt="donate2">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <p class="text-gray-500 leading-loose">The make-donations page allows one to select the type of donation to be made and the respective fields will be populated</p>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/dJBmBgD/donate3.png" alt="donate3">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/7zDx5FK/donate4.png" alt="donate4">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/vkrVPQh/donate5.png" alt="donate5">
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  },
+  {
+    buttonId: 'history-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">History</h2>
+                        <p class="text-gray-500 leading-loose">The history page of our web application allows restaurants to view the records of the previous donations. The display is separated in terms of Perishable and Non-perishable donations. One can also see more details about a specific donation by clicking the eye icon under the actions column</p>
+                      </div>
+                    </div>
+                  </div>
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/nk047mp/history1.png" alt="history1">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <p class="text-gray-500 leading-loose">The history details page is shown after one clicks the eye icon. It displays the donation details and gives one options to either download a report, rate the NGO or go back to history page</p>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/23c9j88/history2.png" alt="history2">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/JmHKbVX/history3.png" alt="history3">
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <p class="text-gray-500 leading-loose">The Rate NGO Modal is activated when one presses the Rate NGO button. once the rating is submitted, the Rate NGO button is disabled. You can rate the NGO only once</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/2YLYKWR/history4.png" alt="history4">
+                    </div>
+                  </div>
+                </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  },
+  {
+    buttonId: 'support-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Support Center</h2>
+                        <p class="text-gray-500 leading-loose">The Support Center page of our web application allows restaurants to view the records of the previous raised issues and the status of whether they are solved or pending.The page also displays more information on our contact means. One can reach us through phone, email or in-person meeting</p>
+                      </div>
+                    </div>
+                  </div>
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/jTfghPP/support1.png" alt="support1">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <p class="text-gray-500 leading-loose">The Raise issue page within the Support Center is shown after one clicks the raise issue button. The page displays some fields where one can place the issues and send it to our team that is working 24/7</p>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/JQTF7q3/support2.png" alt="support2">
+                    </div>
+                  </div>
+                </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  },
+  {
+    buttonId: 'messaging-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Messaging</h2>
+                        <p class="text-gray-500 leading-loose">The Messaging page of our web application allows restaurants to view the inbox messages from the NGO's. One can also delete or reply to any messages by clicking the necessary icons. Arrow left for reply and trashcan for delete</p>
+                      </div>
+                    </div>
+                  </div>
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/KWn11Vk/messaging1.png" alt="messaging1">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/sJZShfx/messaging2.png" alt="messaging2">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <p class="text-gray-500 leading-loose">The outbox section within the messaging page displays the messages that have already been sent to various NGO's. The messages can be deleted by clicking the red trashcan. The send message page within the messaging section contains fields that allows one to send a message to a selected NGO</p>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/Z2W5t28/messaging3.png" alt="messaging3">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/2N1BGCS/messaging4.png" alt="messaging4">
+                    </div>
+                  </div>
+                </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  },
+  {
+    buttonId: 'settings-view-button',
+    content: `
+<div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Settings</h2>
+                        <p class="text-gray-500 leading-loose">The Settings page of our web application allows restaurant managers to view various settings and customizaions one can do </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  },
+  {
+    buttonId: 'notification-view-button',
+    content: `
+<div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Notifications</h2>
+                        <p class="text-gray-500 leading-loose">The Notifications page of our web application allows restaurants to view various notifications about various issues. One can also delete any notifications by clicking the trashcan</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-5 flex flex-wrap justify-center">
+                    <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/f92Ft9k/notification1.png" alt="notification1">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  },
+
+  {
+    buttonId: 'profile-view-button',
+    content: `
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+            <div class="pt-4 bg-white shadow rounded">
+              <div class="py-20 bg-gray-50 rounded">
+                <div class="container mx-auto px-4">
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Profile</h2>
+                        <p class="text-gray-500 leading-loose">The Profile page of our web application allows restaurant manager to view their details. these include their photo, full name, title, email, phone and the social media links. One can edit this information by clicking at the icon next to the name</p>
+                      </div>
+                    </div>
+                  </div>
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/3RZSg7N/profile1.png" alt="profile1">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-10 flex flex-wrap">
+                    <div class="mb-10 lg:mb-0 w-full lg:w-auto">
+                      <div class="max-w-md lg:max-w-full">
+                        <p class="text-gray-500 leading-loose">The edit profile page within the profile page displays the various input fields indicating the user details. These details can be edited and saved</p>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/kJH423X/profile2.png" alt="profile2">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="mb-5 flex flex-wrap justify-center">
+                  <div class="mb-5 lg:mb-0 w-full lg:w-auto">
+                    <div class="max-w-md lg:max-w-full">
+                      <img class="relative rounded-lg w-full border custom-border clickable" src="https://i.ibb.co/G0YhmCz/profile3.png" alt="profile3">
+                    </div>
+                  </div>
+                </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+    `
+  }
+];
+
+
+function addEventListeners() {
+  const images = document.querySelectorAll('.clickable');
+
+  images.forEach(image => {
+    image.addEventListener('click', () => {
+      const enlargedImage = document.createElement('div');
+      enlargedImage.classList.add('enlarged');
+      enlargedImage.innerHTML = `
+        <div class="close-container"><i class="fa-2xl fa-regular fa-circle-xmark" style="color: white;"></i></div>
+        <img src="${image.src}" alt="${image.alt}">
+      `;
+      document.body.appendChild(enlargedImage);
+
+      const closeButton = enlargedImage.querySelector('.fa-circle-xmark');
+      closeButton.addEventListener('click', () => {
+        enlargedImage.remove();
+      });
+    });
+  });
+}
+
+
+const otherFieldsContainer = document.querySelector('#other-fields-container');
+
+sectionDetails.forEach((section) => {
+  const button = document.querySelector(`#${section.buttonId}`);
+  button.addEventListener('click', function() {
+    otherFieldsContainer.innerHTML = section.content;
+    addEventListeners();
+  });
+});
+
+
+</script>
+    </div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,164 @@
+{% extends "donor/fullbellybase.html" %}
+
+{% block title %}Restaurants{% endblock %}
+
+{% block content %}
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto">
+            <section>
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-coolGray-500 font-medium">Donor</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                    <p class="inline-block text-xl text-greenish font-medium hover:bg-transparent">Restaurants</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <section class="bg-coolGray-50 py-4 mt-10">
+        <div class="container px-4 mx-auto">
+          <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+            <div class="pb-6 border-b border-coolGray-100">
+              <div class="flex flex-wrap items-center justify-between -m-2">
+                <div class="w-full md:w-auto p-2">
+                  <p class="text-xl text-coolGray-500 font-medium">Below are your restaurants</p>
+                </div>
+                <div class="w-full md:w-auto p-2">
+                  <div class="flex flex-wrap justify-between -m-1.5">
+                    <div class="w-full md:w-auto p-1.5">
+                      <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'donor:add_restaurant' %}'">
+                        <p>Add Restaurant</p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="pt-4 px-2 overflow-x-auto">
+              <table class="table-auto w-full">
+                <thead>
+                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="font-medium"></th><th class="font-medium">Name</th><th class="font-medium">Location</th><th class="font-medium">Status</th><th class="font-medium">Action</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="flex px-4 py-3">
+                      <img class="w-12 h-12 mr-4 object-cover rounded-md" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
+                    </td>
+                    <td class="font-medium">Emara Ole Sereni</td>
+                    <td class="font-medium">Mombasa Road, Nairobi</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Verified</span>
+                    </td>
+                    <td>
+                      <div>
+                        <a class="inline-block mr-2 hover:bg-transparent" href="{% url 'donor:edit_restaurant' %}" title="Edit">
+                          <i class="fa-lg fa-solid fa-pen-to-square" style="color: #2BA19A;"></i>
+                        </a>
+                        <a class="inline-block hover:bg-transparent" href="#" title="Delete">
+                          <i class="fa-lg fa-solid fa-trash-can" style="color: #E85444;"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="flex px-4 py-3">
+                      <img class="w-12 h-12 mr-4 object-cover rounded-md" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
+                    </td>
+                    <td class="font-medium">Emara Ole Sereni</td>
+                    <td class="font-medium">Mombasa Road, Nairobi</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-red-500 rounded-full text-red-500 bg-white">Not Verified</span>
+                    </td>
+                    <td>
+                      <div>
+                        <a class="inline-block mr-2 hover:bg-transparent" href="{% url 'donor:edit_restaurant' %}" title="Edit">
+                          <i class="fa-lg fa-solid fa-pen-to-square" style="color: #2BA19A;"></i>
+                        </a>
+                        <a class="inline-block hover:bg-transparent" href="#" title="Delete">
+                          <i class="fa-lg fa-solid fa-trash-can" style="color: #E85444;"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="flex px-4 py-3">
+                      <img class="w-12 h-12 mr-4 object-cover rounded-md" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
+                    </td>
+                    <td class="font-medium">Emara Ole Sereni</td>
+                    <td class="font-medium">Mombasa Road, Nairobi</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Verified</span>
+                    </td>
+                    <td>
+                      <div>
+                        <a class="inline-block mr-2 hover:bg-transparent" href="{% url 'donor:edit_restaurant' %}" title="Edit">
+                          <i class="fa-lg fa-solid fa-pen-to-square" style="color: #2BA19A;"></i>
+                        </a>
+                        <a class="inline-block hover:bg-transparent" href="#" title="Delete">
+                          <i class="fa-lg fa-solid fa-trash-can" style="color: #E85444;"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="flex px-4 py-3">
+                      <img class="w-12 h-12 mr-4 object-cover rounded-md" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
+                    </td>
+                    <td class="font-medium">Emara Ole Sereni</td>
+                    <td class="font-medium">Mombasa Road, Nairobi</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Verified</span>
+                    </td>
+                    <td>
+                      <div>
+                        <a class="inline-block mr-2 hover:bg-transparent" href="{% url 'donor:edit_restaurant' %}" title="Edit">
+                          <i class="fa-lg fa-solid fa-pen-to-square" style="color: #2BA19A;"></i>
+                        </a>
+                        <a class="inline-block hover:bg-transparent" href="#" title="Delete">
+                          <i class="fa-lg fa-solid fa-trash-can" style="color: #E85444;"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="flex px-4 py-3">
+                      <img class="w-12 h-12 mr-4 object-cover rounded-md" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
+                    </td>
+                    <td class="font-medium">Emara Ole Sereni</td>
+                    <td class="font-medium">Mombasa Road, Nairobi</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-red-500 rounded-full text-red-500 bg-white">Not Verified</span>
+                    </td>
+                    <td>
+                      <div>
+                        <a class="inline-block mr-2 hover:bg-transparent" href="{% url 'donor:edit_restaurant' %}" title="Edit">
+                          <i class="fa-lg fa-solid fa-pen-to-square" style="color: #2BA19A;"></i>
+                        </a>
+                        <a class="inline-block hover:bg-transparent" href="#" title="Delete">
+                          <i class="fa-lg fa-solid fa-trash-can" style="color: #E85444;"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+
+{% endblock content %}

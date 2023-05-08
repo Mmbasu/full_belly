@@ -1,0 +1,157 @@
+{% extends "recipient/fullbellybase.html" %}
+
+{% block title %}Donations{% endblock %}
+
+{% block content %}
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto">
+            <section>
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-coolGray-500 font-medium">Recipient</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                      <p class="inline-block text-xl text-coolGray-500 font-medium">Donations</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                    <p class="inline-block text-xl text-greenish font-medium hover:bg-transparent">Edit Donation Request</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+<section class="bg-coolGray-50 py-4">
+  <div class="container px-4 mx-auto">
+    <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto p-2">
+            <p class="text-lg text-coolGray-500 font-medium">Edit the details below</p>
+          </div>
+          <div class="w-full md:w-auto p-2">
+            <div class="flex flex-wrap justify-between -m-1.5">
+              <div class="w-full md:w-auto p-1.5">
+                <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm text-coolGray-500 hover:bg-red-500 border-2 border-gray-400 hover:border-red-500 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'recipient:donation' %}'">
+                  <p>Cancel</p>
+                </button>
+              </div>
+                <div class="w-full md:w-auto p-1.5">
+                  <button id="edit-donation-button" class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" onclick="#">
+                    <p>Edit Request</p>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Restaurant</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <div class="relative">
+                <select id="restaurant" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
+                  <option>Send to all</option>
+                  <option>Ole Sereni</option>
+                  <option>Kempinski</option>
+
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Meal Type</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <div class="relative">
+                <select class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
+                  <option>Cooked</option>
+                  <option>Uncooked</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Meal Title</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <div class="relative">
+                <select class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
+                  <option>Breakfast</option>
+                  <option>Lunch</option>
+                  <option>Dinner</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="py-6 border-b border-coolGray-100">
+    <div class="w-full md:w-9/12">
+        <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+                <p class="text-sm text-coolGray-800 font-semibold">Meal Quantity</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+                <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
+                    <input class="w-3/4 px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="number">
+                    <select class="w-1/4 px-4 py-2.5 text-base text-coolGray-500 font-normal bg-white border-l outline-none border-coolGray-200 focus:border-green-500 rounded-none rounded-lg shadow-input">
+                        <option>Kgs</option>
+                        <option>Plates</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    </div>
+  </div>
+</section>
+
+      <script>
+  const editDonationButton = document.getElementById('edit-donation-button');
+  editDonationButton.addEventListener('click', () => {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+      <div class="modal-content modal-large">
+        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
+        <p>Donation Request Edited</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    setTimeout(() => {
+      modal.remove();
+      window.location.href = "{% url 'recipient:donation' %}";
+    }, 2500);
+  });
+</script>
+    </div>
+
+
+{% endblock content %}

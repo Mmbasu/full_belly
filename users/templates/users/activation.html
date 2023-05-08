@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate your account</title>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #002b36;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+      <tr>
+        <td align="center" bgcolor="#002b36" style="padding: 40px 0 30px 0;">
+          <img src="https://i.ibb.co/HH5NPR4/Untitled-design-1.png" alt="Full Belly Project" style="display: block; margin: auto; max-width: 150px;">
+          <h1 style="font-size: 32px; font-weight: 600; color: #9a7400; margin: 20px 0;">Activate your account</h1>
+          <p style="font-size: 18px; line-height: 28px; color: #ffffff; margin: 0 0 20px 0;">Hello {{ user.first_name }}, </p>
+          <p style="font-size: 18px; line-height: 28px; color: #ffffff; margin: 0 0 20px 0;">Please click the link below to activate your account:</p>
+          <a href="{{ activate_url }}?token={{ token }}" style="display: inline-block; padding: 16px 32px; font-size: 20px; font-weight: 600; color: #ffffff; text-decoration: none; background-color: #248981; border-radius: 5px;">Activate account</a>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" bgcolor="#002b36" style="padding: 30px 0;">
+          <p style="font-size: 14px; line-height: 20px; color: #ffffff; margin: 0;">If you have any questions or feedback, please don't hesitate to reply to this email.</p>
+</td>
+</tr>
+</table>
+
+  </body>
+</html>

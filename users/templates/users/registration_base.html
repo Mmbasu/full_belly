@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static tailwind_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+    {% tailwind_css %}
+
+    <style>
+        .invalid-feedback {
+          color: red;
+        }
+        .error-message {
+          display: block;
+        }
+    </style>
+</head>
+<body style="background-color: #183F4A">
+
+{% block content %}
+
+{% endblock content %}
+
+</body>
+</html>

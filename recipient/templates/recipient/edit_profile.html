@@ -1,0 +1,214 @@
+{% extends "recipient/fullbellybase.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto p-2">
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-coolGray-500 font-medium">Profile</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                    <p class="inline-block text-xl text-greenish font-medium hover:bg-transparent">Edit Profile</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+<section class="bg-coolGray-50 py-4">
+  <div class="container px-4 mx-auto">
+    <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto p-2">
+            <p class="text-lg text-coolGray-500 font-medium">Edit your profile below</p>
+          </div>
+          <div class="w-full md:w-auto p-2">
+            <div class="flex flex-wrap justify-between -m-1.5">
+              <div class="w-full md:w-auto p-1.5">
+                <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm text-coolGray-500 hover:bg-red-500 border-2 border-gray-400 hover:border-red-500 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'recipient:profile' %}'">
+                  <p>Cancel</p>
+                </button>
+              </div>
+                <div class="w-full md:w-auto p-1.5">
+                  <button id="edit-profile-button" class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" >
+                    <p>Edit Profile</p>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">First Name</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="John">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Last Name</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Doe">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Phone Number</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="+254712345678">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+  <div class="w-full md:w-9/12">
+
+    <div class="flex flex-wrap -m-3" id="photo-section">
+      <div class="w-full md:w-1/3 p-3">
+        <p class="text-sm text-coolGray-800 font-semibold">Profile Photo</p>
+      </div>
+      <div class="flex flex-wrap items-center -m-3">
+        <div class="w-auto p-3">
+          <img class="relative w-32 h-32 mb-4 mx-auto rounded-full object-cover object-right" src="https://i.ibb.co/pWLxj9k/jane.jpg" alt="jane">
+        </div>
+        <div class="w-auto p-3">
+          <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" id="change-photo-btn">
+            <p>Change</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap -m-3 hidden" id="upload-photo-section">
+      <div class="w-full md:w-1/3 p-3">
+        <p class="text-sm text-coolGray-800 font-semibold">Profile Photo</p>
+        <p class="text-xs text-coolGray-500 font-medium">Change Profile Photo</p>
+      </div>
+      <div class="w-full md:flex-1 p-3">
+        <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
+          <i class="fa-lg fa-solid fa-upload"></i>
+          <p class="mt-4 text-sm text-greenish font-medium">
+            <span class="text-greenish">Click to Upload a file</span>
+            <span>or drag and drop</span>
+          </p>
+          <p class="text-xs text-greenish font-medium">PNG, JPG up to 10MB</p>
+          <p class="mt-1 underline text-sm text-greenish font-medium">
+                        <span class="text-greenish">One File Only !!</span>
+                      </p>
+          <input class="absolute top-0 left-0 w-full h-full opacity-0" type="file">
+        </div>
+      </div>
+      <div class="w-full md:w-auto p-3">
+        <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm text-coolGray-500 hover:bg-red-500 border-2 border-gray-400 hover:border-red-500 bg-white rounded-md shadow-button" id="cancel-photo-btn">
+          <p>Cancel</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Email</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="email" placeholder="example@info.com">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Twitter Link</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
+                <p class="px-4 text-base text-coolGray-500 font-normal">https://twitter.com/</p>
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Instagram Link</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
+                <p class="px-4 text-base text-coolGray-500 font-normal">https://instagram.com/</p>
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-6 border-b border-coolGray-100">
+        <div class="w-full md:w-9/12">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-full md:w-1/3 p-3">
+              <p class="text-sm text-coolGray-800 font-semibold">Facebook Link</p>
+            </div>
+            <div class="w-full md:flex-1 p-3">
+              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
+                <p class="px-4 text-base text-coolGray-500 font-normal">https://facebook.com/</p>
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+            <script>
+  const editProfileButton = document.getElementById('edit-profile-button');
+  editProfileButton.addEventListener('click', () => {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+      <div class="modal-content modal-large">
+        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
+        <p>Profile Edited</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    setTimeout(() => {
+      modal.remove();
+      window.location.href = "{% url 'recipient:profile' %}";
+    }, 2500);
+  });
+</script>
+    </div>
+
+{% endblock content %}

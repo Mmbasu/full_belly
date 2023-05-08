@@ -1,0 +1,221 @@
+{% extends "recipient/fullbellybase.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto">
+            <section>
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-coolGray-500 font-medium">Recipient</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                    <p class="inline-block text-xl text-greenish font-medium hover:bg-transparent">Dashboard</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <section class="py-8">
+        <div class="container px-4 mx-auto">
+          <div class="px-7 py-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
+            <div class="flex flex-wrap">
+              <div class="w-full md:w-1/2 pt-6 mb-10 md:mb-0">
+                <h3 class="mb-1 text-2xl font-bold">
+                  <span class="text-greenish">Welcome Dear Recipient</span>
+                </h3>
+                <h3 class="mb-1 text-2xl font-bold">
+                  <span class="text-greenish">Happy to see you !</span>
+                  <i class="fa-solid fa-face-smile-wink" style="color: #AF8905;"></i>
+                </h3>
+
+                <p class="mb-8 md:mb-16 text-lg font-medium text-gray-600">Thank you for joining us on this journey to build a world where everyone has enough to eat</p>
+
+              </div>
+              <div class="w-full md:w-1/2 flex items-center">
+                <img class="img-fluid rounded mx-auto h-48" style="border: 1px solid #839496;" src="https://i.ibb.co/g4k3ytY/volunteer-checking-list-donations.jpg" alt="volunteer-checking-list-donations">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<section class="py-8">
+        <div class="container px-4 mx-auto">
+          <div class="flex flex-wrap -m-4">
+            <div class="w-full lg:w-1/3 p-4">
+              <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
+                <div class="flex items-center mb-2">
+                  <span class="inline-block mr-2">
+                    <i class="fa-lg fa-solid fa-hand-holding-heart" style="color: #AF8905;"></i>
+                  </span>
+                  <h2 class="text-lg text-gray-600 font-bold">Food Received</h2>
+                </div>
+
+                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">1500 Kgs</h2>
+                <span class="text-sm text-greenish">
+                  <p>1200 Total Meals Provided</p>
+                </span>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-1/3 p-4">
+              <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
+                <div class="flex items-center mb-2">
+                  <span class="inline-block mr-2">
+                    <i class="fa-lg fa-solid fa-truck" style="color: #AF8905;"></i>
+                  </span>
+                  <h2 class="text-lg text-gray-600 font-bold">Food Pickups</h2>
+                </div>
+
+                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">65</h2>
+                <span class="text-sm text-greenish">
+                  <p>10 Pickup Stations</p>
+                </span>
+              </div>
+            </div>
+            <div class="w-full lg:w-1/3 p-4">
+              <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
+                <div class="flex items-center mb-2">
+                  <span class="inline-block mr-2">
+                    <i class="fa-lg fa-solid fa-utensils" style="color: #AF8905;"></i>
+                  </span>
+                  <h2 class="text-lg text-gray-600 font-bold">Restaurants Served</h2>
+                </div>
+
+                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">21</h2>
+                <span class="text-sm text-greenish">
+                  <p>30 Communities Served</p>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="py-8">
+        <div class="container px-4 mx-auto">
+              <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+          <div class="pt-4 bg-white shadow rounded">
+            <div class="flex px-6 pb-4">
+              <h3 class="text-xl font-bold">Recent Received Donations</h3>
+            </div>
+            <div class="flex px-6 pb-4 border-b">
+              <p class="text-lg text-coolGray-500 font-medium">Perishable Food Items</p>
+            </div>
+            <div class="p-4 overflow-x-auto">
+              <table class="table-auto w-full">
+                <thead>
+                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">Meal Type</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Expiry</th><th class="pb-3 font-medium">Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="py-5 px-6 font-medium">Kempinski</td>
+                    <td class="font-medium">Breakfast</td>
+                    <td class="font-medium">23 Plates</td>
+                    <td class="font-medium">120 Minutes</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm">
+                    <td class="py-5 px-6 font-medium">Sarova</td>
+                    <td class="font-medium">Lunch</td>
+                    <td class="font-medium">50 Plates</td>
+                    <td class="font-medium">90 Minutes</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="py-5 px-6 font-medium">Kempinski</td>
+                    <td class="font-medium">Breakfast</td>
+                    <td class="font-medium">23 Plates</td>
+                    <td class="font-medium">120 Minutes</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm">
+                    <td class="py-5 px-6 font-medium">Sarova</td>
+                    <td class="font-medium">Lunch</td>
+                    <td class="font-medium">50 Plates</td>
+                    <td class="font-medium">90 Minutes</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center mt-5">
+                <a class="inline-flex items-center hover:bg-transparent" href="{% url 'recipient:history' %}">
+                  <span class="text-sm text-greenish">View more donations</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="flex px-6 pb-4 border-b">
+              <p class="text-lg text-coolGray-500 font-medium">Non-Perishable Food Items</p>
+            </div>
+            <div class="p-4 overflow-x-auto">
+              <table class="table-auto w-full">
+                <thead>
+                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">Meal Title</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="py-5 px-6 font-medium">Kempinski</td>
+                    <td class="font-medium">Beans</td>
+                    <td class="font-medium">9 Kgs</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm">
+                    <td class="py-5 px-6 font-medium">Sarova</td>
+                     <td class="font-medium">Beans</td>
+                    <td class="font-medium">9 Kgs</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="py-5 px-6 font-medium">Kempinski</td>
+                    <td class="font-medium">Beans</td>
+                    <td class="font-medium">9 Kgs</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm">
+                    <td class="py-5 px-6 font-medium">Sarova</td>
+                    <td class="font-medium">Beans</td>
+                    <td class="font-medium">9 Kgs</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center mt-5">
+                <a class="inline-flex items-center hover:bg-transparent" href="{% url 'recipient:history' %}">
+                  <span class="text-sm text-greenish">View more donations</span>
+                </a>
+              </div>
+            </div>
+          </div>
+              </div>
+        </div>
+      </section>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,108 @@
+{% extends "recipient/fullbellybase.html" %}
+
+{% block title %}Donations{% endblock %}
+
+{% block content %}
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+        <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto">
+            <section>
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-coolGray-500 font-medium">Recipient</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                    <p class="inline-block text-xl text-coolGray-500 font-medium">Donations</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                      <p class="inline-block text-xl text-coolGray-500 font-medium">Request Donation</p>
+                    <span class="mx-3">
+                      <i class="fa-solid fa-caret-right"></i>
+                    </span>
+                    <p class="inline-block text-xl text-greenish font-medium hover:bg-transparent">Restaurant Details</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+        <section class="bg-coolGray-50 py-4 mt-10">
+            <div class="container px-4 mx-auto">
+                <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+                    <div class="pt-4 bg-white shadow rounded">
+                        <div class="py-20 bg-gray-50 rounded">
+
+                            <section class="py-1">
+                              <div class="container px-4 mx-auto">
+                                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                                  <div class="flex flex-wrap -mx-4 mb-2">
+                                    <div class="w-full lg:w-1/2 px-4 mb-2 lg:mb-0">
+                                      <div class="w-full lg:w-8/12 px-4 mb-12 lg:mb-0">
+                                        <div class="h-112 bg-blueGray-900 rounded-md">
+                                          <img class="img-fluid w-full h-full transform -translate-x-1 -translate-y-1 object-cover border-2 border-coolGray-200 rounded-md" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
+                                        </div>
+                                      </div>
+                                    </div>
+
+
+                                <div class="w-full lg:w-1/2 px-4 mt-12">
+                                  <div class="max-w-lg">
+                                    <div class="flex items-center mb-2">
+                                      <h2 class="text-2xl lg:text-3xl font-bold font-heading" style="color: #2BA19A;">Sarova Woodlands</h2>
+                                        <span class="ml-4 px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Verified</span>
+                                    </div>
+                                      <div class="rating-stars">
+                                              <i class="fa-lg fas fa-star"></i>
+                                              <i class="fa-lg fas fa-star"></i>
+                                              <i class="fa-lg fas fa-star"></i>
+                                              <i class="fa-lg fas fa-star"></i>
+                                              <i class="fa-lg fas fa-star-half-alt"></i>
+                                          </div>
+                                          <span class="text-xs text-gray-500 font-semibold font-heading">42 Rating</span>
+                                      <div class="w-full md:w-auto p-2 mt-2">
+                                        <div class="flex flex-wrap justify-between -m-1.5">
+                                            <div class="w-full md:w-auto p-1.5">
+                                              <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'recipient:request_donation_1' %}'">
+                                                <p>Request Donation</p>
+                                              </button>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                                    <div class="flex flex-col md:flex-row -mb-px">
+                                        <h3 class="mb-2 text-xl font-bold" style="color: #AF8905;">Description</h3>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <p class="text-lg font-medium">The Sarova Woodlands Hotel is a luxurious accommodation located in Nakuru, Kenya. The hotel offers a tranquil environment surrounded by beautiful lush gardens, making it an ideal destination for travelers seeking a peaceful retreat. The rooms are spacious and elegantly designed with modern amenities to ensure guests have a comfortable stay. The hotel also boasts of several restaurants serving an array of cuisines, a swimming pool, a fitness center, and a spa for guests to unwind and relax. The Sarova Woodlands Hotel also has ample conference and event facilities, making it a perfect location for both business and leisure travelers. The hotel's exceptional service, comfortable accommodation, and serene environment make it an ideal destination for guests looking for a relaxing getaway.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                            <div class="flex flex-wrap justify-between -m-1.5">
+                                <div class="w-full md:w-auto p-1.5 ml-auto mr-8">
+                                    <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'recipient:request_donation' %}'">
+                                      <p>View Others</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+{% endblock content %}
+

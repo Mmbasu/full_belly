@@ -1,0 +1,111 @@
+{% extends "users/registration_base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<section class="py-36">
+  <div class="container px-4 mx-auto">
+    <div class="relative max-w-lg mx-auto pt-16 pb-16 px-6 md:px-10 lg:px-16 rounded-xl" style="background-color: #ffffff; rounded-xl">
+      <a class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2" href="#">
+        <img class="block" src="https://i.ibb.co/wKwTF3T/Screenshot-from-2023-03-18-08-54-04.png" alt="Screenshot-from-2023-03-18-08-54-04" width="130" style="border: 2px solid #ADD8E6; border-radius: 0.5rem;">
+      </a>
+      <div class="relative max-w-md mx-auto">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl text-dark font-semibold mb-2 mt-4">SignUp</h2>
+            <p class="text-gray-500 font-medium mb-10 mt-4">Start Your journey with us</p>
+        </div>
+
+<form id="register-form" method="post" action="{% url 'users:register' %}">
+    {% csrf_token %}
+{% for field in form %}
+    <div class="relative w-full h-14 py-4 px-3 mb-8 border border-gray-400 hover:border-white focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
+        <span class="absolute bottom-full left-0 ml-3 -mb-1 transform translate-y-0.5 text-sm font-semibold text-white px-1 rounded-lg" style="background-color: #AF8905;">{{ field.label }}</span>
+        <div class="flex items-center">
+            <input class="block w-full bg-transparent text-sm text-dark font-medium outline-none rounded-lg" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %} autocomplete="new-password" {% endif %} {% if field.name == 'password1' %} id="password-input" {% endif %} id="{{ field.name }}" data-field-name="{{ field.name }}">
+            {% if field.name == 'password1' or field.name == 'password2' %}
+                <button class="btn btn-outline-secondary toggle-password ml-2" type="button">
+                    <i class="fa-solid fa-eye-slash"></i>
+                </button>
+            {% endif %}
+        </div>
+        {% if field.errors %}
+            <div id="{{ field.name }}-error" class="text-red-500 text-sm mt-1 error-message">
+                {% for error in field.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+
+
+    <button class="block w-full py-4 mb-4 leading-6 text-white font-semibold" style="background-color: #2BA19A; color: #fff; border-radius: 0.5rem; transition: background-color 200ms;">Create account</button>
+    <p class="font-medium text-center">
+        <span class="text-gray-500">Already have an account?</span>
+        <a class="inline-block text-blue-500 hover:underline" style="color: #AF8905" href="{% url 'users:login' %}">Sign In</a>
+    </p>
+</form>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+$(document).ready(function() {
+
+  $('#register-form').submit(function(event) {
+    event.preventDefault();
+    var formData = new FormData(this);
+    var jsonFormData = {};
+    for (var [key, value] of formData.entries()) {
+      jsonFormData[key] = value;
+    }
+    axios.post("{% url 'users:register' %}", JSON.stringify(jsonFormData), {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}'
+      }
+    })
+      .then(function(response) {
+        if (response.data.success) {
+          window.location.href= "{% url 'fullbelly:dashboard' %}"; // replace 'home' with your desired redirect URL
+        } else {
+          // Clear any existing error messages
+          $('.invalid-feedback').remove();
+
+          // Add error message to form fields with errors
+          for (const field in response.data.errors) {
+            var errorField = $('#id_' + field);
+            errorField.addClass('border-red-600');
+            errorField.parent().append('<div class="invalid-feedback text-red-600">' + response.data.errors[field][0] + '</div>');
+          }
+        }
+      })
+      .catch(function(error) {
+        if (error.response) {
+          // The server returned an error response
+          if (error.response.data.errors) {
+            for (const field in error.response.data.errors) {
+              var errorField = $('#id_' + field);
+              errorField.addClass('border-red-600');
+              errorField.parent().append('<div class="invalid-feedback text-red-600">' + error.response.data.errors[field][0] + '</div>');
+            }
+          } else {
+            console.log(error.response.data);
+          }
+        } else {
+          console.error(error);
+        }
+      });
+  });
+});
+
+</script>
+
+
+
+{% endblock content %}
