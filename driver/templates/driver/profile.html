@@ -1,0 +1,68 @@
+{% extends "driver/fullbellybase.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto p-2">
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-greenish font-medium">Profile</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+<section class="py-8">
+  <div class="container px-4 mx-auto">
+    <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+    <div class="relative pt-14 bg-white shadow rounded overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-24 object-cover" style="background-color: #183F4A;"></div>
+      <img class="relative w-32 h-32 mb-4 mx-auto rounded-full object-cover object-right" src="https://i.ibb.co/Ks8pv2G/driver-1.jpg">
+      <div class="px-6 text-center">
+        <div class="flex items-center justify-center mb-6">
+          <h3 class="text-xl font-medium mr-4">Peter Lelei</h3>
+          <a class="inline-block hover:bg-transparent" href="{% url 'driver:edit_profile' %}" title="Edit">
+            <i class="fa-lg fa-solid fa-pen-to-square" style="color: #2BA19A;"></i>
+          </a>
+        </div>
+
+        <p class="mb-6 text-xl text-gray-500">NGO Driver</p>
+        <p class="mb-6 text-xl text-gray-500">KBL 350Y</p>
+        <div class="flex items-center justify-center mb-6">
+          <span class="mr-2">
+            <i class="fa-lg fa-solid fa-envelope" style="color: #2BA19A;"></i>
+          </span>
+          <p class="text-sm">peterlelei@lelei.com</p>
+        </div>
+        <div class="flex items-center justify-center mb-6">
+          <span class="mr-2">
+            <i class="fa-lg fa-solid fa-phone" style="color: #2BA19A;"></i>
+          </span>
+          <p class="text-sm">+2541 234 5678</p>
+        </div>
+        <div class="mb-6">
+          <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="#" title="Facebook">
+            <i class="fa-lg fa-brands fa-facebook-f" style="color: #2BA19A;"></i>
+          </a>
+          <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="#" title="Twitter">
+            <i class="fa-lg fa-brands fa-twitter" style="color: #2BA19A;"></i>
+          </a>
+          <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="#" title="Instagram">
+            <i class="fa-lg fa-brands fa-instagram" style="color: #2BA19A;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+    </div>
+
+{% endblock content %}

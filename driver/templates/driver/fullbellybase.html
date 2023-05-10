@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static tailwind_tags %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet"/>
+    {% tailwind_css %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+
+
+    <link href="{% static 'css/dist/tailwind.min.css' %}" rel="stylesheet">
+    <!--  <link rel="stylesheet" href="{% static 'css/dist/tailwind.min.1.css' %}">-->
+    <style>
+
+  .rating-stars {
+    color: orange;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .overflow-x-scroll {
+    scrollbar-width: none;
+    -moz-scrollbars-none: none;
+    scroll-behavior: smooth; /* Add smooth scrolling behavior */
+  }
+
+  .arrow-btn {
+    z-index: 1;
+  }
+
+  .left-btn {
+    margin-left: -10px;
+  }
+
+  .right-btn {
+    margin-right: -10px;
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      display: none;
+    }
+    .my-section {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .navbar.show {
+      display: block;
+    }
+    .my-section {
+      display: block;
+    }
+  }
+
+  .text-greenish {
+    color: #2BA19A;
+  }
+
+    </style>
+
+
+    <style>
+.navbar-collapse, .navbar {
+  background-color: #183F4A;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 9999; /* ensure the menu is on top of other elements */
+  width: 100%;
+  max-width: 320px; /* adjust as needed */
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.navbar-collapse.show {
+  transform: translateX(0);
+}
+
+.show {
+  transform: translateX(0);
+}
+
+.navbar-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  background-color: #4a5568;
+}
+
+@media (min-width: 1024px) {
+  .navbar-collapse {
+    transform: none;
+  }
+}
+
+h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.truncate {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 640px) {
+  .w-72 {
+    width: 50%;
+  }
+}
+
+button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  color: #000000;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #2AA198;
+  border-color: #2AA198;
+  cursor: pointer;
+  color: #fff;
+}
+a:hover {
+  background-color: #2AA198;
+  color: #000000;
+  border-color: #2AA198;
+  cursor: pointer;
+}
+
+.custom-border {
+  border-color: #2BA19A;
+}
+
+nav.flex.items-center.justify-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+    </style>
+
+
+<style>
+  .enlarged {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+.enlarged img {
+    width: auto;
+    height: auto;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: cover;
+}
+
+
+  .close-container {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 30px;
+    cursor: pointer;
+  }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.star {
+  font-size: 30px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.star:hover,
+.star:focus {
+  color: orange;
+}
+
+#submit-rating-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#submit-rating-button:hover,
+#submit-rating-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+#schedule-pickup-submit-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#schedule-pickup-submit-button:hover,
+#schedule-pickup-submit-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+#submit-code-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#submit-code-button:hover,
+#submit-code-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+</style>
+
+<style>
+  .pickup-code-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+  .pickup-code-input {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #237473;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    /* Remove scrollbars */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+    ::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+  }
+
+  .pickup-code-input:focus {
+    outline: none;
+  }
+
+  /* Remove scroll buttons */
+  .pickup-code-input::-webkit-outer-spin-button,
+  .pickup-code-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+</style>
+
+    <style>
+  .deletion-code-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+  .deletion-code-input {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #237473;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    /* Remove scrollbars */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+    ::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+  }
+
+  .deletion-code-input:focus {
+    outline: none;
+  }
+
+  /* Remove scroll buttons */
+  .deletion-code-input::-webkit-outer-spin-button,
+  .deletion-code-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  #submit-code-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#submit-code-button:hover,
+#submit-code-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+.modal-large {
+  width: 300px;
+  height: 170px;
+}
+
+</style>
+
+</head>
+<body>
+<div>
+    <nav class="lg:hidden py-6 px-6 bg-gray-800" id="navbar" style="background-color: #237473;">
+        <div class="flex justify-between">
+            <nav class="flex items-center justify-center">
+                <div class="flex items-center justify-center">
+                    <input class="pl-2 py-3 text-sm text-gray-200 rounded-full border border-gray-400 w-72 sm:w-60 text-center"
+                           placeholder="Search..." type="text">
+                    <div class="lg:flex items-center ml-2 space-x-6 mr-6">
+                        <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
+                            <a class="text-white hover:text-white" href="#" title="Search">
+                                <i class="fa-lg fa-solid fa-magnifying-glass"></i>
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div class="flex items-center justify-end space-x-6">
+
+                <div class="lg:flex items-center space-x-6 mr-2">
+                    <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                            class="navbar-toggler py-2 px-3" data-bs-target="#navbarNav" data-bs-toggle="collapse"
+                            title="Menu" type="button">
+                        <a class="text-white hover:text-white" title="Menu">
+                            <i class=" fa-lg fa-solid fa-bars"></i>
+                        </a>
+                    </button>
+                </div>
+
+                <div class="lg:flex items-center space-x-6 mr-2">
+                    <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                            class="navbar-toggler py-2 px-3" data-bs-target="#navbarNav" data-bs-toggle="collapse"
+                            onclick="window.location.href='{% url 'driver:notification' %}'" title="Notifications"
+                            type="button">
+                        <a class="text-white hover:text-white" title="Notifications">
+                            <i class="fa-lg fa-solid fa-bell"></i>
+                        </a>
+                    </button>
+                </div>
+
+
+                <div class="hidden lg:block">
+                    <button class="flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'"
+                            title="Profile">
+                        <div class="mr-3">
+                            <p class="text-sm text-white">Peter Lelei</p>
+                        </div>
+                        <div class="mr-2">
+                            <img alt="driver-1"
+                                 class="w-10 h-10 rounded-full object-cover object-right" src="https://i.ibb.co/Ks8pv2G/driver-1.jpg">
+                        </div>
+                    </button>
+                </div>
+
+                <div class="block lg:hidden">
+                    <button class="w-16 h-16 flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'" title="Profile">
+                        <div>
+                            <img alt="profile"
+                                 class="w-full h-full rounded-full object-cover" src="https://i.ibb.co/Ks8pv2G/driver-1.jpg">
+                        </div>
+                    </button>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </nav>
+    <div class="navbar-collapse" id="navbarNav">
+        <div class="navbar-backdrop fixed lg:hidden inset-0 bg-gray-800 opacity-10"></div>
+        <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-2/3 lg:w-80 sm:max-w-xs pt-6 pb-8 bg-gray-800 overflow-y-auto"
+             style="background-color: #183F4A;">
+            <div class="flex w-full items-center px-6 pb-6 mb-6 lg:border-b border-gray-700">
+                <a class="d-inline-block mb-5 navbar-brand hover:bg-transparent">
+                    <img alt="Untitled-design-1" class="img-fluid rounded"
+                         src="https://i.ibb.co/WKRS3rb/Untitled-design-1.png" style="border: 1px solid #839496; " width="130">
+                </a>
+            </div>
+            <div class="px-4 pb-6 mb-6 lg:border-b border-gray-700">
+                <h3 class="mb-2 text-xs uppercase text-gray-500 font-medium">Main</h3>
+                <ul class="mb-8 text-sm font-medium">
+                    <li>
+                        <a class="flex items-center pl-3 py-3 pr-2 text-gray-50 rounded"
+                           href="{% url 'driver:dashboard' %}">
+              <span class="inline-block mr-3">
+                <i class="fa-lg fa-solid fa-table-columns"></i>
+              </span>
+                            <span>Dashboard</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a class="flex items-center pl-3 py-3 pr-4 text-gray-50 rounded"
+                           href="{% url 'driver:deliveries' %}">
+              <span class="inline-block mr-3">
+                <i class="fa-lg fa-solid fa-truck"></i>
+              </span>
+                            <span>Deliveries</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="flex items-center pl-3 py-3 pr-4 text-gray-50 rounded"
+                           href="{% url 'driver:history' %}">
+              <span class="inline-block mr-3">
+                <i class="fa-lg fa-solid fa-clock-rotate-left"></i>
+              </span>
+                            <span>History</span>
+                        </a>
+                    </li>
+                </ul>
+                <h3 class="mb-2 text-xs uppercase text-gray-500 font-medium">Secondary</h3>
+                <ul class="text-sm font-medium">
+                    <li>
+                        <a class="flex items-center pl-3 py-3 pr-2 text-gray-50 rounded"
+                           href="{% url 'driver:support' %}">
+              <span class="inline-block mr-3">
+                <i class="fa-lg fa-solid fa-headset"></i>
+              </span>
+                            <span>Support Center</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center pl-3 py-3 pr-4 text-gray-50 rounded"
+                           href="{% url 'driver:messaging' %}">
+              <span class="inline-block mr-3">
+                <i class="fa-lg fa-solid fa-message"></i>
+              </span>
+                            <span>Messaging</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center pl-3 py-3 pr-4 text-gray-50 rounded"
+                           href="{% url 'driver:help_documentation' %}">
+              <span class="inline-block mr-3">
+                <i class="fa-lg fa-solid fa-circle-question"></i>
+              </span>
+                            <span>Help Center</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center pl-3 py-3 pr-4 text-gray-50 rounded"
+                           href="{% url 'driver:about' %}">
+              <span class="inline-block mr-3">
+                <i class="fa-lg fa-solid fa-circle-info"></i>
+              </span>
+                            <span>About Us</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="pt-8">
+                    <a class="flex items-center pl-3 py-3 pr-2 text-gray-50 rounded"
+                       href="{% url 'driver:settings' %}">
+            <span class="inline-block mr-4">
+              <i class="fa-lg fa-solid fa-gears"></i>
+            </span>
+                        <span>Settings</span>
+                    </a>
+                    <a class="flex items-center pl-3 py-3 pr-2 text-gray-50 rounded" href="#">
+            <span class="inline-block mr-4">
+              <i class="fa-lg fa-solid fa-right-from-bracket"></i>
+            </span>
+                        <span>Log Out</span>
+                    </a>
+                </div>
+            </div>
+            <div class="px-6 pt-4 text-xs text-gray-50">All Rights Reserved &copy; FullBellyProject 2023</div>
+
+        </nav>
+    </div>
+
+    <div class="mx-auto lg:ml-80">
+        <section class="py-5 px-6 my-section" style="background-color: #237473;">
+            <nav class="relative">
+                <div class="flex items-center">
+                    <div class="hidden lg:flex items-center mr-auto">
+                        <input class="pl-2 py-3 text-sm text-gray-200 rounded-full border border-gray-400 w-72 sm:w-60 text-center"
+                               placeholder="Search..." type="text">
+                        <div class="lg:flex items-center ml-2 space-x-6 mr-6">
+                            <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
+                                <a class="text-white hover:text-white" href="#" title="Search">
+                                    <i class="fa-lg fa-solid fa-magnifying-glass"></i>
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hidden lg:block">
+                        <div class="lg:flex items-center space-x-6 mr-6">
+                            <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
+                                <a class="text-white hover:text-white" href="{% url 'driver:notification' %}"
+                                   title="Notifications">
+                                    <i class="fa-lg fa-solid fa-bell"></i>
+                                </a>
+                            </button>
+                            <button class="flex items-center"
+                                    onclick="window.location.href='{% url 'driver:profile' %}'">
+                                <div class="mr-3">
+                                    <p class="text-sm text-white">Peter Lelei</p>
+                                </div>
+                                <div class="mr-2">
+                                    <img alt="profile"
+                                         class="w-10 h-10 rounded-full object-cover object-right" src="https://i.ibb.co/Ks8pv2G/driver-1.jpg">
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </nav>
+        </section>
+
+
+        {% block content %}
+
+        {% endblock content %}
+
+
+    </div>
+</div>
+
+
+<script>
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navbarToggler.addEventListener('click', () => {
+      navbarCollapse.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!navbarCollapse.contains(event.target) && !navbarToggler.contains(event.target)) {
+        navbarCollapse.classList.remove('show');
+      }
+    });
+
+</script>
+
+
+
+  <script>
+    const section = document.querySelector('.overflow-x-scroll');
+    const arrowBtns = document.querySelectorAll('.arrow-btn');
+
+    arrowBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const scrollAmount = section.clientWidth / 2;
+        if (btn.classList.contains('left-btn')) {
+          section.scrollLeft -= scrollAmount;
+        } else if (btn.classList.contains('right-btn')) {
+          section.scrollLeft += scrollAmount;
+        }
+      });
+    });
+  </script>
+
+
+<script>
+  const deleteButtons = document.querySelectorAll('.fa-trash-can');
+
+  deleteButtons.forEach((deleteButton) => {
+    deleteButton.addEventListener('click', () => {
+      const modal = document.createElement('div');
+      modal.classList.add('modal');
+      modal.innerHTML = `
+        <div class="modal-content">
+        <div><i class="fa-solid fa-circle-exclamation fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #AF8905;"></i></div>
+          <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Confirm Deletion</h2>
+          <p>Are you sure you want to delete this item?</p>
+          <div class="flex justify-center items-center space-x-4 mt-8">
+            <button id="confirm-delete-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              Yes
+            </button>
+            <button id="cancel-delete-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+              No
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      const confirmButton = modal.querySelector('#confirm-delete-button');
+      confirmButton.addEventListener('click', () => {
+        // Here you can add the code to delete the record from the server
+        console.log(`Record ${deleteButton.dataset.record} deleted.`);
+        modal.remove();
+      });
+
+      const cancelButton = modal.querySelector('#cancel-delete-button');
+      cancelButton.addEventListener('click', () => {
+        modal.remove();
+      });
+    });
+  });
+</script>
+
+
+      <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const changeBtn = document.getElementById('change-photo-btn');
+  const cancelBtn = document.getElementById('cancel-photo-btn');
+  const photoSection = document.getElementById('photo-section');
+  const uploadPhotoSection = document.getElementById('upload-photo-section');
+
+// function to hide profile section and show add photo section
+function showAddPhoto() {
+photoSection.style.display = 'none';
+uploadPhotoSection.style.display = 'flex';
+}
+
+// function to hide add photo section and show profile section
+function cancelAddPhoto() {
+uploadPhotoSection.style.display = 'none';
+photoSection.style.display = 'flex';
+}
+
+// add event listener to change button
+changeBtn.addEventListener('click', showAddPhoto);
+
+// add event listener to cancel button
+cancelBtn.addEventListener('click', cancelAddPhoto);
+});
+</script>
+
+
+
+</body>
+</html>

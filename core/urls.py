@@ -22,5 +22,6 @@ urlpatterns = [
     path('donor/', include('donor.urls')),
     path('recipient/', include('recipient.urls')),
     path('users/', include('users.urls')),
+    path('driver/', include('driver.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

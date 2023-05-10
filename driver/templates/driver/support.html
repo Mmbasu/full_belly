@@ -1,0 +1,135 @@
+{% extends "driver/fullbellybase.html" %}
+
+{% block title %}Support{% endblock %}
+
+{% block content %}
+
+    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+      <div class="pb-6 border-b border-coolGray-100">
+        <div class="flex flex-wrap items-center justify-between -m-2">
+          <div class="w-full md:w-auto">
+            <section>
+              <div class="bg-white">
+                <div class="container px-4 mx-auto">
+                  <div class="flex flex-wrap h-16 py-4 items-center">
+                    <p class="inline-block text-xl text-greenish font-medium">Support Center</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <section class="bg-coolGray-50 py-4 mt-10">
+        <div class="container px-4 mx-auto">
+          <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+            <div class="pb-6 border-b border-coolGray-100">
+              <div class="flex flex-wrap items-center justify-between -m-2">
+                <div class="w-full md:w-auto p-2">
+                  <p class="text-xl text-coolGray-500 font-medium">Below are your recent issues</p>
+                </div>
+                <div class="w-full md:w-auto p-2">
+                  <div class="flex flex-wrap justify-between -m-1.5">
+                    <div class="w-full md:w-auto p-1.5">
+                      <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'driver:raise_issue' %}'">
+                        <p>Raise Issue</p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 overflow-x-auto">
+              <table class="table-auto w-full">
+
+                <thead>
+                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Id</th><th class="pb-3 font-medium">Subject</th><th class="pb-3 font-medium">Priority</th><th class="pb-3 font-medium">Date & Time</th><th class="pb-3 font-medium">Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="py-5 px-6 font-medium">110110</td>
+                    <td class="font-medium">Failed Pickup</td>
+                    <td class="font-medium">High</td>
+                    <td class="font-medium">3:15 pm, June 27 2017</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">Pending</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm">
+                    <td class="py-5 px-6 font-medium">110110</td>
+                    <td class="font-medium">Failed Pickup</td>
+                    <td class="font-medium">Medium</td>
+                    <td class="font-medium">3:15 pm, June 27 2017</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Solved</span>
+                    </td>
+                  </tr>
+                  <tr class="text-sm bg-gray-50">
+                    <td class="py-5 px-6 font-medium">110110</td>
+                    <td class="font-medium">Failed Pickup</td>
+                    <td class="font-medium">High</td>
+                    <td class="font-medium">3:15 pm, June 27 2017</td>
+                    <td>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Solved</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-8">
+        <div class="container px-4 mx-auto">
+          <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+          <div class="pb-6 border-b border-coolGray-100">
+              <div class="flex flex-wrap items-center justify-between -m-2">
+                <div class="w-full md:w-auto p-2">
+                  <p class="text-xl text-coolGray-500 font-medium">Or reach us through</p>
+                </div>
+              </div>
+            </div>
+            <div class="pt-4 bg-white shadow rounded">
+            <div class="flex flex-wrap -m-4">
+              <div class="w-full md:w-1/3 p-4">
+                <div class="p-10 text-center h-full rounded-3xl">
+                  <div class="flex items-center justify-center mb-6 w-12 h-12 mx-auto bg-gray-100 rounded-xl">
+                    <i class="fa-lg fa-solid fa-envelope" style="color: #2BA19A;"></i>
+                  </div>
+                  <h3 class="font-heading mb-2 text-xl text-gray-900 font-black">Email</h3>
+                  <p class="text-gray-500 font-bold">info@fullbell.com</p>
+                  <p class="text-gray-500 font-bold">support@fullbelly.com</p>
+                </div>
+              </div>
+              <div class="w-full md:w-1/3 p-4">
+                <div class="p-10 text-center h-full rounded-3xl">
+                  <div class="flex items-center justify-center mb-6 w-12 h-12 mx-auto bg-gray-100 rounded-xl">
+                    <i class="fa-lg fa-solid fa-phone" style="color: #2BA19A;"></i>
+                  </div>
+                  <h3 class="font-heading mb-2 text-xl text-gray-900 font-black">Phone</h3>
+                  <p class="text-gray-500 font-bold">+2541 234 5678</p>
+                  <p class="text-gray-500 font-bold">+2541 234 5678</p>
+                </div>
+              </div>
+              <div class="w-full md:w-1/3 p-4">
+                <div class="p-10 text-center h-full rounded-3xl">
+                  <div class="flex items-center justify-center mb-6 w-12 h-12 mx-auto bg-gray-100 rounded-xl">
+                    <i class="fa-lg fa-solid fa-location-dot" style="color: #2BA19A;"></i>
+                  </div>
+                  <h3 class="font-heading mb-2 text-xl text-gray-900 font-black">Offices</h3>
+                  <p class="text-gray-500 font-bold">Upper Hill Rd, Nairobi</p>
+                  <p class="text-gray-500 font-bold">PR29+8G Nairobi</p>
+                </div>
+              </div>
+            </div>
+          </div>
+              </div>
+        </div>
+      </section>
+
+
+    </div>
+
+{% endblock content %}
