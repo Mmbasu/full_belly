@@ -9,20 +9,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet"/>
   <link href="{% static 'css/dist/tailwind.min.2.css' %}" rel="stylesheet">
+  {% tailwind_css %}
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 </head>
 
 
 <style>
-<!--body {-->
-<!--  background-image: url('https://fontawesome.com/v6.2/assets/illustrations/truck-plain.svg'),-->
-<!--                    url('https://fontawesome.com/v6.2/assets/illustrations/utensils-solid.svg'),-->
-<!--                    url('https://fontawesome.com/v6.2/assets/illustrations/building-regular.svg')!important;-->
-<!--  background-repeat: repeat;-->
-<!--  background-size: 100px;-->
-<!--  background-position: center center;-->
-<!--  background-color: #2BA19A; /* fallback color */-->
-<!--  background-blend-mode: lighten;-->
-<!--}-->
 
 body {
   background-image: repeating-linear-gradient(
@@ -65,6 +57,18 @@ body {
   .bg-custom-hover {
     background-color: #183F4A;
   }
+
+.navbar-menu {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar-menu.slide-in {
+  transform: translateX(0);
+}
+
+
+
 </style>
 
 
@@ -102,66 +106,18 @@ body {
         </div>
       </div>
       <div class="w-auto">
-        <div class="flex flex-wrap items-center">
-          <div class="w-auto hidden lg:block">
-            <div class="flex flex-wrap">
-              <div class="w-full lg:w-auto p-1.5">
-            <button class="group relative font-heading px-6 py-5 w-full lg:w-auto uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'users:login' %}'">
-              <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-              <p class="relative z-10">Login</p>
-            </button>
-          </div>
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-auto p-1.5">
+              <button class="group relative font-heading px-6 py-5 w-full lg:w-auto uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'users:login' %}'">
+                <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                <p class="relative z-10">Login</p>
+              </button>
             </div>
-          </div>
-          <div class="w-auto lg:hidden">
-            <button class="navbar-burger">
-              <i class="fa-lg fa-solid fa-bars"></i>
-            </button>
           </div>
         </div>
       </div>
-    </div>
-    <div class="hidden navbar-menu fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50">
-      <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"></div>
-      <nav class="relative z-10 px-9 py-8 bg-white h-full navbar-menu-content">
-        <div class="flex flex-wrap justify-between h-full">
-          <div class="w-full">
-            <div class="flex items-center justify-between -m-2">
-              <div class="w-auto p-2">
-                <a class="inline-block" href="#">
-                  <img src="gradia-assets/logos/gradia-name-black.svg" alt="">
-                </a>
-              </div>
-              <div class="w-auto p-2">
-                <button class="navbar-burger">
-                  <i class="fa-lg fa-solid fa-bars"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-col justify-center py-8 w-full">
-            <ul>
-              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
-                <a href="#" data-target="#home-section">Home</a>
-              </li>
-              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
-                <a href="#" data-target="#statistics-section">Statistics</a>
-              </li>
-              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
-                <a href="#" data-target="#newsletter-section">Newsletter</a>
-              </li>
-              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
-                <a href="#" data-target="#mission-vision-section">Mission & Vision</a>
-              </li>
-              <li class="font-heading text-gray-900 hover:text-gray-700 text-lg">
-                <a href="#" data-target="#contact-section">Contact</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
   </section>
+
   <div class="relative z-10 container mx-auto px-4 mt-8">
     <div class="flex flex-wrap items-center -m-6 pt-32 lg:pt-0 pb-24">
       <div class="w-full lg:w-1/2 p-6">
@@ -391,6 +347,12 @@ body {
 </section>
 
 <script>
+
+  function toggleNavbar() {
+    const navbarMenu = document.querySelector('.navbar-menu');
+    navbarMenu.classList.toggle('slide-in');
+  }
+
   // Get all the links with the data-target attribute
   const links = document.querySelectorAll('[data-target]');
 
