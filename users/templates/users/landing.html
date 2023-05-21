@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static tailwind_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet"/>
+  <link href="{% static 'css/dist/tailwind.min.2.css' %}" rel="stylesheet">
+</head>
+
+
+<style>
+<!--body {-->
+<!--  background-image: url('https://fontawesome.com/v6.2/assets/illustrations/truck-plain.svg'),-->
+<!--                    url('https://fontawesome.com/v6.2/assets/illustrations/utensils-solid.svg'),-->
+<!--                    url('https://fontawesome.com/v6.2/assets/illustrations/building-regular.svg')!important;-->
+<!--  background-repeat: repeat;-->
+<!--  background-size: 100px;-->
+<!--  background-position: center center;-->
+<!--  background-color: #2BA19A; /* fallback color */-->
+<!--  background-blend-mode: lighten;-->
+<!--}-->
+
+body {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.02) 10px,
+    transparent 10px,
+    transparent 20px,
+    rgba(0, 0, 0, 0.02) 20px,
+    rgba(0, 0, 0, 0.02) 30px,
+    transparent 30px,
+    transparent 40px
+  ),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#truck'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#utensils'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#building');
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 0 0, 50px 50px, 100px 100px, 150px 150px;
+  background-size: 40px 40px, 60px 60px, 60px 60px, 80px 80px;
+}
+
+
+</style>
+
+
+
+<style>
+  .bg-gradient-custom {
+    background-image: linear-gradient(to right, #2BA19A, #2BA19A);
+  }
+  .bg-gradient-custom-2 {
+    background-image: linear-gradient(to right, #AF8905, #2BA19A);
+  }
+</style>
+
+<style>
+  .bg-custom-color {
+    background-color: #183F4A;
+  }
+  .bg-custom-hover {
+    background-color: #183F4A;
+  }
+</style>
+
+
+
+<body class="bg-gray-100">
+<section id="home-section" class="relative background-animate overflow-hidden">
+  <section>
+    <div class="flex items-center justify-between px-8 py-5">
+      <div class="w-auto">
+        <div class="flex flex-wrap items-center">
+          <div class="w-auto mr-14">
+            <a>
+              <img src="https://i.ibb.co/cYtMhzx/logo1.png" alt="logo1" style="border: 1px solid #ADD8E6; border-radius: 0.5rem;" width="130">
+            </a>
+          </div>
+          <div class="w-auto items-center hidden lg:block">
+            <ul class="flex items-center mr-10">
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#home-section">Home</a>
+              </li>
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#statistics-section">Statistics</a>
+              </li>
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#newsletter-section">Newsletter</a>
+              </li>
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#mission-vision-section">Mission & Vision</a>
+              </li>
+              <li class="font-heading text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#contact-section">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="w-auto">
+        <div class="flex flex-wrap items-center">
+          <div class="w-auto hidden lg:block">
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-auto p-1.5">
+            <button class="group relative font-heading px-6 py-5 w-full lg:w-auto uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'users:login' %}'">
+              <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+              <p class="relative z-10">Login</p>
+            </button>
+          </div>
+            </div>
+          </div>
+          <div class="w-auto lg:hidden">
+            <button class="navbar-burger">
+              <i class="fa-lg fa-solid fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hidden navbar-menu fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50">
+      <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"></div>
+      <nav class="relative z-10 px-9 py-8 bg-white h-full navbar-menu-content">
+        <div class="flex flex-wrap justify-between h-full">
+          <div class="w-full">
+            <div class="flex items-center justify-between -m-2">
+              <div class="w-auto p-2">
+                <a class="inline-block" href="#">
+                  <img src="gradia-assets/logos/gradia-name-black.svg" alt="">
+                </a>
+              </div>
+              <div class="w-auto p-2">
+                <button class="navbar-burger">
+                  <i class="fa-lg fa-solid fa-bars"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center py-8 w-full">
+            <ul>
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#home-section">Home</a>
+              </li>
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#statistics-section">Statistics</a>
+              </li>
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#newsletter-section">Newsletter</a>
+              </li>
+              <li class="font-heading mr-9 text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#mission-vision-section">Mission & Vision</a>
+              </li>
+              <li class="font-heading text-gray-900 hover:text-gray-700 text-lg">
+                <a href="#" data-target="#contact-section">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+  <div class="relative z-10 container mx-auto px-4 mt-8">
+    <div class="flex flex-wrap items-center -m-6 pt-32 lg:pt-0 pb-24">
+      <div class="w-full lg:w-1/2 p-6">
+        <div class="lg:max-w-xl">
+          <p class="mb-8 font-heading text-8xl md:text-10xl text-gray-900 font-semibold">
+            <span>Build a</span>
+            <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">world</span>
+            <span>where</span>
+            <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">everyone</span>
+            <span>has</span>
+            <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">enough to eat</span>
+          </p>
+          <p class="mb-10 text-gray-600 text-xl">Reduce food waste and fight hunger in Kenya by connecting with local charities to donate excess food and feed those in need through our platform</p>
+          <div class="flex flex-wrap  mb-7 -m-1.5">
+          <div class="w-full lg:w-auto p-1.5">
+            <button class="group relative font-heading px-6 py-5 w-full lg:w-auto uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'users:register' %}'">
+              <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+              <p class="relative z-10">Get Started</p>
+            </button>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="w-full lg:w-1/2 p-6">
+        <img class="transform hover:scale-105 transition ease-in-out duration-1000" src="https://i.ibb.co/dm0nFNF/landing-dash.png" alt="landing-dash">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="statistics-section" class="py-28 overflow-hidden">
+  <div class="container mx-auto px-4">
+    <div class="items-center text-center">
+      <p class="mb-8 font-heading text-3xl sm:text-4xl xl:text-5xl text-gray-900 font-semibold">
+          <span>Food</span>
+          <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">Waste</span>
+          <span>and Food</span>
+        <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">Insecurity Statistics</span>
+      </p>
+    </div>
+    <div class="flex flex-wrap -m-8 mt-4">
+      <div class="w-full md:w-1/2 p-8">
+        <p class="text-3xl sm:text-4xl xl:text-5xl text-gray-900">
+          <span>World</span>
+          <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">Food</span>
+          <span>Program</span>
+        </p>
+        <p class="mt-4 text-gray-600 text-xl">Up to 50% of food produced in Kenya goes to waste every year. Women and children are particularly affected by food insecurity in Kenya. Over 2.6 million people in Kenya are acutely food insecure.</p>
+      </div>
+      <div class="w-full md:w-1/2 p-8">
+        <p class="text-3xl sm:text-4xl xl:text-5xl overflow-hidden text-gray-900">
+          <span>World</span>
+          <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">Bank</span>
+        </p>
+        <p class="mt-4 text-gray-600 text-xl">Over 20% of the population is estimated to be undernourished in Kenya Food loss and waste in Kenya cost the country approximately KES 150 billion (around US $1.4 billion) annually Kenya's economy could grow by up to 3.4% if food waste was reduced by 50% Reducing food waste and losses in Kenya could have significant economic benefits, including cost savings for farmers and businesses, and increased food availability for consumers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter-section" class="py-28 overflow-hidden">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center -m-6">
+      <div class="w-full md:w-1/2 p-6">
+        <div class="max-w-md">
+          <div class="flex flex-wrap -m-3">
+            <div class="w-auto p-3">
+              <div class="flex items-center justify-center w-12 h-12 bg-gradient-green rounded-full">
+                <i class="fa-lg fa-regular fa-envelope-open"></i>
+              </div>
+            </div>
+            <div class="flex-1 p-3">
+              <p class="mb-3.5 font-heading font-semibold text-3xl sm:text-4xl xl:text-5xl text-gray-900">
+                <span>Join our</span>
+                <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">Newsletter</span>
+              </p>
+              <p class="text-gray-600 text-xl">To Subscribe to our newsletter and stay up-to-date on our work at The Full Belly Project, please provide us with your email address</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full md:w-1/2 p-6">
+        <div class="md:max-w-xl">
+          <div class="mb-5 p-1 flex flex-col md:flex-row bg-white overflow-hidden focus-within:ring-2 focus-within:ring-blue-350 border border-gray-200 rounded-10">
+            <input class="w-full flex-1 px-5 py-3.5 text-base text-gray-500 bg-transparent outline-none placeholder-gray-500 rounded-tl-md rounded-bl-md" type="email" placeholder="Your email address">
+            <div class="group relative">
+              <div class="w-full lg:w-auto p-1.5">
+                <button class="group relative font-heading px-6 py-5 w-full lg:w-auto uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                  <p class="relative z-10">Subscribe</p>
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-500 text-sm">We never share your information to any third party</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="mission-vision-section" class="py-28 overflow-hidden">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap -m-8 mt-4">
+      <div class="w-full md:w-1/2 p-8">
+        <p class="text-3xl sm:text-4xl xl:text-5xl text-gray-900">
+          <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">Mission</span>
+          <span>Statement</span>
+        </p>
+        <p class="mt-4 text-gray-600 text-xl">The Full Belly Project is dedicated to fighting food waste and insecurity in Kenya We aim to address the humanitarian, environmental, and economic consequences of food waste and insecurity. Our web application connects food service providers with local charities and organizations to reduce food waste and fight hunger in a sustainable and impactful way.</p>
+      </div>
+      <div class="w-full md:w-1/2 p-8">
+        <p class="text-3xl sm:text-4xl xl:text-5xl overflow-hidden text-gray-900">
+          <span class="font-heading font-bold text-transparent bg-clip-text bg-gradient-custom-2">Vision</span>
+          <span>Statement</span>
+        </p>
+        <p class="mt-4 text-gray-600 text-xl">Our vision at the Full Belly Project is to create a world where every individual has access to nutritious food, and where food waste is minimized.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section id="contact-section" class="pt-24 pb-32 overflow-hidden">
+  <div class="container mx-auto px-4">
+    <div class="md:max-w-lg mb-15 md:mb-20">
+      <h2 class="mb-5 font-heading font-semibold text-6xl sm:text-7xl text-gray-900">Contact Us</h2>
+      <p class="text-gray-600 text-lg">We'd love to hear from you! If you have any questions, comments, or suggestions for The Full Belly Project, please don't hesitate to contact us by phone, email or visit our offices. Thank you for your interest in our work!</p>
+    </div>
+    <div class="flex flex-wrap -m-6">
+      <div class="w-full md:w-1/3 p-6 flex items-center">
+        <div class="w-auto p-3">
+          <div class="flex items-center justify-center w-12 h-12 bg-gradient-green rounded-full">
+            <i class="fa-lg fa-solid fa-envelope"></i>
+          </div>
+        </div>
+        <div class="ml-4">
+          <h3 class="font-heading mb-2 text-2xl text-gray-900 font-black">Email</h3>
+          <p class="text-gray-500 font-bold">info@fullbelly.com</p>
+          <p class="text-gray-500 font-bold">support@fullbelly.com</p>
+        </div>
+      </div>
+
+      <div class="w-full md:w-1/3 p-6 flex items-center">
+        <div class="w-auto p-3">
+          <div class="flex items-center justify-center w-12 h-12 bg-gradient-green rounded-full">
+            <i class="fa-lg fa-solid fa-phone"></i>
+          </div>
+        </div>
+        <div class="ml-4">
+          <h3 class="font-heading mb-2 text-2xl text-gray-900 font-black">Phone</h3>
+          <p class="text-gray-500 font-bold">+2541 234 5678</p>
+          <p class="text-gray-500 font-bold">+2541 234 5678</p>
+        </div>
+      </div>
+      <div class="w-full md:w-1/3 p-6 flex items-center">
+        <div class="w-auto p-3">
+          <div class="flex items-center justify-center w-12 h-12 bg-gradient-green rounded-full">
+            <i class="fa-lg fa-solid fa-location-dot"></i>
+          </div>
+        </div>
+        <div class="ml-4">
+          <h3 class="font-heading mb-2 text-xl text-gray-900 font-black">Offices</h3>
+          <p class="text-gray-500 font-bold">Upper Hill Rd, Nairobi</p>
+          <p class="text-gray-500 font-bold">PR29+8G Nairobi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="py-16 overflow-hidden" style="background-color: #183F4A;">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap lg:items-center -m-6">
+      <div class="w-full md:w-auto p-6">
+        <img src="https://i.ibb.co/WKRS3rb/Untitled-design-1.png" style="border: 1px solid #ADD8E6; border-radius: 0.5rem;" width="130">
+      </div>
+      <div class="w-full md:w-1/2 p-6">
+        <ul class="flex flex-wrap -m-5">
+              <li class="font-heading mr-9 text-white hover:text-gray-200 text-lg">
+                <a href="#" data-target="#home-section">Home</a>
+              </li>
+              <li class="font-heading mr-9 text-white hover:text-gray-200 text-lg">
+                <a href="#" data-target="#statistics-section">Statistics</a>
+              </li>
+              <li class="font-heading mr-9 text-white hover:text-gray-200 text-lg">
+                <a href="#" data-target="#newsletter-section">Newsletter</a>
+              </li>
+              <li class="font-heading mr-9 text-white hover:text-gray-200 text-lg">
+                <a href="#" data-target="#mission-vision-section">Mission & Vision</a>
+              </li>
+              <li class="font-heading text-white hover:text-gray-200 text-lg">
+                <a href="#" data-target="#contact-section">Contact</a>
+              </li>
+            </ul>
+      </div>
+      <div class="w-auto md:ml-auto p-6">
+        <div class="flex flex-wrap items-center -m-1.5">
+          <div class="w-auto p-1.5">
+            <i class="fa-lg fa-regular fa-envelope-open" style="color: #FFFFFF;"></i>
+          </div>
+          <div class="w-auto p-1.5">
+            <h3 class="font-heading font-medium text-base text-white">info@fullbelly.com</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="py-9">
+      <div class="border-b border-gray-800"></div>
+    </div>
+    <div class="flex flex-wrap items-center justify-between -m-6">
+      <div class="w-auto p-6">
+        <p class="text-sm text-gray-300">All Rights Reserved &copy; FullBellyProject 2023</p>
+      </div>
+      <div class="w-auto p-6">
+        <div class="flex flex-wrap -m-6">
+          <div class="w-auto p-6"><a class="text-gray-300 hover:text-gray-400 text-sm" href="#">Privacy Policy</a></div>
+          <div class="w-auto p-6"><a class="text-gray-300 hover:text-gray-400 text-sm" href="#">Terms &amp; Conditions</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Get all the links with the data-target attribute
+  const links = document.querySelectorAll('[data-target]');
+
+  // Loop through the links and add an event listener to each one
+  links.forEach(link => {
+    link.addEventListener('click', (event) => {
+      // Prevent the default link behavior
+      event.preventDefault();
+
+      // Get the target section
+      const target = document.querySelector(link.dataset.target);
+
+      // Scroll to the target section with a smooth transition
+      target.scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+
+
+  /* use JavaScript to generate random values for the --rand CSS variables */
+document.body.style.setProperty('--rand1', Math.random());
+document.body.style.setProperty('--rand2', Math.random());
+document.body.style.setProperty('--rand3', Math.random());
+document.body.style.setProperty('--rand4', Math.random());
+document.body.style.setProperty('--rand5', Math.random());
+document.body.style.setProperty('--rand6', Math.random());
+
+</script>
+
+
+
+</body>
+</html>

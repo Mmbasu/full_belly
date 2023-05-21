@@ -6,23 +6,22 @@
 
 <section class="py-36">
   <div class="container px-4 mx-auto">
-    <div class="relative max-w-lg mx-auto pt-16 pb-16 px-6 md:px-10 lg:px-16 rounded-xl" style="background-color: #ffffff; rounded-xl">
+    <div class="relative max-w-lg mx-auto pt-16 pb-16 px-6 md:px-10 lg:px-16 rounded-xl border-2" style="background-color: #ffffff; border-color: #2BA19A;">
       <a class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2" href="#">
         <img class="block" src="https://i.ibb.co/wKwTF3T/Screenshot-from-2023-03-18-08-54-04.png" alt="Screenshot-from-2023-03-18-08-54-04" width="130" style="border: 2px solid #ADD8E6; border-radius: 0.5rem;">
       </a>
       <div class="relative max-w-md mx-auto">
-        <div class="text-center mb-10">
+        <div class="text-center mb-6">
           <h2 class="text-4xl text-dark font-semibold mb-2 mt-4">SignUp</h2>
-            <p class="text-gray-500 font-medium mb-10 mt-4">Start Your journey with us</p>
+            <p class="text-gray-500 font-medium mb-6 mt-4">Start Your journey with us</p>
         </div>
 
 <form id="register-form" method="post" action="{% url 'users:register' %}">
     {% csrf_token %}
 {% for field in form %}
-    <div class="relative w-full h-14 py-4 px-3 mb-8 border border-gray-400 hover:border-white focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
-        <span class="absolute bottom-full left-0 ml-3 -mb-1 transform translate-y-0.5 text-sm font-semibold text-white px-1 rounded-lg" style="background-color: #AF8905;">{{ field.label }}</span>
+    <div class="relative w-full h-14 py-4 px-3 mb-6 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
         <div class="flex items-center">
-            <input class="block w-full bg-transparent text-sm text-dark font-medium outline-none rounded-lg" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %} autocomplete="new-password" {% endif %} {% if field.name == 'password1' %} id="password-input" {% endif %} id="{{ field.name }}" data-field-name="{{ field.name }}">
+            <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" placeholder="{{ field.label }}" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %} autocomplete="new-password" {% endif %} {% if field.name == 'password1' %} id="password-input" {% endif %} id="{{ field.name }}" data-field-name="{{ field.name }}">
             {% if field.name == 'password1' or field.name == 'password2' %}
                 <button class="btn btn-outline-secondary toggle-password ml-2" type="button">
                     <i class="fa-solid fa-eye-slash"></i>
@@ -40,8 +39,12 @@
 {% endfor %}
 
 
-    <button class="block w-full py-4 mb-4 leading-6 text-white font-semibold" style="background-color: #2BA19A; color: #fff; border-radius: 0.5rem; transition: background-color 200ms;">Create account</button>
-    <p class="font-medium text-center">
+    <button class="group relative font-semibold leading-6 px-6 mt-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'users:register' %}'">
+        <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+        <p class="relative z-10">Create account</p>
+    </button>
+
+    <p class="font-medium text-center mt-4">
         <span class="text-gray-500">Already have an account?</span>
         <a class="inline-block text-blue-500 hover:underline" style="color: #AF8905" href="{% url 'users:login' %}">Sign In</a>
     </p>
@@ -72,7 +75,7 @@ $(document).ready(function() {
     })
       .then(function(response) {
         if (response.data.success) {
-          window.location.href= "{% url 'fullbelly:dashboard' %}"; // replace 'home' with your desired redirect URL
+          window.location.href= "{% url 'users:login' %}"; // replace 'home' with your desired redirect URL
         } else {
           // Clear any existing error messages
           $('.invalid-feedback').remove();

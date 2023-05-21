@@ -143,16 +143,9 @@ button {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
 }
-
-button:hover {
-  background-color: #2AA198;
-  border-color: #2AA198;
-  cursor: pointer;
-  color: #fff;
-}
 a:hover {
   background-color: #2AA198;
-  color: #000000;
+  color: #ffffff;
   border-color: #2AA198;
   cursor: pointer;
 }
@@ -341,6 +334,65 @@ nav.flex.items-center.justify-center {
 }
 </style>
 
+    <style>
+<!--body {-->
+<!--  background-image: url('https://fontawesome.com/v6.2/assets/illustrations/truck-plain.svg'),-->
+<!--                    url('https://fontawesome.com/v6.2/assets/illustrations/utensils-solid.svg'),-->
+<!--                    url('https://fontawesome.com/v6.2/assets/illustrations/building-regular.svg')!important;-->
+<!--  background-repeat: repeat;-->
+<!--  background-size: 100px;-->
+<!--  background-position: center center;-->
+<!--  background-color: #2BA19A; /* fallback color */-->
+<!--  background-blend-mode: lighten;-->
+<!--}-->
+
+body{
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.02) 10px,
+    transparent 10px,
+    transparent 20px,
+    rgba(0, 0, 0, 0.02) 20px,
+    rgba(0, 0, 0, 0.02) 30px,
+    transparent 30px,
+    transparent 40px
+  ),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#truck'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#utensils'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#building');
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 0 0, 50px 50px, 100px 100px, 150px 150px;
+  background-size: 40px 40px, 60px 60px, 60px 60px, 80px 80px;
+}
+
+
+</style>
+
+
+
+<style>
+  .bg-gradient-custom {
+    background-image: linear-gradient(to right, #2BA19A, #2BA19A);
+  }
+  .bg-gradient-custom-2 {
+    background-image: linear-gradient(to right, #AF8905, #2BA19A);
+  }
+
+  .bg-gradient-custom-3 {
+    background-image: linear-gradient(to right, #F44336, #F44336);
+  }
+</style>
+
+<style>
+  .bg-custom-color {
+    background-color: #183F4A;
+  }
+  .bg-custom-hover {
+    background-color: #183F4A;
+  }
+</style>
+
 
 </head>
 <body>
@@ -353,7 +405,7 @@ nav.flex.items-center.justify-center {
                            placeholder="Search..." type="text">
                     <div class="lg:flex items-center ml-2 space-x-6 mr-6">
                         <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
-                            <a class="text-white hover:text-white" href="#" title="Search">
+                            <a class="text-white hover:bg-transparent" href="#" title="Search">
                                 <i class="fa-lg fa-solid fa-magnifying-glass"></i>
                             </a>
                         </button>
@@ -368,7 +420,7 @@ nav.flex.items-center.justify-center {
                     <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
                             class="navbar-toggler py-2 px-3" data-bs-target="#navbarNav" data-bs-toggle="collapse"
                             title="Menu" type="button">
-                        <a class="text-white hover:text-white" title="Menu">
+                        <a class="text-white hover:bg-transparent" title="Menu">
                             <i class=" fa-lg fa-solid fa-bars"></i>
                         </a>
                     </button>
@@ -379,7 +431,7 @@ nav.flex.items-center.justify-center {
                             class="navbar-toggler py-2 px-3" data-bs-target="#navbarNav" data-bs-toggle="collapse"
                             onclick="window.location.href='{% url 'donor:notification' %}'" title="Notifications"
                             type="button">
-                        <a class="text-white hover:text-white" title="Notifications">
+                        <a class="text-white hover:bg-transparent" title="Notifications">
                             <i class="fa-lg fa-solid fa-bell"></i>
                         </a>
                     </button>
@@ -531,7 +583,7 @@ nav.flex.items-center.justify-center {
                                placeholder="Search..." type="text">
                         <div class="lg:flex items-center ml-2 space-x-6 mr-6">
                             <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
-                                <a class="text-white hover:text-white" href="#" title="Search">
+                                <a class="text-white hover:bg-transparent" href="#" title="Search">
                                     <i class="fa-lg fa-solid fa-magnifying-glass"></i>
                                 </a>
                             </button>
@@ -540,7 +592,7 @@ nav.flex.items-center.justify-center {
                     <div class="hidden lg:block">
                         <div class="lg:flex items-center space-x-6 mr-6">
                             <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
-                                <a class="text-white hover:text-white" href="{% url 'donor:notification' %}"
+                                <a class="text-white hover:bg-transparent" href="{% url 'donor:notification' %}"
                                    title="Notifications">
                                     <i class="fa-lg fa-solid fa-bell"></i>
                                 </a>
@@ -588,6 +640,22 @@ nav.flex.items-center.justify-center {
     });
 
 </script>
+
+  <script>
+    const section = document.querySelector('.overflow-x-scroll');
+    const arrowBtns = document.querySelectorAll('.arrow-btn');
+
+    arrowBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const scrollAmount = section.clientWidth / 2;
+        if (btn.classList.contains('left-btn')) {
+          section.scrollLeft -= scrollAmount;
+        } else if (btn.classList.contains('right-btn')) {
+          section.scrollLeft += scrollAmount;
+        }
+      });
+    });
+  </script>
 
 <script>
   const deleteButtons = document.querySelectorAll('.fa-trash-can');
@@ -655,6 +723,38 @@ changeBtn.addEventListener('click', showAddPhoto);
 // add event listener to cancel button
 cancelBtn.addEventListener('click', cancelAddPhoto);
 });
+</script>
+
+<script>
+  // Get all the links with the data-target attribute
+  const links = document.querySelectorAll('[data-target]');
+
+  // Loop through the links and add an event listener to each one
+  links.forEach(link => {
+    link.addEventListener('click', (event) => {
+      // Prevent the default link behavior
+      event.preventDefault();
+
+      // Get the target section
+      const target = document.querySelector(link.dataset.target);
+
+      // Scroll to the target section with a smooth transition
+      target.scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+
+
+  /* use JavaScript to generate random values for the --rand CSS variables */
+document.body.style.setProperty('--rand1', Math.random());
+document.body.style.setProperty('--rand2', Math.random());
+document.body.style.setProperty('--rand3', Math.random());
+document.body.style.setProperty('--rand4', Math.random());
+document.body.style.setProperty('--rand5', Math.random());
+document.body.style.setProperty('--rand6', Math.random());
+
 </script>
 
 

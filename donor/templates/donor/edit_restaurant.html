@@ -39,13 +39,15 @@
           <div class="w-full md:w-auto p-2">
             <div class="flex flex-wrap justify-between -m-1.5">
               <div class="w-full md:w-auto p-1.5">
-                <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm text-coolGray-500 hover:bg-red-500 border-2 border-gray-400 hover:border-red-500 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'donor:restaurants' %}'">
-                  <p>Cancel</p>
+                <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'donor:restaurants' %}'">
+                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
+                  <p class="relative z-10">Cancel</p>
                 </button>
               </div>
                 <div class="w-full md:w-auto p-1.5">
-                  <button id="edit-restaurant-button" class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button">
-                    <p>Edit Restaurant</p>
+                  <button id="edit-restaurant-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                    <p class="relative z-10">Edit Restaurant</p>
                   </button>
                 </div>
             </div>
@@ -86,8 +88,9 @@
                 <img class="relative w-32 h-32 mb-4 mx-auto rounded-full object-cover object-right" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
               </div>
               <div class="w-auto p-3">
-                <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" id="change-photo-btn">
-                  <p>Change</p>
+                <button id="change-photo-btn" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                  <p class="relative z-10">Change</p>
                 </button>
               </div>
             </div>
@@ -113,8 +116,9 @@
               </div>
             </div>
             <div class="w-full md:w-auto p-3">
-              <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm text-coolGray-500 hover:bg-red-500 border-2 border-gray-400 hover:border-red-500 bg-white rounded-md shadow-button" id="cancel-photo-btn">
-                <p>Cancel</p>
+              <button id="cancel-photo-btn" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md">
+                <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
+                <p class="relative z-10">Cancel</p>
               </button>
             </div>
           </div>

@@ -36,13 +36,15 @@
           <div class="w-full md:w-auto p-2">
             <div class="flex flex-wrap justify-between -m-1.5">
                 <div class="w-full md:w-auto p-1.5">
-                    <button class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm text-coolGray-500 hover:bg-red-500 border-2 border-gray-400 hover:border-red-500 bg-white rounded-md shadow-button" onclick="window.location.href='{% url 'driver:support' %}'">
-                      <p>Cancel</p>
-                    </button>
+                  <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'driver:support' %}'">
+                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
+                    <p class="relative z-10">Cancel</p>
+                  </button>
                 </div>
                 <div class="w-full md:w-auto p-1.5">
-                  <button id="raise-issue-button" class="flex flex-wrap justify-center w-full px-4 py-2 font-medium text-sm border-2 border-gray-400 hover:border-coolGray-300 bg-white rounded-md shadow-button" >
-                    <p>Send</p>
+                  <button id="raise-issue-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                    <p class="relative z-10">Send</p>
                   </button>
                 </div>
             </div>

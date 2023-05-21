@@ -145,15 +145,9 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
-button:hover {
-  background-color: #2AA198;
-  border-color: #2AA198;
-  cursor: pointer;
-  color: #fff;
-}
 a:hover {
   background-color: #2AA198;
-  color: #000000;
+  color: #fffff;
   border-color: #2AA198;
   cursor: pointer;
 }
@@ -418,6 +412,28 @@ nav.flex.items-center.justify-center {
 
 </style>
 
+    <style>
+  .bg-gradient-custom {
+    background-image: linear-gradient(to right, #2BA19A, #2BA19A);
+  }
+  .bg-gradient-custom-2 {
+    background-image: linear-gradient(to right, #AF8905, #2BA19A);
+  }
+
+  .bg-gradient-custom-3 {
+    background-image: linear-gradient(to right, #F44336, #F44336);
+  }
+</style>
+
+<style>
+  .bg-custom-color {
+    background-color: #183F4A;
+  }
+  .bg-custom-hover {
+    background-color: #183F4A;
+  }
+</style>
+
 </head>
 <body>
 <div>
@@ -429,7 +445,7 @@ nav.flex.items-center.justify-center {
                            placeholder="Search..." type="text">
                     <div class="lg:flex items-center ml-2 space-x-6 mr-6">
                         <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
-                            <a class="text-white hover:text-white" href="#" title="Search">
+                            <a class="text-white hover:bg-transparent" href="#" title="Search">
                                 <i class="fa-lg fa-solid fa-magnifying-glass"></i>
                             </a>
                         </button>
@@ -444,7 +460,7 @@ nav.flex.items-center.justify-center {
                     <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
                             class="navbar-toggler py-2 px-3" data-bs-target="#navbarNav" data-bs-toggle="collapse"
                             title="Menu" type="button">
-                        <a class="text-white hover:text-white" title="Menu">
+                        <a class="text-white hover:bg-transparent" title="Menu">
                             <i class=" fa-lg fa-solid fa-bars"></i>
                         </a>
                     </button>
@@ -455,7 +471,7 @@ nav.flex.items-center.justify-center {
                             class="navbar-toggler py-2 px-3" data-bs-target="#navbarNav" data-bs-toggle="collapse"
                             onclick="window.location.href='{% url 'driver:notification' %}'" title="Notifications"
                             type="button">
-                        <a class="text-white hover:text-white" title="Notifications">
+                        <a class="text-white hover:bg-transparent" title="Notifications">
                             <i class="fa-lg fa-solid fa-bell"></i>
                         </a>
                     </button>
@@ -602,7 +618,7 @@ nav.flex.items-center.justify-center {
                                placeholder="Search..." type="text">
                         <div class="lg:flex items-center ml-2 space-x-6 mr-6">
                             <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
-                                <a class="text-white hover:text-white" href="#" title="Search">
+                                <a class="text-white hover:bg-transparent" href="#" title="Search">
                                     <i class="fa-lg fa-solid fa-magnifying-glass"></i>
                                 </a>
                             </button>
@@ -611,7 +627,7 @@ nav.flex.items-center.justify-center {
                     <div class="hidden lg:block">
                         <div class="lg:flex items-center space-x-6 mr-6">
                             <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
-                                <a class="text-white hover:text-white" href="{% url 'driver:notification' %}"
+                                <a class="text-white hover:bg-transparent" href="{% url 'driver:notification' %}"
                                    title="Notifications">
                                     <i class="fa-lg fa-solid fa-bell"></i>
                                 </a>

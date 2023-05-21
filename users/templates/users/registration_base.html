@@ -19,8 +19,54 @@
           display: block;
         }
     </style>
+
+    <style>
+
+body {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.02) 10px,
+    transparent 10px,
+    transparent 20px,
+    rgba(0, 0, 0, 0.02) 20px,
+    rgba(0, 0, 0, 0.02) 30px,
+    transparent 30px,
+    transparent 40px
+  ),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#truck'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#utensils'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0-beta2/sprites/regular.svg#building');
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 0 0, 50px 50px, 100px 100px, 150px 150px;
+  background-size: 40px 40px, 60px 60px, 60px 60px, 80px 80px;
+}
+
+
+</style>
+
+
+
+<style>
+  .bg-gradient-custom {
+    background-image: linear-gradient(to right, #2BA19A, #2BA19A);
+  }
+  .bg-gradient-custom-2 {
+    background-image: linear-gradient(to right, #AF8905, #2BA19A);
+  }
+</style>
+
+<style>
+  .bg-custom-color {
+    background-color: #183F4A;
+  }
+  .bg-custom-hover {
+    background-color: #183F4A;
+  }
+</style>
+
 </head>
-<body style="background-color: #183F4A">
+<body class="bg-gray-100">
 
 {% block content %}
 

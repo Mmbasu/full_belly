@@ -48,7 +48,8 @@ def login(request):
                     auth_login(request, user)
                     return JsonResponse({'success': True})
                 else:
-                    return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
+                    return JsonResponse(
+                        {'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
             else:
                 return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
         except json.decoder.JSONDecodeError:
@@ -56,10 +57,6 @@ def login(request):
     else:
         form = CustomAuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
-
-
-
-
 
 
 @ensure_csrf_cookie
@@ -94,7 +91,6 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
-
 
 
 def activate_account(request, uidb64, token):
@@ -212,3 +208,7 @@ def my_password_reset_confirm(request, uidb64, token):
     else:
         form = MySetPasswordForm(user)
         return render(request, 'registration/password_reset_confirm.html', {'form': form})
+
+
+def landing(request):
+    return render(request, 'users/landing.html')

@@ -6,6 +6,7 @@ from . import views
 app_name = 'users'
 
 urlpatterns = [
+    path('', views.landing, name="landing"),
     path('login/', views.login, name="login"),
     path('register/', views.register, name="register"),
     path('activate_account/<uidb64>/<token>/', views.activate_account, name='activate_account'),
