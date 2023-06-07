@@ -5,20 +5,38 @@ from users.models import CustomUser
 from django import forms
 from django.contrib.auth.forms import SetPasswordForm
 
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
+
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5', 'placeholder': 'E-mail address'}))
+        attrs={'class': 'form-control mb-5', 'placeholder': 'E-mail address'}
+    ))
     username = forms.CharField(required=True, max_length=30, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5', 'placeholder': 'Username'}))
+        attrs={'class': 'form-control mb-5', 'placeholder': 'Username'}
+    ))
     first_name = forms.CharField(label="First Name", max_length=30, required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5', 'placeholder': 'First Name'}))
+        attrs={'class': 'form-control mb-5', 'placeholder': 'First Name'}
+    ))
     last_name = forms.CharField(label="Last Name", max_length=30, required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5', 'placeholder': 'Last Name'}))
+        attrs={'class': 'form-control mb-5', 'placeholder': 'Last Name'}
+    ))
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput(
-        attrs={'class': 'form-control mb-5', 'placeholder': 'Password'}))
+        attrs={'class': 'form-control mb-5', 'placeholder': 'Password'}
+    ))
     password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput(
-        attrs={'class': 'form-control mb-5', 'placeholder': 'Confirm password'}))
+        attrs={'class': 'form-control mb-5', 'placeholder': 'Confirm password'}
+    ))
+
+    role = forms.ChoiceField(
+        label="Role",
+        choices=CustomUser.ROLE_CHOICES,
+        initial='donor',
+        widget=forms.Select(attrs={'class': 'form-control mb-5'}),
+        required=True  # Add this line to make the field required
+    )
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -26,9 +44,13 @@ class CustomUserCreationForm(UserCreationForm):
             raise forms.ValidationError("This email address is already in use.")
         return email
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['role'].choices = [('donor', 'Donor'), ('recipient', 'Recipient')]
+
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'first_name', 'last_name', 'password1', 'password2')
+        fields = ('email', 'username', 'first_name', 'last_name', 'role', 'password1', 'password2')
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -47,7 +69,6 @@ class CustomAuthenticationForm(AuthenticationForm):
         ),
         'inactive': _("Please activate your account."),
     }
-
 
 
 class CustomPasswordResetForm(PasswordResetForm):

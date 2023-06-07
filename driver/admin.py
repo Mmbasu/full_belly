@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Delivery
 
-# Register your models here.
+
+@admin.register(Delivery)
+class DeliveryModel(admin.ModelAdmin):
+    list_filter = ('DeliveryID',)
+    list_display = ('DeliveryID', 'DonationID', 'DriverID', 'AcceptedDelivery', 'PickupCode',
+                    'Status', 'PickupDateTime', 'Destination')
+    search_fields = ('Status', 'Destination')

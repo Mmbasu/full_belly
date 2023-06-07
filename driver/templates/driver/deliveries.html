@@ -4,177 +4,131 @@
 
 {% block content %}
 
-    <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
-      <div class="pb-6 border-b border-coolGray-100">
+<div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+    <div class="pb-6 border-b border-coolGray-100">
         <div class="flex flex-wrap items-center justify-between -m-2">
-          <div class="w-full md:w-auto">
-            <section>
-              <div class="bg-white">
-                <div class="container px-4 mx-auto">
-                  <div class="flex flex-wrap h-16 py-4 items-center">
-                    <p class="inline-block text-xl text-coolGray-500 font-medium">Driver</p>
-                    <span class="mx-3">
+            <div class="w-full md:w-auto">
+                <section>
+                    <div class="bg-white">
+                        <div class="container px-4 mx-auto">
+                            <div class="flex flex-wrap h-16 py-4 items-center">
+                                <p class="inline-block text-xl text-coolGray-500 font-medium">Driver</p>
+                                <span class="mx-3">
                       <i class="fa-solid fa-caret-right"></i>
                     </span>
-                    <p class="inline-block text-xl text-greenish font-medium hover:bg-transparent">Deliveries</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
+                                <p class="inline-block text-xl text-greenish font-medium hover:bg-transparent">
+                                    Deliveries</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
-      </div>
-
-      <section class="bg-coolGray-50 py-4 mt-10">
-        <div class="container px-4 mx-auto">
-          <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-            <div class="pb-6 border-b border-coolGray-100">
-              <div class="flex flex-wrap items-center justify-between -m-2">
-                <div class="w-full md:w-auto p-2">
-                  <p class="text-xl text-coolGray-500 font-medium">Available open Deliveries</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="pt-4 px-2 overflow-x-auto">
-              <table class="table-auto w-full">
-                <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="font-medium">NGO</th><th class="font-medium">Restaurant</th><th class="font-medium">Distance</th><th class="font-medium">Requested</th><th class="font-medium">Action</th></tr>
-                </thead>
-                <tbody>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Red Cross</td>
-                    <td class="font-medium py-8 pl-4">Emara Ole Sereni</td>
-                    <td class="font-medium py-8 pl-4">1.2 km</td>
-                    <td class="font-medium py-8 pl-4">You</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Rafiki Mwema</td>
-                    <td class="font-medium py-8 pl-4">Emara Ole Sereni</td>
-                    <td class="font-medium py-8 pl-4">1.2 km</td>
-                    <td class="font-medium py-8 pl-4">Any Driver</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Rafiki Mwema</td>
-                    <td class="font-medium py-8 pl-4">Emara Ole Sereni</td>
-                    <td class="font-medium py-8 pl-4">1.2 km</td>
-                    <td class="font-medium py-8 pl-4">You</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Red Cross</td>
-                    <td class="font-medium py-8 pl-4">Emara Ole Sereni</td>
-                    <td class="font-medium py-8 pl-4">1.2 km</td>
-                    <td class="font-medium py-8 pl-4">Any Driver</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-
-              </table>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <section class="bg-coolGray-50 py-4 mt-10">
-        <div class="container px-4 mx-auto">
-          <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-            <div class="pb-6 border-b border-coolGray-100">
-              <div class="flex flex-wrap items-center justify-between -m-2">
-                <div class="w-full md:w-auto p-2">
-                  <p class="text-xl text-coolGray-500 font-medium">Accepted Deliveries</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="pt-4 px-2 overflow-x-auto">
-              <table class="table-auto w-full">
-                <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="font-medium">Restaurant</th><th class="font-medium">Meal Type</th><th class="font-medium">Requested</th><th class="font-medium">Status</th><th class="font-medium">Action</th></tr>
-                </thead>
-                <tbody>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Emara Ole Sereni</td>
-                    <td class="font-medium py-8 pl-4">Cooked</td>
-                    <td class="font-medium py-8 pl-4">You</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-red-500 rounded-full text-red-500 bg-white">Future</span>
-                    </td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:accepted_delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Sarova</td>
-                    <td class="font-medium py-8 pl-4">Un-Cooked</td>
-                    <td class="font-medium py-8 pl-4">Any Driver</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Delivered</span>
-                    </td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:accepted_delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Sarova</td>
-                    <td class="font-medium py-8 pl-4">Cooked</td>
-                    <td class="font-medium py-8 pl-4">You</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
-                    </td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:accepted_delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                <tr class="text-sm bg-gray-50">
-                    <td class="font-medium py-8 pl-4">Alphines</td>
-                    <td class="font-medium py-8 pl-4">Cooked</td>
-                    <td class="font-medium py-8 pl-4">You</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-red-500 rounded-full text-red-500 bg-white">Future</span>
-                    </td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'driver:accepted_delivery_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-
-              </table>
-            </div>
-
-          </div>
-        </div>
-      </section>
     </div>
+
+    <section class="bg-coolGray-50 py-4 mt-10">
+        <div class="container px-4 mx-auto">
+            <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+                <div class="pb-6 border-b border-coolGray-100">
+                    <div class="flex flex-wrap items-center justify-between -m-2">
+                        <div class="w-full md:w-auto p-2">
+                            <p class="text-xl text-coolGray-500 font-medium">Assigned Deliveries</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="pt-4 px-2 overflow-x-auto">
+                    {% if no_accepted_deliveries %}
+                    <table class="table-auto w-full">
+                        <thead>
+                        <tr class="text-sm text-left" style="color: #AF8905;">
+                            <th class="font-medium">NGO</th>
+                            <th class="font-medium">Restaurant</th>
+                            <th class="font-medium">Distance</th>
+                            <th class="font-medium">Requested</th>
+                            <th class="font-medium">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for delivery in not_accepted_deliveries %}
+                        <tr class="text-sm bg-gray-50">
+                            <td class="font-medium py-8 pl-4">{{ delivery.NGO }}</td>
+                            <td class="font-medium py-8 pl-4">{{ delivery.Restaurant }}</td>
+                            <td class="font-medium py-8 pl-4">{{ delivery.Distance }}</td>
+                            <td class="font-medium py-8 pl-4">{{ delivery.Requested }}</td>
+                            <td>
+                                <a class="inline-block hover:bg-transparent" href="{% url 'driver:delivery_details' %}"
+                                   title="More Details">
+                                    <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-center text-gray-500 py-5">You have no assigned deliveries at this moment</p>
+                    {% endif %}
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-coolGray-50 py-4 mt-10">
+        <div class="container px-4 mx-auto">
+            <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+                <div class="pb-6 border-b border-coolGray-100">
+                    <div class="flex flex-wrap items-center justify-between -m-2">
+                        <div class="w-full md:w-auto p-2">
+                            <p class="text-xl text-coolGray-500 font-medium">Accepted Deliveries</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="pt-4 px-2 overflow-x-auto">
+                    {% if accepted_deliveries %}
+                    <table class="table-auto w-full">
+                        <thead>
+                        <tr class="text-sm text-left" style="color: #AF8905;">
+                            <th class="font-medium">Restaurant</th>
+                            <th class="font-medium">Meal Type</th>
+                            <th class="font-medium">Requested</th>
+                            <th class="font-medium">Status</th>
+                            <th class="font-medium">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for delivery in accepted_deliveries %}
+                        <tr class="text-sm bg-gray-50">
+                            <td class="font-medium py-8 pl-4">{{ delivery.Restaurant }}</td>
+                            <td class="font-medium py-8 pl-4">{{ delivery.MealType }}</td>
+                            <td class="font-medium py-8 pl-4">{{ delivery.Requested }}</td>
+                            <td>
+                                <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-red-500 rounded-full text-red-500 bg-white">{{ delivery.Status }}</span>
+                            </td>
+                            <td>
+                                <a class="inline-block hover:bg-transparent"
+                                   href="{% url 'driver:accepted_delivery_details' %}" title="More Details">
+                                    <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-center text-gray-500 py-5">You have no accepted any deliveries at this moment</p>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
 
 {% endblock content %}
 

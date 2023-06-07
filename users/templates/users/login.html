@@ -100,7 +100,7 @@
         <div class="flex flex-wrap items-center justify-between mb-6">
           <div class="w-full sm:w-auto"><a class="inline-block text-lg" style="color: #AF8905;" href="{% url 'users:forgot_password' %}">Forgot password?</a></div>
         </div>
-        <button class="group relative font-medium leading-6 px-6 mb-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'users:register' %}'">
+        <button type="submit" class="group relative font-medium leading-6 px-6 mb-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
               <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
               <p class="relative z-10">Sign In</p>
             </button>
@@ -115,6 +115,57 @@
 
   </div>
 </section>
+
+<script>
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function () {
+        window.history.pushState(null, "", window.location.href);
+    };
+</script>
+
+
+<!--<script>-->
+<!--  $(document).ready(function() {-->
+
+<!--    $('#login-form').submit(function(event) {-->
+<!--      event.preventDefault();-->
+<!--      var formData = new FormData(this);-->
+<!--      var jsonFormData = {};-->
+<!--      for (var [key, value] of formData.entries()) {-->
+<!--        jsonFormData[key] = value;-->
+<!--      }-->
+<!--      axios.post("{% url 'users:login' %}", JSON.stringify(jsonFormData), {-->
+<!--        headers: {-->
+<!--          'Content-Type': 'application/json',-->
+<!--          'X-CSRFToken': '{{ csrf_token }}'-->
+<!--        }-->
+<!--      })-->
+<!--        .then(function(response) {-->
+<!--          if (response.data.success) {-->
+<!--            window.location.href= "{% url 'donor:dashboard' %}"; // replace 'home' with your desired redirect URL-->
+<!--          } else {-->
+<!--            // Clear any existing error messages-->
+<!--            $('.invalid-feedback').remove();-->
+
+<!--            // Add error message to form fields with errors-->
+<!--            for (const field in response.data.errors) {-->
+<!--              if (field === '__all__') {-->
+<!--                $('#login-form').prepend('<div class="invalid-feedback text-red-600 mb-2">' + response.data.errors[field] + '</div>');-->
+<!--              } else {-->
+<!--                var errorField = $('#id_' + field);-->
+<!--                errorField.addClass('border-red-600');-->
+<!--                errorField.parent().append('<div class="invalid-feedback text-red-600">' + response.data.errors[field][0] + '</div>');-->
+<!--              }-->
+<!--            }-->
+<!--          }-->
+<!--        })-->
+<!--        .catch(function(error) {-->
+<!--          console.error(error);-->
+<!--        });-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->
+
 
 
 <script>
@@ -135,7 +186,15 @@
       })
         .then(function(response) {
           if (response.data.success) {
-            window.location.href= "{% url 'donor:dashboard' %}"; // replace 'home' with your desired redirect URL
+            if (response.data.redirect === 'driver_dashboard') {
+              window.location.href = "{% url 'driver:dashboard' %}";
+            } else if (response.data.redirect === 'donor_dashboard') {
+              window.location.href = "{% url 'donor:dashboard' %}";
+            } else if (response.data.redirect === 'recipient_dashboard') {
+              window.location.href = "{% url 'recipient:dashboard' %}";
+            } else {
+              window.location.href = "{% url 'recipient:dashboard' %}"; // Replace with your default dashboard URL
+            }
           } else {
             // Clear any existing error messages
             $('.invalid-feedback').remove();
@@ -158,7 +217,6 @@
     });
   });
 </script>
-
 
 
 {% endblock content %}

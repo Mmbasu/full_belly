@@ -34,157 +34,131 @@
       <div class="pb-6 border-b border-coolGray-100">
         <div class="flex flex-wrap items-center justify-between -m-2">
           <div class="w-full md:w-auto p-2">
-            <p class="text-lg text-coolGray-500 font-medium">Edit the details below</p>
+            <p class="text-lg text-coolGray-500 font-medium">Fill the details below</p>
           </div>
-          <div class="w-full md:w-auto p-2">
-            <div class="flex flex-wrap justify-between -m-1.5">
-              <div class="w-full md:w-auto p-1.5">
-                <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'recipient:drivers' %}'">
-                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
-                  <p class="relative z-10">Cancel</p>
-                </button>
-              </div>
-                <div class="w-full md:w-auto p-1.5">
-                  <button id="edit-driver-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                    <p class="relative z-10">Edit Driver</p>
-                  </button>
+        </div>
+      </div>
+      <form id="edit-driver-form" method="post" action="#" enctype="multipart/form-data" data-edit-url="{% url 'recipient:edit_driver' driver_id=driver_id %}">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="PUT"> <!-- Mimicking PUT method -->
+
+        <div class="mt-4"></div>
+        {% for field in form %}
+    {% if field.name != 'password1' and field.name != 'password2' and field.name != 'Photo' %}
+        <div class="relative w-full py-2 px-3 mb-4 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
+            <div class="flex items-center">
+                <label for="{{ field.id_for_label }}" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">{{ field.label }}</label>
+                <div class="w-1/2 flex items-center">
+                    {% if field.name == 'OrganizationID' %}
+                        <select class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" name="{{ field.name }}" id="{{ field.id_for_label }}">
+                            <option value="" style="padding-left: 5px;">Select organization</option>
+                            {% for choice in field.field.choices %}
+                                <option value="{{ choice.0 }}" {% if choice.0 == field.value %}selected{% endif %}>{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                    <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %}autocomplete="new-password"{% endif %} id="{{ field.id_for_label }}" data-field-name="{{ field.name }}">
+                    {% endif %}
                 </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Name</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Name">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Email</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="email" placeholder="example@info.com">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Phone</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Name">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3" id="photo-section">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Driver Photo</p>
-            </div>
-            <div class="flex flex-wrap items-center -m-3">
-              <div class="w-auto p-3">
-                <img class="relative w-32 h-32 mb-4 mx-auto rounded-full object-cover object-right" src="https://i.ibb.co/mSxz46c/profile.jpg" alt="profile">
-              </div>
-              <div class="w-auto p-3">
-                <button id="change-photo-btn" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                  <p class="relative z-10">Change</p>
-                </button>
-              </div>
-            </div>
-          </div>
+    {% endif %}
+{% endfor %}
 
-          <div class="flex flex-wrap -m-3 hidden" id="upload-photo-section">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Driver Photo</p>
-              <p class="text-xs text-coolGray-500 font-medium">Change photo</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
-                <i class="fa-lg fa-solid fa-upload"></i>
-                <p class="mt-4 text-sm text-greenish font-medium">
-                  <span class="text-greenish">Click to Upload a file</span>
-                  <span>or drag and drop</span>
-                </p>
-                <p class="text-xs text-greenish font-medium">PNG, JPG up to 10MB</p>
-                      <p class="mt-1 underline text-sm text-greenish font-medium">
-                        <span class="text-greenish">One File Only !!</span>
-                      </p>
-                <input class="absolute top-0 left-0 w-full h-full opacity-0" type="file">
-              </div>
-            </div>
-            <div class="w-full md:w-auto p-3">
-              <button id="cancel-photo-btn" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md">
-                <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
-                <p class="relative z-10">Cancel</p>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Driver ID No.</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="License No.">
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Driving License No.</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="License No.">
+        <div class="relative w-full py-2 px-3 mb-4 border-gray-400 focus-within:border-green-500 rounded-lg">
+          <div class="flex items-center">
+            <label for="id_Photo" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Photo</label>
+            <div class="w-1/2 flex items-center">
+              <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*" data-field-name="Photo">
             </div>
           </div>
         </div>
-      </div>
-      </div>
 
+        <div class="flex justify-end space-x-4 mt-8">
+          <button class="group relative font-medium leading-6 px-4 py-3 w-32 uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'recipient:drivers' %}'">
+            <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
+            <p class="relative z-10">Cancel</p>
+          </button>
+
+          <button id="update-driver-button" class="group relative font-semibold leading-6 px-4 py-3 w-32 uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" type="submit">
+            <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+            <p class="relative z-10">Update Driver</p>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 
+
       <script>
-  const editDriverButton = document.getElementById('edit-driver-button');
-  editDriverButton.addEventListener('click', () => {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
-      <div class="modal-content modal-large">
-        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
-        <p>Driver Edited</p>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    setTimeout(() => {
-      modal.remove();
-      window.location.href = "{% url 'recipient:drivers' %}";
-    }, 2500);
+$(document).ready(function() {
+  // Toggle password visibility
+  $('.toggle-password').click(function() {
+    var passwordInput = $(this).siblings('input[type="password"]');
+    var passwordFieldType = passwordInput.attr('type');
+
+    if (passwordFieldType === 'password') {
+      passwordInput.attr('type', 'text');
+      $(this).html('<i class="fa-solid fa-eye"></i>');
+    } else {
+      passwordInput.attr('type', 'password');
+      $(this).html('<i class="fa-solid fa-eye-slash"></i>');
+    }
   });
+
+$('#edit-driver-form').submit(function(event) {
+  event.preventDefault();
+
+  var formData = new FormData(this);
+  var editUrl = $(this).data('edit-url');
+
+  // Append the image file to the FormData object
+  var photoInput = $('input[name="Photo"]')[0];
+  formData.append('Photo', photoInput.files[0]);
+
+    $.ajax({
+      type: 'POST',
+      url: editUrl,
+      data: formData,
+      dataType: 'json',
+      contentType: false,  // Set contentType and processData to false when using FormData
+      processData: false,
+      beforeSend: function() {
+        // Show loading modal
+        $('#loading-popup').removeClass('hidden');
+      },
+      success: function(response) {
+        if (response.success) {
+          // Hide loading modal
+          $('#loading-popup').addClass('hidden');
+
+          // Redirect to driver details page
+          window.location.href = '{% url "recipient:drivers" %}';
+        } else {
+          // Hide success modal if it's shown for any previous registration attempt
+          $('#success-popup').addClass('hidden');
+
+          // Handle form errors
+          var errors = response.errors;
+          for (var field in errors) {
+            var errorMessages = errors[field].join('<br>');
+            $('#' + field + '-error').html('<span>' + errorMessages + '</span>');
+          }
+        }
+      },
+      error: function(error) {
+        console.error(error);
+      },
+      complete: function() {
+        // Hide loading modal
+        $('#loading-popup').addClass('hidden');
+      }
+    });
+  });
+});
+
 </script>
     </div>
 

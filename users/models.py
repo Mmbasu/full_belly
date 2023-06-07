@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 
 
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -27,20 +26,27 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    ROLE_CHOICES = (
+        ('donor', 'Donor'),
+        ('recipient', 'Recipient'),
+        ('driver', 'Driver'),
+    )
+
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=30, unique=True, blank=False, null=False)
-    first_name = models.CharField(max_length=30, unique=True)
-    last_name = models.CharField(max_length=30, unique=True)
-    is_active = models.BooleanField(default=False)  # set the default value to False
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
-    activation_token = models.CharField(max_length=40, blank=True, null=True)  # Add activation token field to store token
+    date_joined = models.DateTimeField(auto_now_add=True, editable=True)
+    activation_token = models.CharField(max_length=40, blank=True, null=True)
     password_reset_token = models.CharField(max_length=40, blank=True, null=True)
     password_reset_token_created_at = models.DateTimeField(blank=True, null=True)
     password_reset_used = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['email']
 
     objects = CustomUserManager()
 
@@ -69,9 +75,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         self.save()
 
     def is_password_reset_token_valid(self, token):
-        """
-        Check if the given token is valid for resetting the user's password.
-        """
         if self.password_reset_token is None:
             return False
         return default_token_generator.check_token(self, token)

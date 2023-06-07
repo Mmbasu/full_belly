@@ -1,14 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
 
-# Create your views here.
-
-# def login(request):
-#     return render(request, 'users/login.html')
-#
-#
-# def register(request):
-#     return render(request, 'users/register.html')
+from django.contrib.auth import logout
 
 
 from django.shortcuts import render, redirect
@@ -26,6 +18,37 @@ from django.contrib.auth import authenticate, get_user_model, login as auth_logi
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
+
+
+# @ensure_csrf_cookie
+# def login(request):
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             form = CustomAuthenticationForm(data=data)
+#             username = form.data.get('username')
+#             password = form.data.get('password')
+#             try:
+#                 user = CustomUser.objects.get(username=username)
+#                 if not user.is_active:
+#                     return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['inactive']]}})
+#             except CustomUser.DoesNotExist:
+#                 pass
+#             user = authenticate(request=request, username=username, password=password)
+#             if user is not None:
+#                 if form.is_valid():
+#                     auth_login(request, user)
+#                     return JsonResponse({'success': True})
+#                 else:
+#                     return JsonResponse(
+#                         {'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
+#             else:
+#                 return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
+#         except json.decoder.JSONDecodeError:
+#             return JsonResponse({'success': False, 'errors': {'all': ['Invalid data format']}})
+#     else:
+#         form = CustomAuthenticationForm()
+#     return render(request, 'users/login.html', {'form': form})
 
 
 @ensure_csrf_cookie
@@ -46,7 +69,18 @@ def login(request):
             if user is not None:
                 if form.is_valid():
                     auth_login(request, user)
-                    return JsonResponse({'success': True})
+
+                    # Redirect the user based on their role
+                    if user.role == 'driver':
+                        return JsonResponse({'success': True, 'redirect': 'driver_dashboard'})
+                    elif user.role == 'donor':
+                        return JsonResponse({'success': True, 'redirect': 'donor_dashboard'})
+                    elif user.role == 'recipient':
+                        return JsonResponse({'success': True, 'redirect': 'recipient_dashboard'})
+                    else:
+                        return JsonResponse(
+                            {'success': True})  # Redirect to a default dashboard if role is not specified
+
                 else:
                     return JsonResponse(
                         {'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
@@ -59,16 +93,15 @@ def login(request):
     return render(request, 'users/login.html', {'form': form})
 
 
-@ensure_csrf_cookie
 def register(request):
     if request.method == 'POST':
         try:
-            data = request.POST
-            form = CustomUserCreationForm(data=data)
+            form = CustomUserCreationForm(request.POST)
             if form.is_valid():
                 user = form.save(commit=False)
                 user.is_active = False
                 user.activation_token = str(uuid.uuid4())
+                user.role = form.cleaned_data['role']  # Use form.cleaned_data to access the cleaned data
                 user.save()
 
                 # Send the activation email
@@ -86,11 +119,12 @@ def register(request):
             else:
                 errors = form.errors
                 return JsonResponse({'success': False, 'errors': errors})
-        except:
+        except Exception as e:
             return JsonResponse({'success': False, 'errors': {'__all__': ['Something went wrong. Please try again.']}})
     else:
         form = CustomUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
+
 
 
 def activate_account(request, uidb64, token):
@@ -212,3 +246,4 @@ def my_password_reset_confirm(request, uidb64, token):
 
 def landing(request):
     return render(request, 'users/landing.html')
+

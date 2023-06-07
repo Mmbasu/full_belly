@@ -477,27 +477,23 @@ nav.flex.items-center.justify-center {
                     </button>
                 </div>
 
-
                 <div class="hidden lg:block">
-                    <button class="flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'"
-                            title="Profile">
-                        <div class="mr-3">
-                            <p class="text-sm text-white">Peter Lelei</p>
-                        </div>
-                        <div class="mr-2">
-                            <img alt="driver-1"
-                                 class="w-10 h-10 rounded-full object-cover object-right" src="https://i.ibb.co/Ks8pv2G/driver-1.jpg">
-                        </div>
-                    </button>
+                  <button class="flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'" title="Profile">
+                    <div class="mr-3">
+                      <p class="text-sm text-white">{{ user.get_full_name|capfirst }}</p>
+                    </div>
+                    <div class="mr-2">
+                      <img alt="profile" class="w-10 h-10 rounded-full object-cover object-right" src="{{ driver.Photo.url }}">
+                    </div>
+                  </button>
                 </div>
 
                 <div class="block lg:hidden">
-                    <button class="w-16 h-16 flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'" title="Profile">
-                        <div>
-                            <img alt="profile"
-                                 class="w-full h-full rounded-full object-cover" src="https://i.ibb.co/Ks8pv2G/driver-1.jpg">
-                        </div>
-                    </button>
+                  <button class="w-16 h-16 flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'" title="Profile">
+                    <div>
+                      <img alt="profile" class="w-full h-full rounded-full object-cover" src="{{ driver.Photo.url }}">
+                    </div>
+                  </button>
                 </div>
 
 
@@ -596,11 +592,11 @@ nav.flex.items-center.justify-center {
             </span>
                         <span>Settings</span>
                     </a>
-                    <a class="flex items-center pl-3 py-3 pr-2 text-gray-50 rounded" href="#">
-            <span class="inline-block mr-4">
-              <i class="fa-lg fa-solid fa-right-from-bracket"></i>
-            </span>
-                        <span>Log Out</span>
+                    <a class="flex items-center pl-3 py-3 pr-2 text-gray-50 rounded" href="{% url 'driver:logout' %}">
+                      <span class="inline-block mr-4">
+                        <i class="fa-lg fa-solid fa-right-from-bracket"></i>
+                      </span>
+                      <span>Log Out</span>
                     </a>
                 </div>
             </div>
@@ -627,23 +623,31 @@ nav.flex.items-center.justify-center {
                     <div class="hidden lg:block">
                         <div class="lg:flex items-center space-x-6 mr-6">
                             <button class="py-2 px-3 text-white font-semibold rounded-md shadow-button">
-                                <a class="text-white hover:bg-transparent" href="{% url 'driver:notification' %}"
-                                   title="Notifications">
+                                <a class="text-white hover:bg-transparent" href="{% url 'driver:notification' %}" title="Notifications">
                                     <i class="fa-lg fa-solid fa-bell"></i>
                                 </a>
                             </button>
-                            <button class="flex items-center"
-                                    onclick="window.location.href='{% url 'driver:profile' %}'">
+                            <button class="flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'">
                                 <div class="mr-3">
-                                    <p class="text-sm text-white">Peter Lelei</p>
+                                    <p class="text-sm text-white">{{ request.user.get_full_name|capfirst }}</p>
                                 </div>
-                                <div class="mr-2">
-                                    <img alt="profile"
-                                         class="w-10 h-10 rounded-full object-cover object-right" src="https://i.ibb.co/Ks8pv2G/driver-1.jpg">
-                                </div>
+                                {% if driver.Photo %}
+                                    <div class="mr-2">
+                                        <img alt="profile" class="w-10 h-10 rounded-full object-cover object-right" src="{{ driver.Photo.url }}">
+                                    </div>
+                                {% else %}
+                                    {% with background_color='#2BA19A' %}
+                                    <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ background_color }};">
+                                        <p class="text-white text-sm">{{ request.user.get_full_name|slice:":1"|upper }}</p>
+                                    </div>
+                                    {% endwith %}
+                                {% endif %}
                             </button>
+
                         </div>
                     </div>
+
+
 
 
                 </div>
@@ -732,35 +736,6 @@ nav.flex.items-center.justify-center {
       });
     });
   });
-</script>
-
-
-      <script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-        const changeBtn = document.getElementById('change-photo-btn');
-  const cancelBtn = document.getElementById('cancel-photo-btn');
-  const photoSection = document.getElementById('photo-section');
-  const uploadPhotoSection = document.getElementById('upload-photo-section');
-
-// function to hide profile section and show add photo section
-function showAddPhoto() {
-photoSection.style.display = 'none';
-uploadPhotoSection.style.display = 'flex';
-}
-
-// function to hide add photo section and show profile section
-function cancelAddPhoto() {
-uploadPhotoSection.style.display = 'none';
-photoSection.style.display = 'flex';
-}
-
-// add event listener to change button
-changeBtn.addEventListener('click', showAddPhoto);
-
-// add event listener to cancel button
-cancelBtn.addEventListener('click', cancelAddPhoto);
-});
 </script>
 
 

@@ -17,38 +17,101 @@
         </div>
 
 <form id="register-form" method="post" action="{% url 'users:register' %}">
-    {% csrf_token %}
-{% for field in form %}
+  {% csrf_token %}
+  {% for field in form %}
+    {% if field.name == 'role' %}
     <div class="relative w-full h-14 py-4 px-3 mb-6 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
-        <div class="flex items-center">
-            <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" placeholder="{{ field.label }}" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %} autocomplete="new-password" {% endif %} {% if field.name == 'password1' %} id="password-input" {% endif %} id="{{ field.name }}" data-field-name="{{ field.name }}">
-            {% if field.name == 'password1' or field.name == 'password2' %}
-                <button class="btn btn-outline-secondary toggle-password ml-2" type="button">
-                    <i class="fa-solid fa-eye-slash"></i>
-                </button>
-            {% endif %}
-        </div>
-        {% if field.errors %}
-            <div id="{{ field.name }}-error" class="text-red-500 text-sm mt-1 error-message">
-                {% for error in field.errors %}
-                    <span>{{ error }}</span><br>
-                {% endfor %}
-            </div>
-        {% endif %}
+      <div class="flex items-center">
+        <select class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" name="role" id="{{ field.id_for_label }}">
+          <option value="">Select role</option>
+          {% for choice in field.field.choices %}
+          <option value="{{ choice.0 }}" {% if choice.0 == field.value %}selected{% endif %}>{{ choice.1 }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {% if field.errors %}
+      <div id="{{ field.name }}-error" class="text-red-500 text-sm mt-1 error-message">
+        {% for error in field.errors %}
+        <span>{{ error }}</span><br>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
-{% endfor %}
+    {% else %}
+    <div class="relative w-full h-14 py-4 px-3 mb-6 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
+      <div class="flex items-center">
+        <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" placeholder="{{ field.label }}" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %}autocomplete="new-password"{% endif %} {% if field.name == 'password1' %}id="password-input"{% endif %} id="{{ field.name }}" data-field-name="{{ field.name }}">
+        {% if field.name == 'password1' or field.name == 'password2' %}
+        <button class="btn btn-outline-secondary toggle-password ml-2" type="button">
+          <i class="fa-solid fa-eye-slash"></i>
+        </button>
+        {% endif %}
+      </div>
+      {% if field.errors %}
+      <div id="{{ field.name }}-error" class="text-red-500 text-sm mt-1 error-message">
+        {% for error in field.errors %}
+        <span>{{ error }}</span><br>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  {% endfor %}
 
 
-    <button class="group relative font-semibold leading-6 px-6 mt-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'users:register' %}'">
-        <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-        <p class="relative z-10">Create account</p>
-    </button>
+<!--  <div id="success-popup" class="modal" tabindex="-1" role="dialog">-->
+<!--  <div class="modal-dialog" role="document">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <div class="text-center w-100">-->
+<!--          <h2 class="modal-title text-green-500 text-3xl font-bold">SUCCESS !!</h2>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <p class="text-white">Your account has been created successfully.</p>-->
+<!--        <p class="text-white">Please wait while we redirect you to the Login Page.</p>-->
+<!--        <p class="text-white">Check your email and activate your account before logging in.</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
-    <p class="font-medium text-center mt-4">
-        <span class="text-gray-500">Already have an account?</span>
-        <a class="inline-block text-blue-500 hover:underline" style="color: #AF8905" href="{% url 'users:login' %}">Sign In</a>
-    </p>
+<!--<div id="error-popup" class="modal" tabindex="-1" role="dialog">-->
+<!--  <div class="modal-dialog" role="document">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <div class="text-center w-100">-->
+<!--          <h2 class="modal-title text-blue-500 text-3xl font-bold">ERROR !!</h2>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="modal-body"></div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div class="modal" id="loading-popup">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-body">-->
+<!--        <p class="text-white">Loading...</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+  <button id="register-button" class="group relative font-semibold leading-6 px-6 mt-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" type="submit">
+    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+    <p class="relative z-10">Create account</p>
+  </button>
+
+  <p class="font-medium text-center mt-4">
+    <span class="text-gray-500">Already have an account?</span>
+    <a class="inline-block text-blue-500 hover:underline" style="color: #AF8905" href="{% url 'users:login' %}">Sign In</a>
+  </p>
 </form>
+
 
 
       </div>
@@ -58,16 +121,95 @@
 
 
 <script>
+  $(document).ready(function() {
+    // Toggle password visibility
+    $('.toggle-password').click(function() {
+      var passwordInput = $(this).siblings('input[type="password"]');
+      var passwordFieldType = passwordInput.attr('type');
+
+      if (passwordFieldType === 'password') {
+        passwordInput.attr('type', 'text');
+        $(this).html('<i class="fa-solid fa-eye"></i>');
+      } else {
+        passwordInput.attr('type', 'password');
+        $(this).html('<i class="fa-solid fa-eye-slash"></i>');
+      }
+    });
+
+    $('#register-form').submit(function(event) {
+      event.preventDefault();
+
+      var formData = $(this).serialize();
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url "users:register" %}',
+        data: formData,
+        dataType: 'json',
+        beforeSend: function() {
+          // Show loading modal
+          $('#loading-popup').removeClass('hidden');
+        },
+        success: function(response) {
+          if (response.success) {
+            // Hide loading modal
+            $('#loading-popup').addClass('hidden');
+
+            // Show success modal
+            $('#success-popup').removeClass('hidden');
+
+            // Redirect to login page after a delay
+            setTimeout(function() {
+              window.location.href = '{% url "users:login" %}';
+            }, 3000);
+          } else {
+            // Hide success modal if it's shown for any previous registration attempt
+            $('#success-popup').addClass('hidden');
+
+            // Handle form errors
+            var errors = response.errors;
+            for (var field in errors) {
+              var errorMessages = errors[field].join('<br>');
+              $('#' + field + '-error').html('<span>' + errorMessages + '</span>');
+            }
+          }
+        },
+        error: function(error) {
+          console.error(error);
+        },
+        complete: function() {
+          // Hide loading modal
+          $('#loading-popup').addClass('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+
+const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+togglePasswordButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const passwordInput = button.previousElementSibling;
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    button.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+  });
+});
+
+
+
 $(document).ready(function() {
 
-  $('#register-form').submit(function(event) {
+  $('#login-form').submit(function(event) {
     event.preventDefault();
     var formData = new FormData(this);
     var jsonFormData = {};
     for (var [key, value] of formData.entries()) {
       jsonFormData[key] = value;
     }
-    axios.post("{% url 'users:register' %}", JSON.stringify(jsonFormData), {
+    axios.post("{% url 'users:login' %}", JSON.stringify(jsonFormData), {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': '{{ csrf_token }}'
@@ -75,35 +217,63 @@ $(document).ready(function() {
     })
       .then(function(response) {
         if (response.data.success) {
-          window.location.href= "{% url 'users:login' %}"; // replace 'home' with your desired redirect URL
-        } else {
-          // Clear any existing error messages
-          $('.invalid-feedback').remove();
-
-          // Add error message to form fields with errors
-          for (const field in response.data.errors) {
-            var errorField = $('#id_' + field);
-            errorField.addClass('border-red-600');
-            errorField.parent().append('<div class="invalid-feedback text-red-600">' + response.data.errors[field][0] + '</div>');
-          }
+          window.location.href= "{% url 'users:landing' %}"; // replace 'home' with your desired redirect URL
         }
       })
       .catch(function(error) {
-        if (error.response) {
-          // The server returned an error response
-          if (error.response.data.errors) {
-            for (const field in error.response.data.errors) {
-              var errorField = $('#id_' + field);
-              errorField.addClass('border-red-600');
-              errorField.parent().append('<div class="invalid-feedback text-red-600">' + error.response.data.errors[field][0] + '</div>');
-            }
-          } else {
-            console.log(error.response.data);
-          }
-        } else {
-          console.error(error);
-        }
+        console.error(error);
       });
+  });
+});
+
+
+$(document).ready(function() {
+  $('#forgot-password-form').submit(function(event) {
+    event.preventDefault();
+    var formData = new FormData(this);
+    var jsonFormData = {};
+    for (var [key, value] of formData.entries()) {
+      jsonFormData[key] = value;
+    }
+    axios.post("{% url 'users:forgot_password' %}", JSON.stringify(jsonFormData), {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}'
+      }
+    })
+    .then(function(response) {
+      if (response.data.success) {
+        $('#success-popup').modal('show');
+        // Close success popup on close button click
+        $('#success-popup .close').on('click', function() {
+          $('#success-popup').modal('hide');
+        });
+        // Reset form
+        $('#forgot-password-form')[0].reset();
+        // Remove any error classes from fields
+        $('.is-invalid').removeClass('is-invalid');
+      } else {
+        $('#error-popup').modal('show');
+
+        // Generate error message HTML
+        var errorMessage = '<ul style="list-style: none; color: white;">';
+        for (const field in response.data.errors) {
+          errorMessage += '<li>' + field.toUpperCase() + ': ' + response.data.errors[field][0] + '</li>';
+          // Add is-invalid class to field with error
+          $('input[name=' + field + ']').addClass('is-invalid');
+        }
+        errorMessage += '</ul>';
+        $('.modal-body').html(errorMessage);
+
+        // Close error popup on close button click
+        $('#error-popup .close').on('click', function() {
+          $('#error-popup').modal('hide');
+        });
+      }
+    })
+    .catch(function(error) {
+      console.error(error);
+    });
   });
 });
 

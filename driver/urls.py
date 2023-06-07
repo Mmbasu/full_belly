@@ -2,6 +2,8 @@
 
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'driver'
 
@@ -22,7 +24,10 @@ urlpatterns = [
     path('accepted_delivery_details/', views.accepted_delivery_details, name="accepted_delivery_details"),
     path('delivery_details/', views.delivery_details, name="delivery_details"),
     path('history/', views.history, name="history"),
-    path('history_details/', views.history_details, name="history_details"),
+    path('driver/history_details/<int:delivery_id>/', views.history_details, name='history_details'),
     path('help_documentation/', views.help_documentation, name="help_documentation"),
+    path('logout/', views.logout_view, name='logout'),
 
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

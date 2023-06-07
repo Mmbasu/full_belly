@@ -2,6 +2,8 @@
 
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'users'
 
@@ -12,5 +14,6 @@ urlpatterns = [
     path('activate_account/<uidb64>/<token>/', views.activate_account, name='activate_account'),
     path('forgot_password/', views.forgot_password, name="forgot_password"),
     path('my_password_reset_confirm/<uidb64>/<token>/', views.my_password_reset_confirm,
-         name='my_password_reset_confirm')
-]
+         name='my_password_reset_confirm'),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
