@@ -58,10 +58,13 @@
                   <h2 class="text-lg text-gray-600 font-bold">Food Received</h2>
                 </div>
 
-                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">1500 Kgs</h2>
-                <span class="text-sm text-greenish">
-                  <p>1200 Total Meals Provided</p>
-                </span>
+                <h3 class="mb-2 text-xl font-bold" style="color: #AF8905;">{{ perishable_food_received }} Plates</h3>
+                <h3 class="mb-2 text-xl font-bold" style="color: #AF8905;">{{ non_perishable_food_received }} Kgs</h3>
+                <div class="text-sm text-red-500 flex items-center">
+                        <p class="ml-2 mr-3">Current Trend </p>
+<!--                        <i class="fa-solid fa-arrow-trend-up"></i>-->
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                      </div>
               </div>
             </div>
 
@@ -74,10 +77,12 @@
                   <h2 class="text-lg text-gray-600 font-bold">Food Pickups</h2>
                 </div>
 
-                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">65</h2>
-                <span class="text-sm text-greenish">
-                  <p>10 Pickup Stations</p>
-                </span>
+                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ food_pickups }}</h2>
+                <div class="text-sm text-red-500 flex items-center">
+                        <p class="ml-2 mr-3">Current Trend </p>
+<!--                        <i class="fa-solid fa-arrow-trend-up"></i>-->
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                      </div>
               </div>
             </div>
 
@@ -91,10 +96,12 @@
                   <h2 class="text-lg text-gray-600 font-bold">Restaurants Served</h2>
                 </div>
 
-                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">21</h2>
-                <span class="text-sm text-greenish">
-                  <p>30 Communities Served</p>
-                </span>
+                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ restaurants_served }}</h2>
+                <div class="text-sm text-red-500 flex items-center">
+                        <p class="ml-2 mr-3">Current Trend </p>
+<!--                        <i class="fa-solid fa-arrow-trend-up"></i>-->
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                      </div>
               </div>
             </div>
 
@@ -108,10 +115,12 @@
                   <h2 class="text-lg text-gray-600 font-bold">NGO Drivers</h2>
                 </div>
 
-                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">5</h2>
-                <span class="text-sm text-greenish">
-                  <p>65 Total Deliveries</p>
-                </span>
+                <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ ngo_drivers }}</h2>
+                <div class="text-sm text-red-500 flex items-center">
+                        <p class="ml-2 mr-3">Current Trend </p>
+<!--                        <i class="fa-solid fa-arrow-trend-up"></i>-->
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                      </div>
               </div>
             </div>
           </div>
@@ -131,104 +140,85 @@
               <p class="text-lg text-coolGray-500 font-medium">Perishable Food Items</p>
             </div>
             <div class="p-4 overflow-x-auto">
+              {% if perishable_deliveries %}
               <table class="table-auto w-full">
                 <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">Meal Type</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Expiry</th><th class="pb-3 font-medium">Status</th></tr>
+                  <tr class="text-sm text-left" style="color: #AF8905;">
+                    <th class="pb-3 font-medium">Restaurant</th>
+                    <th class="pb-3 font-medium">Meal Type</th>
+                    <th class="pb-3 font-medium">Quantity</th>
+                    <th class="pb-3 font-medium">Driver</th>
+                    <th class="pb-3 font-medium">Status</th>
+                  </tr>
                 </thead>
                 <tbody>
+                {% for delivery in perishable_deliveries %}
                   <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Breakfast</td>
-                    <td class="font-medium">23 Plates</td>
-                    <td class="font-medium">120 Minutes</td>
+                    <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID.Name }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealType }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealQuantityPlates }} Plates</td>
+                    <td class="font-medium">{{ delivery.DriverID }}</td>
                     <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">{{ delivery.Status }}</span>
                     </td>
                   </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Lunch</td>
-                    <td class="font-medium">50 Plates</td>
-                    <td class="font-medium">90 Minutes</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Breakfast</td>
-                    <td class="font-medium">23 Plates</td>
-                    <td class="font-medium">120 Minutes</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
-                    </td>
-                  </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Lunch</td>
-                    <td class="font-medium">50 Plates</td>
-                    <td class="font-medium">90 Minutes</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
-                    </td>
-                  </tr>
+                {% endfor %}
                 </tbody>
               </table>
+              {% else %}
+                <p class="text-center text-gray-500 py-5">There are currently no perishable delivered donations.</p>
+              {% endif %}
+
+              {% if perishable_deliveries %}
               <div class="text-center mt-5">
                 <a class="inline-flex items-center hover:bg-transparent" href="{% url 'recipient:history' %}">
                   <span class="text-sm text-greenish">View more donations</span>
                 </a>
               </div>
+              {% endif %}
             </div>
 
             <div class="flex px-6 pb-4 border-b">
               <p class="text-lg text-coolGray-500 font-medium">Non-Perishable Food Items</p>
             </div>
             <div class="p-4 overflow-x-auto">
+              {% if non_perishable_deliveries %}
               <table class="table-auto w-full">
                 <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">Meal Title</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Status</th></tr>
+                  <tr class="text-sm text-left" style="color: #AF8905;">
+                    <th class="pb-3 font-medium">Restaurant</th>
+                    <th class="pb-3 font-medium">Meal Type</th>
+                    <th class="pb-3 font-medium">Quantity</th>
+                    <th class="pb-3 font-medium">Driver</th>
+                    <th class="pb-3 font-medium">Status</th>
+                  </tr>
                 </thead>
                 <tbody>
+                {% for delivery in non_perishable_deliveries %}
                   <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
+                    <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID.Name }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealTitle }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealQuantityKgs }} Kgs</td>
+                    <td class="font-medium">{{ delivery.DriverID }}</td>
                     <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
+                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">{{ delivery.Status }}</span>
                     </td>
                   </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                     <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">Received</span>
-                    </td>
-                  </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-orange-500 rounded-full text-orange-500 bg-white">In Transit</span>
-                    </td>
-                  </tr>
+                {% endfor %}
                 </tbody>
               </table>
+
+              {% else %}
+                    <p class="text-center text-gray-500 py-5">There are currently no non-perishable delivered donations.</p>
+              {% endif %}
+
+              {% if non_perishable_deliveries %}
               <div class="text-center mt-5">
                 <a class="inline-flex items-center hover:bg-transparent" href="{% url 'recipient:history' %}">
                   <span class="text-sm text-greenish">View more donations</span>
                 </a>
               </div>
+              {% endif %}
             </div>
           </div>
               </div>

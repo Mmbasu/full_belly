@@ -121,20 +121,20 @@
 
 
 <script>
-  $(document).ready(function() {
-    // Toggle password visibility
-    $('.toggle-password').click(function() {
-      var passwordInput = $(this).siblings('input[type="password"]');
-      var passwordFieldType = passwordInput.attr('type');
 
-      if (passwordFieldType === 'password') {
-        passwordInput.attr('type', 'text');
-        $(this).html('<i class="fa-solid fa-eye"></i>');
-      } else {
-        passwordInput.attr('type', 'password');
-        $(this).html('<i class="fa-solid fa-eye-slash"></i>');
-      }
-    });
+
+const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+togglePasswordButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const passwordInput = button.previousElementSibling;
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    button.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+  });
+});
+
+
+  $(document).ready(function() {
 
     $('#register-form').submit(function(event) {
       event.preventDefault();
@@ -186,98 +186,6 @@
   });
 </script>
 
-<script>
-
-const togglePasswordButtons = document.querySelectorAll('.toggle-password');
-togglePasswordButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const passwordInput = button.previousElementSibling;
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    button.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
-  });
-});
-
-
-
-$(document).ready(function() {
-
-  $('#login-form').submit(function(event) {
-    event.preventDefault();
-    var formData = new FormData(this);
-    var jsonFormData = {};
-    for (var [key, value] of formData.entries()) {
-      jsonFormData[key] = value;
-    }
-    axios.post("{% url 'users:login' %}", JSON.stringify(jsonFormData), {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': '{{ csrf_token }}'
-      }
-    })
-      .then(function(response) {
-        if (response.data.success) {
-          window.location.href= "{% url 'users:landing' %}"; // replace 'home' with your desired redirect URL
-        }
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
-  });
-});
-
-
-$(document).ready(function() {
-  $('#forgot-password-form').submit(function(event) {
-    event.preventDefault();
-    var formData = new FormData(this);
-    var jsonFormData = {};
-    for (var [key, value] of formData.entries()) {
-      jsonFormData[key] = value;
-    }
-    axios.post("{% url 'users:forgot_password' %}", JSON.stringify(jsonFormData), {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': '{{ csrf_token }}'
-      }
-    })
-    .then(function(response) {
-      if (response.data.success) {
-        $('#success-popup').modal('show');
-        // Close success popup on close button click
-        $('#success-popup .close').on('click', function() {
-          $('#success-popup').modal('hide');
-        });
-        // Reset form
-        $('#forgot-password-form')[0].reset();
-        // Remove any error classes from fields
-        $('.is-invalid').removeClass('is-invalid');
-      } else {
-        $('#error-popup').modal('show');
-
-        // Generate error message HTML
-        var errorMessage = '<ul style="list-style: none; color: white;">';
-        for (const field in response.data.errors) {
-          errorMessage += '<li>' + field.toUpperCase() + ': ' + response.data.errors[field][0] + '</li>';
-          // Add is-invalid class to field with error
-          $('input[name=' + field + ']').addClass('is-invalid');
-        }
-        errorMessage += '</ul>';
-        $('.modal-body').html(errorMessage);
-
-        // Close error popup on close button click
-        $('#error-popup .close').on('click', function() {
-          $('#error-popup').modal('hide');
-        });
-      }
-    })
-    .catch(function(error) {
-      console.error(error);
-    });
-  });
-});
-
-</script>
 
 
 

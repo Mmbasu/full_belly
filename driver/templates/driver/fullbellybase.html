@@ -328,22 +328,26 @@ nav.flex.items-center.justify-center {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* Internet Explorer and Edge */
     ::-webkit-scrollbar {
-      display: none; /* Safari and Chrome */
+      width: 0; /* Webkit-based browsers */
+      height: 0;
+      display: none;
+    }
+
+    /* Remove scroll buttons */
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button,
+    ::-moz-range-thumb {
+      -webkit-appearance: none;
+      -moz-appearance: none; /* Firefox */
+      margin: 0;
     }
   }
 
   .pickup-code-input:focus {
     outline: none;
   }
-
-  /* Remove scroll buttons */
-  .pickup-code-input::-webkit-outer-spin-button,
-  .pickup-code-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
 </style>
+
 
     <style>
   .deletion-code-container {
@@ -482,19 +486,24 @@ nav.flex.items-center.justify-center {
                     <div class="mr-3">
                       <p class="text-sm text-white">{{ user.get_full_name|capfirst }}</p>
                     </div>
-                    <div class="mr-2">
-                      <img alt="profile" class="w-10 h-10 rounded-full object-cover object-right" src="{{ driver.Photo.url }}">
-                    </div>
+                    {% with background_color='#2BA19A' %}
+                      <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ background_color }};">
+                        <p class="text-white text-sm">{{ request.user.get_full_name|slice:":1"|upper }}</p>
+                      </div>
+                    {% endwith %}
                   </button>
                 </div>
 
                 <div class="block lg:hidden">
-                  <button class="w-16 h-16 flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'" title="Profile">
-                    <div>
-                      <img alt="profile" class="w-full h-full rounded-full object-cover" src="{{ driver.Photo.url }}">
-                    </div>
-                  </button>
+                    <button class="w-16 h-16 flex items-center" onclick="window.location.href='{% url 'driver:profile' %}'" title="Profile">
+                    {% with background_color='#2BA19A' %}
+                      <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ background_color }};">
+                        <p class="text-white text-sm">{{ request.user.get_full_name|slice:":1"|upper }}</p>
+                      </div>
+                    {% endwith %}
+                    </button>
                 </div>
+
 
 
             </div>
@@ -631,17 +640,11 @@ nav.flex.items-center.justify-center {
                                 <div class="mr-3">
                                     <p class="text-sm text-white">{{ request.user.get_full_name|capfirst }}</p>
                                 </div>
-                                {% if driver.Photo %}
-                                    <div class="mr-2">
-                                        <img alt="profile" class="w-10 h-10 rounded-full object-cover object-right" src="{{ driver.Photo.url }}">
-                                    </div>
-                                {% else %}
                                     {% with background_color='#2BA19A' %}
                                     <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ background_color }};">
                                         <p class="text-white text-sm">{{ request.user.get_full_name|slice:":1"|upper }}</p>
                                     </div>
                                     {% endwith %}
-                                {% endif %}
                             </button>
 
                         </div>
@@ -736,6 +739,43 @@ nav.flex.items-center.justify-center {
       });
     });
   });
+</script>
+
+<script>
+  const inactivityTimeout = 1 * 60 * 1000; // 1 minute
+
+  // Function to logout the user
+  function logoutUser() {
+    $.ajax({
+      type: 'GET',
+      url: '{% url 'driver:logout'%}',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      success: function () {
+        // The server returned a successful response, redirect to login page
+        window.location.href = '{% url 'users:login'%}';
+      },
+      error: function (xhr, status, error) {
+        console.error('Error occurred during logout:', status, error);
+        // Handle error if needed
+      },
+    });
+  }
+
+  // Function to reset the inactivity timer
+  function resetInactivityTimer() {
+    clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(logoutUser, inactivityTimeout);
+  }
+
+  let logoutTimer;
+
+  // Add event listeners to reset the timer on user activity
+  $(document).on('mousemove mousedown keypress', resetInactivityTimer);
+
+  // Start the timer on page load
+  resetInactivityTimer();
 </script>
 
 

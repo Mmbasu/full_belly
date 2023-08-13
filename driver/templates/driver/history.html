@@ -51,24 +51,26 @@
                           <th class="pb-3 font-medium">Restaurant</th>
                           <th class="pb-3 font-medium">Meal Type</th>
                           <th class="pb-3 font-medium">Quantity</th>
-                          <th class="pb-3 font-medium">Distance</th>
+                          <th class="pb-3 font-medium">Status</th>
                           <th class="pb-3 font-medium">Action</th>
                       </tr>
                   </thead>
                   <tbody>
                       {% for delivery in perishable_deliveries %}
-                      <tr class="text-sm bg-gray-50">
-                          <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID.Name }}</td>
-                          <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealType }}</td>
-                          <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealQuantityPlates }} Plates</td>
-                          <td class="font-medium">{{ delivery.DonationID.Distance }} km</td>
-                          <td>
-                              <a class="inline-block hover:bg-transparent" href="{% url 'driver:history_details' delivery.DeliveryID_id %}" title="More Details">
-                                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                                    </a>
-                          </td>
-                      </tr>
-                      {% endfor %}
+                        <tr class="text-sm bg-gray-50">
+                            <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID.Name }}</td>
+                            <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealType }}</td>
+                            <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealQuantityPlates }} Plates</td>
+                            <td>
+                                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">{{ delivery.DonationID.Status }}</span>
+                                    </td>
+                            <td>
+                                <a class="inline-block hover:bg-transparent" href="{% url 'driver:history_details' delivery.DeliveryID_id %}" title="More Details">
+                                    <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                   </tbody>
               </table>
               {% else %}
@@ -88,7 +90,7 @@
                           <th class="pb-3 font-medium">Restaurant</th>
                           <th class="pb-3 font-medium">Meal Type</th>
                           <th class="pb-3 font-medium">Quantity</th>
-                          <th class="pb-3 font-medium">Distance</th>
+                          <th class="pb-3 font-medium">Status</th>
                           <th class="pb-3 font-medium">Action</th>
                       </tr>
                   </thead>
@@ -96,9 +98,11 @@
                       {% for delivery in non_perishable_deliveries %}
                       <tr class="text-sm bg-gray-50">
                           <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID.Name }}</td>
-                          <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealType }}</td>
-                          <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealQuantityPlates }} Plates</td>
-                          <td class="font-medium">{{ delivery.DonationID.Distance }} km</td>
+                          <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealTitle }}</td>
+                          <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealQuantityKgs }} Kgs</td>
+                          <td>
+                                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">{{ delivery.DonationID.Status }}</span>
+                                    </td>
                           <td>
                                     <a class="inline-block hover:bg-transparent" href="{% url 'driver:history_details' delivery.DeliveryID_id %}" title="More Details">
                                         <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>

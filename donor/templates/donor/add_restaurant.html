@@ -28,160 +28,168 @@
           </div>
         </div>
       </div>
-<section class="bg-coolGray-50 py-4">
-  <div class="container px-4 mx-auto">
-    <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-      <div class="pb-6 border-b border-coolGray-100">
-        <div class="flex flex-wrap items-center justify-between -m-2">
-          <div class="w-full md:w-auto p-2">
-            <p class="text-lg text-coolGray-500 font-medium">Fill in the details below</p>
-          </div>
-          <div class="w-full md:w-auto p-2">
-            <div class="flex flex-wrap justify-between -m-1.5">
-              <div class="w-full md:w-auto p-1.5">
-                <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'donor:restaurants' %}'">
-                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
-                  <p class="relative z-10">Cancel</p>
-                </button>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <section class="bg-coolGray-50 py-4">
+        <div class="container px-4 mx-auto">
+            <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+                <div class="pb-6 border-b border-coolGray-100">
+                    <div class="flex flex-wrap items-center justify-between -m-2">
+                        <div class="w-full md:w-auto p-2">
+                            <p class="text-lg text-coolGray-500 font-medium">Fill the details below</p>
+                        </div>
+                        <div class="w-full md:w-auto p-2">
+                            <div class="flex flex-wrap justify-between -m-1.5">
+                                <div class="w-full md:w-auto p-1.5">
+                                    <button type="submit" id="add-restaurant-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                                        <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                                        <p class="relative z-10">Add Restaurant</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-6 border-b border-coolGray-100">
+                    <div class="w-full md:w-9/12">
+                        <div class="flex flex-wrap -m-3">
+                            <div class="w-full md:w-1/3 p-3">
+                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Name</p>
+                            </div>
+                            <div class="w-full md:flex-1 p-3">
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Red cross" name="Name" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-6 border-b border-coolGray-100">
+                    <div class="w-full md:w-9/12">
+                        <div class="flex flex-wrap -m-3">
+                            <div class="w-full md:w-1/3 p-3">
+                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Description</p>
+                                <p class="text-xs text-coolGray-500 font-medium">Describe your Restaurant</p>
+                            </div>
+                            <div class="w-full md:flex-1 p-3">
+                                <textarea placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-30 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none" name="Description" rows="5" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-6 border-b border-coolGray-100">
+                    <div class="w-full md:w-9/12">
+                        <div class="flex flex-wrap -m-3" id="upload-photo-section">
+                            <div class="w-full md:w-1/3 p-3">
+                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Photo</p>
+                                <p class="text-xs text-coolGray-500 font-medium">Upload photo</p>
+                            </div>
+                            <div class="w-full md:flex-1 p-3">
+                                <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
+                                    <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-              </div>
-                <div class="w-full md:w-auto p-1.5">
-                  <button id="add-restaurant-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                    <p class="relative z-10">Add Restaurant</p>
-                  </button>
+
+                <div class="py-6 border-b border-coolGray-100">
+                    <div class="w-full md:w-9/12">
+                        <div class="flex flex-wrap -m-3">
+                            <div class="w-full md:w-1/3 p-3">
+                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Location</p>
+                            </div>
+                            <div class="w-full md:flex-1 p-3">
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Mavoko, Athi River" name="Location" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-6 border-b border-coolGray-100">
+                    <div class="w-full md:w-9/12">
+                        <div class="flex flex-wrap -m-3">
+                            <div class="w-full md:w-1/3 p-3">
+                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant License No.</p>
+                            </div>
+                            <div class="w-full md:flex-1 p-3">
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="LicenseNumber" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-6 border-b border-coolGray-100">
+                    <div class="w-full md:w-9/12">
+                        <div class="flex flex-wrap -m-3">
+                            <div class="w-full md:w-1/3 p-3">
+                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Health Certificate Number No.</p>
+                            </div>
+                            <div class="w-full md:flex-1 p-3">
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="HealthCertificateNumber" required>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant Name</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Name">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant Description</p>
-              <p class="text-xs text-coolGray-500 font-medium">Describe your Restaurant</p>
-            </div>
-            <div class="w-full md:flex-1 p-3"><textarea placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none"></textarea></div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3" id="photo-section">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant Photo</p>
-            </div>
-            <div class="flex flex-wrap items-center -m-3">
-              <div class="w-auto p-3">
-                <img class="relative w-32 h-32 mb-4 mx-auto rounded-full object-cover object-right" src="https://i.ibb.co/gJRg99Z/restaurant.png" alt="restaurant">
-              </div>
-              <div class="w-auto p-3">
-                <button id="change-photo-btn" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                  <p class="relative z-10">Change</p>
-                </button>
-              </div>
-            </div>
-          </div>
+    </section>
+</form>
+<script>
+  $('#add-restaurant-form').submit(function(event) {
+    event.preventDefault();
 
-          <div class="flex flex-wrap -m-3 hidden" id="upload-photo-section">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant Photo</p>
-              <p class="text-xs text-coolGray-500 font-medium">Change photo</p>
+    var formData = new FormData(this);  // Use FormData to include file input field
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "donor:add_restaurant" %}',  // Replace with the URL for adding a restaurant
+      data: formData,
+      dataType: 'json',
+      contentType: false,  // Set contentType and processData to false when using FormData
+      processData: false,
+      beforeSend: function() {
+        // Show loading modal
+        $('#loading-popup').removeClass('hidden');
+      },
+      success: function(response) {
+        if (response.success) {
+          // Hide loading modal
+          $('#loading-popup').addClass('hidden');
+
+          // Show success modal
+          const modal = document.createElement('div');
+          modal.classList.add('modal');
+          modal.innerHTML = `
+            <div class="modal-content">
+              <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+              <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
+              <p>Restaurant Added</p>
+              <p>Verification process initiated</p>
             </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
-                <i class="fa-lg fa-solid fa-upload"></i>
-                <p class="mt-4 text-sm text-greenish font-medium">
-                  <span class="text-greenish">Click to Upload a file</span>
-                  <span>or drag and drop</span>
-                </p>
-                <p class="text-xs text-greenish font-medium">PNG, JPG up to 10MB</p>
-                      <p class="mt-1 underline text-sm text-greenish font-medium">
-                        <span class="text-greenish">One File Only !!</span>
-                      </p>
-                <input class="absolute top-0 left-0 w-full h-full opacity-0" type="file">
-              </div>
-            </div>
-            <div class="w-full md:w-auto p-3">
-              <button id="cancel-photo-btn" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md">
-                <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
-                <p class="relative z-10">Cancel</p>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant Location</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Address, City">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant License No.</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="License No.">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Health Certificate No.</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Certificate No.">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-      <script>
-  const addRestaurantButton = document.getElementById('add-restaurant-button');
-  addRestaurantButton.addEventListener('click', () => {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
-      <div class="modal-content">
-      <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
-        <p>Restaurant Added</p>
-        <p>Verification process initiated</p>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    setTimeout(() => {
-      modal.remove();
-      window.location.href = "{% url 'donor:restaurants' %}";
-    }, 3000);
+          `;
+          document.body.appendChild(modal);
+          setTimeout(() => {
+            modal.remove();
+            window.location.href = "{% url 'donor:restaurants' %}";
+          }, 3000);
+        } else {
+          // Hide success modal if it's shown for any previous registration attempt
+          $('#success-popup').addClass('hidden');
+
+          // Handle form errors
+          var errors = response.errors;
+          for (var field in errors) {
+            var errorMessages = errors[field].join('<br>');
+            $('#' + field + '-error').html('<span>' + errorMessages + '</span>');
+          }
+        }
+      },
+      error: function(error) {
+        console.error(error);
+      },
+      complete: function() {
+        // Hide loading modal
+        $('#loading-popup').addClass('hidden');
+      }
+    });
   });
 </script>
 

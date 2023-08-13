@@ -5,276 +5,386 @@
 {% block content %}
 
     <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
-      <div class="pb-6 border-b border-coolGray-100">
+    <div class="pb-6 border-b border-coolGray-100">
         <div class="flex flex-wrap items-center justify-between -m-2">
-          <div class="w-full md:w-auto">
-            <section>
-              <div class="bg-white">
-                <div class="container px-4 mx-auto">
-                  <div class="flex flex-wrap h-16 py-4 items-center">
-                    <p class="inline-block text-xl text-greenish font-medium">Settings</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
+            <div class="w-full md:w-auto">
+                <section>
+                    <div class="bg-white">
+                        <div class="container px-4 mx-auto">
+                            <div class="flex flex-wrap h-16 py-4 items-center">
+                                <p class="inline-block text-xl text-greenish font-medium">Settings</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
-      </div>
+    </div>
 
-            <section class="bg-coolGray-50 py-4">
-  <div class="container px-4 mx-auto">
-    <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-      <div class="pb-6 border-b border-coolGray-100">
-        <div class="flex flex-wrap items-center justify-between -m-2">
-          <div class="w-full md:w-auto p-2">
-            <p class="text-lg text-coolGray-500 font-medium">Change my password</p>
-          </div>
-          <div class="w-full md:w-auto p-2">
-            <div class="flex flex-wrap justify-between -m-1.5">
-                <div class="w-full md:w-auto p-1.5">
-                  <button id="change-password-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                    <p class="relative z-10">Change Password</p>
-                  </button>
+    <section class="bg-coolGray-50 py-4">
+        <div class="container px-4 mx-auto">
+            <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+                <div class="pb-6 border-b border-coolGray-100">
+                    <div class="flex flex-wrap items-center justify-between -m-2">
+                        <div class="w-full md:w-auto p-2">
+                            <p class="text-lg text-coolGray-500 font-medium">Change my password</p>
+                        </div>
+                        <div class="w-full md:w-auto p-2">
+                            <div class="flex flex-wrap justify-between -m-1.5">
+                                <div class="w-full md:w-auto p-1.5">
+                                    <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md"
+                                            id="change-password-button">
+                                        <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                                        <p class="relative z-10">Change Password</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-6">
+                    <div class="w-full md:w-9/12">
+                        <form id="change-password-form" method="post">
+                            {% csrf_token %}
+                            <div class="py-6 border-b border-coolGray-100">
+                                <div class="w-full md:w-9/12">
+                                    <div class="flex flex-wrap -m-3">
+                                        <div class="w-full md:w-1/3 p-3">
+                                            <p class="text-sm text-coolGray-800 font-semibold">Current Password</p>
+                                        </div>
+                                        <div class="md:w-2/3 p-3 flex items-center mb-4">
+                                            {{ form.old_password }}
+                                            <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
+                                              <i class="fa-solid fa-eye-slash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="py-6 border-b border-coolGray-100">
+                                <div class="w-full md:w-9/12">
+                                    <div class="flex flex-wrap -m-3">
+                                        <div class="w-full md:w-1/3 p-3">
+                                            <p class="text-sm text-coolGray-800 font-semibold">New Password</p>
+                                        </div>
+                                        <div class="md:w-2/3 p-3 flex items-center mb-4">
+                                            {{ form.new_password1 }}
+                                            <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
+                                              <i class="fa-solid fa-eye-slash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="py-6 border-b border-coolGray-100">
+                                <div class="w-full md:w-9/12">
+                                    <div class="flex flex-wrap -m-3">
+                                        <div class="w-full md:w-1/3 p-3">
+                                            <p class="text-sm text-coolGray-800 font-semibold">Confirm New Password</p>
+                                        </div>
+                                        <div class="md:w-2/3 p-3 flex items-center mb-4">
+                                            {{ form.new_password2 }}
+                                            <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
+                                              <i class="fa-solid fa-eye-slash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Current Password</p>
+    </section>
+
+
+
+        {% if show_delete_section %}
+        <section class="bg-coolGray-50 py-4">
+            <div class="container px-4 mx-auto">
+                <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+                    <form id="delete-account-form" method="post">
+                        {% csrf_token %}
+                        <div class="pb-6 border-b border-coolGray-100">
+                            <div class="flex flex-wrap items-center justify-between -m-2">
+                                <div class="w-full md:w-auto p-2">
+                                    <p class="text-lg text-coolGray-500 font-medium">Account Deletion</p>
+                                </div>
+                                <div class="w-full md:w-auto p-2">
+                                    <div class="flex flex-wrap justify-between -m-1.5">
+                                        <div class="w-full md:w-auto p-1.5">
+                                            <button type="button" id="delete-account-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md">
+                                                <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
+                                                <p class="relative z-10">Delete Account</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-6 border-b border-coolGray-100">
+                            <div class="w-full md:w-9/12">
+                                <div class="flex flex-wrap -m-3">
+                                    <div class="w-full md:w-1/3 p-3">
+                                        <p class="text-sm text-coolGray-800 font-semibold">Current Password</p>
+                                    </div>
+                                    <div class="w-full md:flex-1 p-3 relative">
+                                        <div class="flex items-center">
+                                            <input name="current_password" class="w-80 px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="password" placeholder="********" required>
+                                            <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
+                                                <i class="fa-solid fa-eye-slash"></i>
+                                            </button>
+                                        </div>
+                                        <p id="password-error" class="text-red-500 text-sm mt-2"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="password" placeholder="********">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">New Password</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="password" placeholder="********">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Confirm New Password</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="password" placeholder="********">
-            </div>
-          </div>
-        </div>
+        </section>
+        {% endif %}
+
+
+    <script>
+
+const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+togglePasswordButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const passwordInput = button.previousElementSibling;
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    button.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+  });
+});
+
+
+      const changePasswordButton = document.getElementById('change-password-button');
+const changePasswordForm = document.getElementById('change-password-form');
+
+changePasswordButton.addEventListener('click', () => {
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div><i class="fa-solid fa-circle-exclamation fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #AF8905;"></i></div>
+      <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Confirm Password Change</h2>
+      <p>Are you sure you want to change your password?</p>
+      <div class="flex justify-center items-center space-x-4 mt-8">
+        <button id="confirm-password-change-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Yes
+        </button>
+        <button id="cancel-password-change-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+          No
+        </button>
       </div>
     </div>
-  </div>
-</section>
+  `;
+  document.body.appendChild(modal);
 
-      <section class="bg-coolGray-50 py-4">
-        <div class="container px-4 mx-auto">
-          <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-            <div class="pb-6 border-b border-coolGray-100">
-              <div class="flex flex-wrap items-center justify-between -m-2">
-                <div class="w-full md:w-auto p-2">
-                  <p class="text-lg text-coolGray-500 font-medium">Account Deletion</p>
-                </div>
-                <div class="w-full md:w-auto p-2">
-                  <div class="flex flex-wrap justify-between -m-1.5">
-                      <div class="w-full md:w-auto p-1.5">
-                        <button id="delete-account-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md">
-                          <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
-                          <p class="relative z-10">Delete Account</p>
-                        </button>
-                      </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="py-6 border-b border-coolGray-100">
-              <div class="w-full md:w-9/12">
-                <div class="flex flex-wrap -m-3">
-                  <div class="w-full md:w-1/3 p-3">
-                    <p class="text-sm text-coolGray-800 font-semibold">Current Password</p>
-                  </div>
-                  <div class="w-full md:flex-1 p-3">
-                    <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="password" placeholder="********">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <script>
-
-        const changePasswordButton = document.getElementById('change-password-button');
-
-        changePasswordButton.addEventListener('click', () => {
-          const modal = document.createElement('div');
-          modal.classList.add('modal');
-          modal.innerHTML = `
-            <div class="modal-content">
-            <div><i class="fa-solid fa-circle-exclamation fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #AF8905;"></i></div>
-              <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Confirm Password Change</h2>
-              <p>Are you sure you want to change your password?</p>
-              <div class="flex justify-center items-center space-x-4 mt-8">
-                <button id="confirm-password-change-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                  Yes
-                </button>
-                <button id="cancel-password-change-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                  No
-                </button>
-              </div>
-            </div>
-          `;
-          document.body.appendChild(modal);
-
-          const confirmButton = modal.querySelector('#confirm-password-change-button');
-          confirmButton.addEventListener('click', () => {
-            const successModal = document.createElement('div');
-            successModal.classList.add('modal');
-            successModal.innerHTML = `
-              <div class="modal-content modal-large">
+  const confirmButton = modal.querySelector('#confirm-password-change-button');
+  confirmButton.addEventListener('click', () => {
+    // Submit the form
+    const formData = new FormData(changePasswordForm);
+    fetch(changePasswordForm.action, {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const successModal = document.createElement('div');
+          successModal.classList.add('modal');
+          successModal.innerHTML = `
+            <div class="modal-content modal-large">
               <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
               <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
               <p>Password Changed</p>
             </div>
-            `;
-            document.body.appendChild(successModal);
-
-            setTimeout(() => {
-              successModal.remove();
-              modal.remove();
-            }, 3000);
-          });
-
-          const cancelButton = modal.querySelector('#cancel-password-change-button');
-          cancelButton.addEventListener('click', () => {
-            modal.remove();
-          });
-        });
-      </script>
-
-      <script>
-
-        function moveToNext(input) {
-          if (input.value.length >= input.maxLength) {
-            var nextInput = input.nextElementSibling;
-            if (nextInput) {
-              nextInput.focus();
-            }
-
-            // check if all inputs have values
-            const allInputsHaveValues = Array.from(input.parentNode.querySelectorAll('.deletion-code-input'))
-              .every((input) => input.value.length > 0);
-
-            // if all inputs have values, move focus to the button
-            if (allInputsHaveValues) {
-              const submitButton = document.querySelector('#submit-code-button');
-              submitButton.focus();
-            }
-          }
-        }
-
-
-
-        function removeExtraDigits(input) {
-          if (input.value.length > 1) {
-            input.value = input.value.slice(0, 1);
-          }
-        }
-
-        function preventExtraInput(input) {
-          if (input.value.length >= 1) {
-            event.preventDefault();
-          }
-        }
-
-
-      const deleteAccountButton = document.getElementById('delete-account-button');
-
-        deleteAccountButton.addEventListener('click', () => {
-          const codeModal = document.createElement('div');
-          codeModal.classList.add('modal');
-          codeModal.innerHTML = `
-            <div class="modal-content">
-              <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Account Deletion</h2>
-              <p>Enter the 5 digit code sent to your email</p>
-              <br>
-              <div class="deletion-code-container" style="margin-top: 10px;">
-                <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
-                <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
-                <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
-                <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
-                <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)" onkeydown="preventExtraInput(this)">
-              </div>
-              <br>
-              <button id="submit-code-button">Submit Code</button>
-            </div>
           `;
-
-          document.body.appendChild(codeModal);
-
-          const submitButton = codeModal.querySelector('#submit-code-button');
-          submitButton.addEventListener('click', () => {
-            const deletionCodeInputs = codeModal.querySelectorAll('.deletion-code-input');
-            let deletionCode = '';
-            for (let i = 0; i < deletionCodeInputs.length; i++) {
-              deletionCode += deletionCodeInputs[i].value.trim();
-            }
-            if (deletionCode.length !== 5 || !/^\d+$/.test(deletionCode)) {
-              alert('Please enter a valid 5 digit deletion code.');
-              return;
-            }
-            codeModal.remove();
-
-          const deletionModal = document.createElement('div');
-          deletionModal.classList.add('modal');
-          deletionModal.innerHTML = `
-            <div class="modal-content">
-              <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Deleting Your Account</h2>
-              <p>Please wait while we delete your account...</p>
-            </div>
-          `;
-          document.body.appendChild(deletionModal);
+          document.body.appendChild(successModal);
 
           setTimeout(() => {
-            deletionModal.style.display = 'none';
-
-            const successModal = document.createElement('div');
-            successModal.classList.add('modal');
-            successModal.innerHTML = `
-              <div class="modal-content modal-large">
-                <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-                <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Account Deleted</h2>
-                <p>It's sad to see you leave. <span><i class="fa-lg fa-solid fa-face-sad-tear" style="color: #AF8905;"></i></span></p>
-                <p>Come back soon</p>
-              </div>
-            `;
-            document.body.appendChild(successModal);
-
-            setTimeout(() => {
-              successModal.remove();
-              window.location.href = "{% url 'recipient:settings' %}";
-            }, 7000);
+            successModal.remove();
+            modal.remove();
+            location.reload();
           }, 3000);
-        });
-        });
+        } else {
+          console.log('Password change failed:', data.errors);
+        }
+      })
+      .catch(error => {
+        console.log('An error occurred while changing password:', error);
+      });
+  });
 
-      </script>
+  const cancelButton = modal.querySelector('#cancel-password-change-button');
+  cancelButton.addEventListener('click', () => {
+    modal.remove();
+  });
+});
 
-    </div>
+
+    </script>
+
+        <script>
+    function moveToNext(input) {
+        if (input.value.length >= input.maxLength) {
+            const nextInput = input.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus();
+            }
+
+            const allInputsHaveValues = Array.from(input.parentNode.querySelectorAll('.deletion-code-input'))
+                .every((input) => input.value.length > 0);
+
+            if (allInputsHaveValues) {
+                const submitButton = document.querySelector('#submit-code-button');
+                submitButton.focus();
+            }
+        }
+    }
+
+    function removeExtraDigits(input) {
+        if (input.value.length > 1) {
+            input.value = input.value.slice(0, 1);
+        }
+    }
+
+    function preventExtraInput(input) {
+        if (input.value.length >= 1) {
+            event.preventDefault();
+        }
+    }
+
+
+    const deleteAccountButton = document.getElementById('delete-account-button');
+    const passwordField = document.querySelector('input[name="current_password"]');
+    const passwordError = document.getElementById('password-error');
+
+    deleteAccountButton.addEventListener('click', (event) => {
+        if (passwordField.value === '') {
+            event.preventDefault();
+            passwordError.textContent = 'Please enter your current password.';
+        } else {
+            passwordError.textContent = ''; // Clear the error message if password is entered
+
+            const processingModal = document.createElement('div');
+            processingModal.classList.add('modal');
+            processingModal.innerHTML = `
+                <div class="modal-content">
+                    <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Account Deletion Request</h2>
+                    <p>Processing...</p>
+                </div>
+            `;
+            document.body.appendChild(processingModal);
+
+        fetch('/recipient/send-deletion-code/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}', // Replace with actual CSRF token
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            processingModal.remove(); // Hide "Processing" modal
+            if (data.success) {
+                const codeModal = document.createElement('div');
+                codeModal.classList.add('modal');
+                codeModal.innerHTML = `
+                    <div class="modal-content">
+                        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Account Deletion</h2>
+                        <p>Enter the 5 digit code sent to your email</p>
+                        <br>
+                        <div class="deletion-code-container" style="margin-top: 10px;">
+                            <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
+                            <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
+                            <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
+                            <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)">
+                            <input type="number" class="deletion-code-input" maxlength="1" oninput="moveToNext(this)" onkeyup="removeExtraDigits(this)" onkeydown="preventExtraInput(this)">
+                        </div>
+                        <br>
+                        <button id="submit-code-button">Submit Code</button>
+                    </div>
+                `;
+
+                document.body.appendChild(codeModal);
+
+                const submitButton = codeModal.querySelector('#submit-code-button');
+                submitButton.addEventListener('click', () => {
+                    const deletionCodeInputs = codeModal.querySelectorAll('.deletion-code-input');
+                    let deletionCode = '';
+                    for (let i = 0; i < deletionCodeInputs.length; i++) {
+                        deletionCode += deletionCodeInputs[i].value.trim();
+                    }
+
+                    if (deletionCode.length !== 5 || !/^\d+$/.test(deletionCode)) {
+                        alert('Please enter a valid 5 digit deletion code.');
+                        return;
+                    }
+
+                    codeModal.remove();
+
+                    fetch('/recipient/delete-account/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}', // Replace with actual CSRF token
+                        },
+                        body: JSON.stringify({ deletionCode }),
+                    })
+                    .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const deletionModal = document.createElement('div');
+                    deletionModal.classList.add('modal');
+                    deletionModal.innerHTML = `
+                        <div class="modal-content">
+                            <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Deleting Your Account</h2>
+                            <p>Please wait while we delete your account...</p>
+                        </div>
+                    `;
+                    document.body.appendChild(deletionModal);
+
+                    setTimeout(() => {
+                        deletionModal.style.display = 'none';
+
+                        const successModal = document.createElement('div');
+                        successModal.classList.add('modal');
+                        successModal.innerHTML = `
+                            <div class="modal-content modal-large">
+                                <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+                                <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Account Deleted</h2>
+                                <p>It's sad to see you leave. <span><i class="fa-lg fa-solid fa-face-sad-tear" style="color: #AF8905;"></i></span></p>
+                                <p>Come back soon</p>
+                            </div>
+                        `;
+                        document.body.appendChild(successModal);
+
+                        setTimeout(() => {
+                            successModal.remove();
+                            window.location.href = "{% url 'recipient:settings' %}";
+                        }, 7000);
+                    }, 3000);
+                } else {
+                    alert('Incorrect deletion code. Please try again.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+                });
+            } else {
+                alert('Failed to send deletion code. Please try again later.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
+
+</div>
 
 
 {% endblock content %}

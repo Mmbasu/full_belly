@@ -25,137 +25,85 @@
         </div>
       </div>
 
-<section class="bg-coolGray-50 py-4">
-  <div class="container px-4 mx-auto">
-    <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-      <div class="pb-6 border-b border-coolGray-100">
-        <div class="flex flex-wrap items-center justify-between -m-2">
-          <div class="w-full md:w-auto p-2">
-            <p class="text-xl text-coolGray-500 font-medium">Below are your donations history</p>
-          </div>
-        </div>
-      </div>
+   <section class="py-8">
+       <div class="container px-4 mx-auto">
+           <div class="pt-4 bg-white shadow rounded">
+               <div class="flex px-6 pb-4 border-b">
+                   <p class="text-lg text-coolGray-500 font-medium">Perishable Food Items</p>
+               </div>
+               <div class="p-4 overflow-x-auto">
+                   {% if perishable_donations %}
+                   <table class="table-auto w-full">
+                       <thead>
+                           <tr class="text-sm text-left" style="color: #AF8905;">
+                               <th class="pb-3 font-medium">Restaurant</th>
+                               <th class="pb-3 font-medium">Meal</th>
+                               <th class="pb-3 font-medium">Quantity</th>
+                               <th class="pb-3 font-medium">Driver</th>
+                               <th class="pb-3 font-medium">Action</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           {% for donation in perishable_donations %}
+                           <tr class="text-sm bg-gray-50">
+                               <td class="py-5 px-6 font-medium">{{ donation.RestaurantID.Name }}</td>
+                               <td class="font-medium">{{ donation.perishabledonation.MealType }}</td>
+                               <td class="font-medium">{{ donation.perishabledonation.MealQuantityPlates }} Plates</td>
+                               <td class="font-medium">{{ donation.driver }}</td>
+                               <td>
+                                   <a class="inline-block hover:bg-transparent"
+                                       href="{% url 'donor:history_details' donation.DonationID %}" title="More Details">
+                                       <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
+                                   </a>
+                               </td>
+                           </tr>
+                           {% endfor %}
+                       </tbody>
+                   </table>
+                   {% else %}
+                   <p class="text-center text-gray-500 py-5">You have not made any perishable donations yet</p>
+                   {% endif %}
+               </div>
 
-
-      <section class="py-8">
-        <div class="container px-4 mx-auto">
-          <div class="pt-4 bg-white shadow rounded">
-            <div class="flex px-6 pb-4 border-b">
-              <p class="text-lg text-coolGray-500 font-medium">Perishable Food Items</p>
-            </div>
-            <div class="p-4 overflow-x-auto">
-              <table class="table-auto w-full">
-                <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">NGO</th><th class="pb-3 font-medium">Meal Type</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Expiry</th><th class="pb-3 font-medium">Action</th></tr>
-                </thead>
-                <tbody>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Red Cross</td>
-                    <td class="font-medium">Breakfast</td>
-                    <td class="font-medium">23 Plates</td>
-                    <td class="font-medium">120 Minutes</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'donor:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Red Cross</td>
-                    <td class="font-medium">Lunch</td>
-                    <td class="font-medium">50 Plates</td>
-                    <td class="font-medium">90 Minutes</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'donor:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Red Cross</td>
-                    <td class="font-medium">Breakfast</td>
-                    <td class="font-medium">23 Plates</td>
-                    <td class="font-medium">120 Minutes</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'donor:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Red Cross</td>
-                    <td class="font-medium">Lunch</td>
-                    <td class="font-medium">50 Plates</td>
-                    <td class="font-medium">90 Minutes</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'donor:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="flex px-6 pb-4 border-b">
-              <p class="text-lg text-coolGray-500 font-medium">Non-Perishable Food Items</p>
-            </div>
-            <div class="p-4 overflow-x-auto">
-              <table class="table-auto w-full">
-
-                <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">NGO</th><th class="pb-3 font-medium">Meal Title</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Status</th></tr>
-                </thead>
-                <tbody>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Red Cross</td>
-                    <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'donor:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Red Cross</td>
-                     <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'donor:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Red Cross</td>
-                    <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'donor:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-    </div>
-  </div>
-</section>
+               <div class="flex px-6 pb-4 border-b">
+                   <p class="text-lg text-coolGray-500 font-medium">Non-Perishable Food Items</p>
+               </div>
+               <div class="p-4 overflow-x-auto">
+                   {% if non_perishable_donations %}
+                   <table class="table-auto w-full">
+                       <thead>
+                           <tr class="text-sm text-left" style="color: #AF8905;">
+                               <th class="pb-3 font-medium">Restaurant</th>
+                               <th class="pb-3 font-medium">Meal</th>
+                               <th class="pb-3 font-medium">Quantity</th>
+                               <th class="pb-3 font-medium">Driver</th>
+                               <th class="pb-3 font-medium">Action</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           {% for donation in non_perishable_donations %}
+                           <tr class="text-sm bg-gray-50">
+                               <td class="py-5 px-6 font-medium">{{ donation.RestaurantID.Name }}</td>
+                               <td class="font-medium">{{ donation.nonperishabledonation.MealTitle }}</td>
+                               <td class="font-medium">{{ donation.nonperishabledonation.MealQuantityKgs }} Kgs</td>
+                               <td class="font-medium">{{ donation.driver }}</td>
+                               <td>
+                                   <a class="inline-block hover:bg-transparent"
+                                       href="{% url 'donor:history_details' donation.DonationID %}" title="More Details">
+                                       <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
+                                   </a>
+                               </td>
+                           </tr>
+                           {% endfor %}
+                       </tbody>
+                   </table>
+                   {% else %}
+                   <p class="text-center text-gray-500 py-5">You have not made any non-perishable donations yet</p>
+                   {% endif %}
+               </div>
+           </div>
+       </div>
+   </section>
     </div>
 
 {% endblock content %}

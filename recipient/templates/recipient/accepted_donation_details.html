@@ -28,6 +28,7 @@
           </div>
         </div>
       </div>
+      {% csrf_token %}
         <section class="bg-coolGray-50 py-4 mt-10">
             <div class="container px-4 mx-auto">
                 <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
@@ -51,7 +52,20 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">ID</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">110110110</p>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.DonationID }}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+
+                          <section class="py-1">
+                              <div class="container px-4 mx-auto">
+                                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                                    <div class="flex flex-col md:flex-row -mb-px">
+                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Date Posted</h3>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.date_posted }}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -64,7 +78,7 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Restaurant</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Kempinski</p>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.RestaurantID }}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -78,7 +92,7 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">NGO</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Red Cross</p>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.Organization }}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -91,8 +105,12 @@
                                 <div class="max-w-xl lg:max-w-6xl mx-auto">
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
-                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Meal Type</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Breakfast</p>
+                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Meal</h3>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.perishabledonation.MealType }}</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.nonperishabledonation.MealTitle }}</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
@@ -104,19 +122,11 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Quantity</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">20 Plates</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </section>
-                            <section class="py-1">
-                              <div class="container px-4 mx-auto">
-                                <div class="max-w-xl lg:max-w-6xl mx-auto">
-                                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
-                                    <div class="flex flex-col md:flex-row -mb-px">
-                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Expiry</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">20 Minutes</p>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.perishabledonation.MealQuantityPlates }} Plates</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.nonperishabledonation.MealQuantityKgs }} Kgs</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
@@ -128,7 +138,11 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Food Type</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Perishable Food</p>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Perishable</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Non-Perishable</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
@@ -140,31 +154,61 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Pickup Location</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Upper Hill Rd, Nairobi</p>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.perishabledonation.pickup_location }}</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.nonperishabledonation.pickup_location }}</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </section>
                           <section class="py-1">
-                              <div class="container px-4 mx-auto">
+                            <div class="container px-4 mx-auto">
                                 <div class="max-w-xl lg:max-w-6xl mx-auto">
-                                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
-                                    <div class="flex flex-col md:flex-row -mb-px">
-                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Status</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Scheduled</p>
+                                    <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                                        <div class="flex flex-col md:flex-row -mb-px">
+                                            <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Status</h3>
+                                            {% if donation.is_scheduled %}
+                                                <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.Status }}</p>
+                                            {% else %}
+                                                <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Unscheduled</p>
+                                            {% endif %}
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
-                            </section>
+                            </div>
+                        </section>
                           <section class="py-1">
                               <div class="container px-4 mx-auto">
                                 <div class="max-w-xl lg:max-w-6xl mx-auto">
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Pickup Time</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Within the hour</p>
+                                      {% if donation.is_scheduled %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.pickup_time }}</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Not yet Scheduled</p>
+                                      {% endif %}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+
+
+                          <section class="py-1">
+                              <div class="container px-4 mx-auto">
+                                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                                    <div class="flex flex-col md:flex-row -mb-px">
+                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Assigned Driver</h3>
+                                      {% if donation.is_scheduled %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.driver }}</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Not yet Scheduled</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
@@ -178,6 +222,13 @@
                                   <p class="relative z-10">Cancel</p>
                                 </button>
                               </div>
+                              <div class="w-full md:w-auto p-1.5 ml-2 md:ml-0 md:mr-4 ml-auto">
+                                  <button id="mark-as-delivered-button" data-donation-id="{{ donation.DonationID }}" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                                      <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                                      <p class="relative z-10">Mark As Delivered</p>
+                                  </button>
+                              </div>
+
                             </div>
 
                         </div>
@@ -186,87 +237,210 @@
             </div>
         </section>
 
-      <script>
-const schedulePickupButton = document.querySelector('#schedule-pickup-button');
 
-schedulePickupButton.addEventListener('click', () => {
-  const modal = document.createElement('div');
-  modal.classList.add('modal');
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Schedule Pickup Time</h2>
-      <p>Please select a pickup time from the options below:</p>
-      <div class="pickup-times mb-3" style="padding: 10px 0;">
-      <br>
-        <label style="padding: 10px 0;">
-          <input type="radio" name="pickup-time" value="right-away">
-          Within the hour
-        </label>
-        <br>
-        <label style="padding: 10px 0;">
-          <input type="radio" name="pickup-time" value="morning">
-          Morning (9am - 12pm)
-        </label>
-        <br>
-        <label style="padding: 10px 0;">
-          <input type="radio" name="pickup-time" value="afternoon">
-          Afternoon (12pm - 3pm)
-        </label>
-        <br>
-        <label style="padding: 10px 0;">
-          <input type="radio" name="pickup-time" value="evening">
-          Evening (3pm - 6pm)
-        </label>
+<script>
+  const schedulePickupButton = document.querySelector('#schedule-pickup-button');
+  const markDelivered = document.querySelector('#mark-as-delivered-button');
+
+
+
+  const pickupCode = '{{ donation.pickup_code }}';
+
+
+    const isScheduled = '{{ donation.is_scheduled }}' === 'True';
+
+  if (isScheduled) {
+    schedulePickupButton.style.display = 'none'; // Hide the button if scheduled
+  } else {
+    schedulePickupButton.style.display = 'block'; // Show the button if not scheduled
+  }
+
+if (pickupCode !== '19456') {
+  markDelivered.style.display = 'block';
+} else {
+  markDelivered.style.display = 'none';
+}
+
+  schedulePickupButton.addEventListener('click', () => {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Schedule Pickup Time</h2>
+        <p>Please select a pickup time:</p>
+        <div class="pickup-time mb-3" style="padding: 10px 0;">
+          <input type="time" id="pickup-time" required>
+        </div>
+
+        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Choose Driver</h2>
+        <p>Please select a driver from the options below:</p>
+        <div class="driver-select mb-3 relative" style="padding: 10px 0;">
+          <div class="relative">
+            <select id="driver" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
+              <option value="">Select a driver</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="schedule-pickup-submit-button">Schedule Pickup</button>
       </div>
+    `;
+    document.body.appendChild(modal);
 
+    // Fetch drivers associated with the NGO where the logged-in user is the manager
+    fetch('/recipient/get_ngos_drivers/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}', // Replace with your CSRF token value
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      const driverSelect = modal.querySelector('#driver');
+      data.forEach(driver => {
+        const option = document.createElement('option');
+        option.value = driver.id;
+        option.textContent = driver.name; // Replace 'name' with the field containing the driver's name
+        driverSelect.appendChild(option);
+      });
 
-      <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Choose Driver</h2>
-      <p>Please select a driver from the options below:</p>
-      <div class="driver-select mb-3 relative" style="padding: 10px 0;">
-        <div class="relative">
-          <select id="driver" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-             <option>Send to all</option>
-             <option>Peter Lelei</option>
-             <option>Moses Kuria</option>
-             <option>Laureen Nanjala</option>
+      const submitButton = modal.querySelector('#schedule-pickup-submit-button');
+      submitButton.addEventListener('click', () => {
+        const pickupTimeInput = modal.querySelector('#pickup-time');
+        const pickupTime = pickupTimeInput.value; // Get the time input value
 
-          </select>
+        // Format the pickup time to YYYY-MM-DD HH:MM format
+        const now = new Date();
+        const date = now.toISOString().slice(0, 10);
+        const formattedPickupTime = `${date} ${pickupTime}:00`;
+
+        const driverId = driverSelect.value;
+
+        // Make an AJAX request to save the selected pickup time and driver to the database
+        fetch('/recipient/save_schedule_pickup/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': '{{ csrf_token }}', // Replace with your CSRF token value
+          },
+          body: new URLSearchParams({
+            'donation_id': '{{ donation.DonationID }}', // Replace with the donation ID value
+            'pickup_time': formattedPickupTime,
+            'driver_id': driverId,
+          }),
+        })
+        .then(response => {
+          if (response.ok) {
+            // Success, show success modal
+            const successModal = document.createElement('div');
+            successModal.classList.add('modal');
+            successModal.innerHTML = `
+              <div class="modal-content modal-large">
+                <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+                <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
+                <p>Pickup Scheduled!</p>
+              </div>
+            `;
+            document.body.appendChild(successModal);
+
+            // Remove the success modal after 3 seconds and redirect to donations page
+            setTimeout(() => {
+              successModal.remove();
+              schedulePickupButton.disabled = true;
+              window.location.href = '{% url 'recipient:donation' %}'; // Replace with the URL of the donations page
+            }, 3000); // 3000 milliseconds (3 seconds)
+          } else {
+            // Error handling, if needed
+            console.error('Error saving schedule pickup:', response.statusText);
+          }
+          modal.remove();
+        })
+        .catch(error => {
+          console.error('Error saving schedule pickup:', error);
+          modal.remove();
+        });
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching drivers:', error);
+    });
+  });
+</script>
+
+<script>
+  const csrf_token = "{{ csrf_token }}";
+  const markAsDeliveredButton = document.getElementById('mark-as-delivered-button');
+
+  markAsDeliveredButton.addEventListener('click', () => {
+    const donationId = markAsDeliveredButton.dataset.donationId; // Access the donationId from the dataset
+
+    const confirmationModal = document.createElement('div');
+    confirmationModal.classList.add('modal');
+    confirmationModal.innerHTML = `
+      <div class="modal-content">
+        <div>
+          <i class="fa-solid fa-circle-exclamation fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #AF8905;"></i>
+        </div>
+        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Confirm Delivery</h2>
+        <p>Are you sure you want to mark this donation as delivered?</p>
+        <div class="flex justify-center items-center space-x-4 mt-8">
+          <button id="confirm-yes-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            Yes
+          </button>
+          <button id="confirm-no-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            No
+          </button>
         </div>
       </div>
+    `;
+    document.body.appendChild(confirmationModal);
 
-      <button id="schedule-pickup-submit-button">Schedule Pickup</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
+    // Add event listeners to the confirmation buttons
+    const confirmYesButton = document.getElementById('confirm-yes-button');
+    const confirmNoButton = document.getElementById('confirm-no-button');
 
-  const pickupTimesContainer = modal.querySelector('.pickup-times');
-  const pickupTimeRadios = modal.querySelectorAll('input[name="pickup-time"]');
-  pickupTimeRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      pickupTimesContainer.setAttribute('data-pickup-time', radio.value);
+    confirmYesButton.addEventListener('click', () => {
+      // Remove the confirmation modal
+      confirmationModal.remove();
+
+      fetch(`/recipient/donation/mark_as_delivered/${donationId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrf_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success modal or toast
+          console.log('Marked as delivered successfully!');
+          // ... Your success message handling code here ...
+
+          // Redirect to the donation page after a successful mark as delivered
+          window.location.href = '{% url 'recipient:donation' %}';
+        } else {
+          // Show error modal or toast
+          console.error(data.message);
+          // ... Your error message handling code here ...
+        }
+      })
+      .catch(error => {
+        // Show error modal or toast for fetch error
+        console.error('An error occurred while marking as delivered:', error);
+        // ... Your error message handling code here ...
+      });
+    });
+
+    confirmNoButton.addEventListener('click', () => {
+      // Remove the confirmation modal
+      confirmationModal.remove();
     });
   });
-
-  const driverSelectionContainer = modal.querySelector('.driver-select');
-  const driverRadios = modal.querySelectorAll('input[name="driver"]');
-  driverRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      driverSelectionContainer.setAttribute('data-driver', radio.value);
-    });
-  });
-
-  const submitButton = modal.querySelector('#schedule-pickup-submit-button');
-  submitButton.addEventListener('click', () => {
-    const pickupTime = pickupTimesContainer.dataset.pickupTime;
-    const driver = driverSelectionContainer.dataset.driver;
-    // Here you can send the pickup time and driver to the server using AJAX or some other method
-    console.log(`Pickup scheduled for ${pickupTime} with driver ${driver}.`);
-    modal.remove();
-    schedulePickupButton.disabled = true
-    });
-  });
-
 </script>
+
 
     </div>
 

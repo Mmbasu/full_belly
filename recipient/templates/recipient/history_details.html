@@ -38,7 +38,7 @@
                               <p class="text-2xl text-greenish font-medium ml-8 mb-5">Donation Details</p>
                             </div>
                             <div class="w-full md:w-auto p-1.5 ml-2 md:ml-0 md:mr-4 ml-auto">
-                              <button id="download-report-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                              <button id="download-report-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'recipient:donation_report' donation.DonationID %}'">
                                 <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
                                 <p class="relative z-10">Download Report</p>
                               </button>
@@ -50,8 +50,8 @@
                                 <div class="max-w-xl lg:max-w-6xl mx-auto">
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
-                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">ID</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">110110110</p>
+                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Donation ID</h3>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.DonationID }}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -64,7 +64,7 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Restaurant</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Kempinski</p>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.RestaurantID.Name }}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -78,7 +78,7 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">NGO</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Red Cross</p>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.Organization }}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -91,32 +91,28 @@
                                 <div class="max-w-xl lg:max-w-6xl mx-auto">
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
-                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Meal Type</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Breakfast</p>
+                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Meal</h3>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.perishabledonation.MealType }}</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.nonperishabledonation.MealTitle }}</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </section>
-                            <section class="py-1">
+                          <section class="py-1">
                               <div class="container px-4 mx-auto">
                                 <div class="max-w-xl lg:max-w-6xl mx-auto">
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Quantity</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">20 Plates</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </section>
-                            <section class="py-1">
-                              <div class="container px-4 mx-auto">
-                                <div class="max-w-xl lg:max-w-6xl mx-auto">
-                                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
-                                    <div class="flex flex-col md:flex-row -mb-px">
-                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Expiry</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">20 Minutes</p>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.perishabledonation.MealQuantityPlates }} Plates</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.nonperishabledonation.MealQuantityKgs }} Kgs</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
@@ -128,7 +124,11 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Food Type</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Perishable Food</p>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Perishable</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Non-Perishable</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
@@ -140,31 +140,51 @@
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Pickup Location</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">Upper Hill Rd, Nairobi</p>
+                                      {% if donation.is_perishable %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.perishabledonation.pickup_location }}</p>
+                                      {% else %}
+                                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.nonperishabledonation.pickup_location }}</p>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </section>
+
+                          <section class="py-1">
+                              <div class="container px-4 mx-auto">
+                                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                                    <div class="flex flex-col md:flex-row -mb-px">
+                                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Assigned Driver</h3>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.driver }}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+
                             <section class="py-1">
                               <div class="container px-4 mx-auto">
                                 <div class="max-w-xl lg:max-w-6xl mx-auto">
                                   <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
                                     <div class="flex flex-col md:flex-row -mb-px">
                                       <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Date Delivered</h3>
-                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">23/4/2023, 3:23pm</p>
+                                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ donation.date_delivered }}</p>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </section>
+
                           <div class="flex flex-wrap justify-between md:flex-row -m-1.5">
                               <div class="w-full md:w-auto p-1.5 md:ml-0 md:mr-2 lg:ml-5 lg:mr-2">
-                                <button id="rate-restaurant-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                                  <p class="relative z-10">Rate Restaurant</p>
-                                </button>
-                              </div>
+        <button id="rate-restaurant-button" type="button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" data-donation-id="{{ donation.DonationID }}">
+  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+  <p class="relative z-10">Rate Restaurant</p>
+</button>
+
+      </div>
 
                             <div class="flex flex-wrap justify-between md:flex-row -m-1.5">
                               <div class="w-full md:w-auto p-1.5 md:ml-0 md:mr-4">
@@ -182,11 +202,9 @@
             </div>
         </section>
 
-      <script>
-  const rateRestaurantButton = document.getElementById('rate-restaurant-button');
-  const stars = document.querySelectorAll('.star');
-
-  rateRestaurantButton.addEventListener('click', () => {
+<script>
+  // Function to create a modal
+  function createModal(title, content) {
     const modal = document.createElement('div');
     modal.classList.add('modal');
     modal.innerHTML = `
@@ -194,95 +212,337 @@
         <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Rate Restaurant</h2>
         <p>Please rate the Restaurant using the stars below:</p>
         <div class="stars">
-          <span class="star">&#9734;</span>
-          <span class="star">&#9734;</span>
-          <span class="star">&#9734;</span>
-          <span class="star">&#9734;</span>
-          <span class="star">&#9734;</span>
+          <span class="star" data-rating="1">&#9734;</span>
+          <span class="star" data-rating="2">&#9734;</span>
+          <span class="star" data-rating="3">&#9734;</span>
+          <span class="star" data-rating="4">&#9734;</span>
+          <span class="star" data-rating="5">&#9734;</span>
         </div>
         <button id="submit-rating-button">Submit Rating</button>
       </div>
+      <span class="close-container">&times;</span>
     `;
     document.body.appendChild(modal);
-
-    const starsContainer = modal.querySelector('.stars');
-    stars.forEach(star => {
-      star.addEventListener('click', () => {
-        starsContainer.setAttribute('data-rating', star.dataset.value);
-        highlightStars(starsContainer.dataset.rating);
-      });
-    });
-
-    const submitButton = modal.querySelector('#submit-rating-button');
-    submitButton.addEventListener('click', () => {
-      const rating = parseInt(starsContainer.dataset.rating);
-      // Here you can send the rating to the server using AJAX or some other method
-      console.log(`NGO rated ${rating} stars.`);
-
-      // Create another modal for showing the success message
-      const successModal = document.createElement('div');
-      successModal.classList.add('modal');
-      successModal.innerHTML = `
-        <div class="modal-content">
-        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-          <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
-          <p>Rating submitted.</p>
-          <p>Thank you for your submission.</p>
-        </div>
-      `;
-      document.body.appendChild(successModal);
-
-      setTimeout(() => {
-        successModal.remove();
-        modal.remove();
-        rateRestaurantButton.style.display = "none";
-      }, 3000);
-    });
-  });
-
-  function highlightStars(rating) {
-    stars.forEach(star => {
-      if (star.dataset.value <= rating) {
-        star.innerHTML = '&#9733;';
-      } else {
-        star.innerHTML = '&#9734;';
-      }
-    });
+    return modal;
   }
 
+  // Function to display a modal
+  function showModal(modal) {
+    modal.style.display = 'flex'; // Use 'flex' instead of 'block' to center the content vertically
+  }
 
-    const downloadReportButton = document.getElementById('download-report-button');
+  // Function to hide a modal
+  function hideModal(modal) {
+    modal.style.display = 'none';
+  }
 
-downloadReportButton.addEventListener('click', () => {
-  const processingModal = document.createElement('div');
-  processingModal.classList.add('modal');
-  processingModal.innerHTML = `
-    <div class="modal-content">
-      <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Processing....</h2>
-      <p>Please wait while we process your request.</p>
-    </div>
-  `;
-  document.body.appendChild(processingModal);
+  // Function to show a success message using an alert
+  function showSuccessMessage(message) {
+    alert(message);
+  }
 
-  setTimeout(() => {
-    processingModal.remove();
-    const successModal = document.createElement('div');
-    successModal.classList.add('modal');
-    successModal.innerHTML = `
-      <div class="modal-content">
-      <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
-        <p>Report downloaded successfully.</p>
-      </div>
-    `;
-    document.body.appendChild(successModal);
-    setTimeout(() => {
-      successModal.remove();
-    }, 5000);
-  }, 5000);
-});
+  // Function to check if the rating exists for the current donation
+  function checkRatingExists(donationId) {
+    return fetch(`/recipient/check-rating-exists/${donationId}/`)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.exists;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        return false;
+      });
+  }
 
+  // Function to save the rating using AJAX
+  function saveRatingInDatabase(donationId, ratingValue) {
+    console.log('Rating Value:', ratingValue);
+    console.log('ID:', donationId);
+
+    const data = {
+      rating: ratingValue,
+    };
+
+    console.log('Data:', data);
+
+    fetch(`/recipient/rate-restaurant/${donationId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message === 'Rating submitted. Thank you for your submission.') {
+          showSuccessMessage(data.message);
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        alert('An error occurred while saving the rating. Please try again later.');
+        console.error('Error:', error);
+      });
+  }
+
+  // Function to create and show the rating modal with stars
+  async function showRatingModal(donationId) {
+    const ratingExists = await checkRatingExists(donationId);
+
+    if (ratingExists) {
+      // Rating exists, hide the "Rate Restaurant" button and show an alert
+      alert('You have already submitted your rating.');
+    } else {
+      // Rating doesn't exist, show the rating modal
+      const ratingModal = createModal('Rate Restaurant', '');
+      showModal(ratingModal);
+
+      let selectedRating = 0;
+
+      // Add event listeners to the stars to capture the selected rating
+      const stars = ratingModal.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        star.addEventListener('click', function () {
+          selectedRating = index + 1; // The index is 0-based, so add 1 to get the rating value
+          stars.forEach((s, i) => {
+            if (i <= index) {
+              s.classList.add('selected');
+              s.innerHTML = '&#9733;'; // Fill the selected star with &#9733;
+            } else {
+              s.classList.remove('selected');
+              s.innerHTML = '&#9734;'; // Fill the stars to the left of the selected star with &#9733;
+            }
+          });
+        });
+      });
+
+      // Add event listener to the "Submit" button in the rating modal
+      ratingModal.querySelector('#submit-rating-button').addEventListener('click', function () {
+        if (selectedRating > 0) {
+          hideModal(ratingModal);
+          saveRatingInDatabase(donationId, selectedRating);
+        } else {
+          alert('Please select a rating before submitting.');
+        }
+      });
+
+      // Add event listener to the close button
+      ratingModal.querySelector('.close-container').addEventListener('click', function () {
+        hideModal(ratingModal);
+      });
+    }
+  }
+
+  // Event listener for the restaurant rating button
+  document.getElementById('rate-restaurant-button').addEventListener('click', function () {
+    const button = this;
+    const donationId = button.getAttribute('data-donation-id');
+    showRatingModal(donationId);
+  });
 </script>
+
+
+
+<!--<script>-->
+<!--  // Function to create a modal-->
+<!--  function createModal(title, content) {-->
+<!--    const modal = document.createElement('div');-->
+<!--    modal.classList.add('modal');-->
+<!--    modal.innerHTML = `-->
+<!--      <div class="modal-content">-->
+<!--        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">${title}</h2>-->
+<!--        ${content}-->
+<!--      </div>-->
+<!--    `;-->
+<!--    document.body.appendChild(modal);-->
+<!--    return modal;-->
+<!--  }-->
+
+<!--  // Function to display a modal-->
+<!--  function showModal(modal) {-->
+<!--    modal.style.display = 'block';-->
+<!--  }-->
+
+<!--  // Function to hide a modal-->
+<!--  function hideModal(modal) {-->
+<!--    modal.style.display = 'none';-->
+<!--  }-->
+
+<!--  // Function to show a success message modal and hide it after some time-->
+<!--  function showSuccessMessage(message) {-->
+<!--    const successModal = createModal('Success!', `<p>${message}</p>`);-->
+<!--    showModal(successModal);-->
+<!--    setTimeout(function () {-->
+<!--      hideModal(successModal);-->
+<!--    }, 3000); // Hide the success modal after 3 seconds (adjust this as needed)-->
+<!--  }-->
+
+<!--  // Function to save the rating using AJAX-->
+<!--  function saveRatingInDatabase(donationId, ratingValue) {-->
+<!--    // ... (Your existing code for saving the rating in the database) ...-->
+<!--  }-->
+
+<!--  // Function to create and show the rating modal with stars-->
+<!--  function showRatingModal(donationId) {-->
+<!--    const ratingModal = createModal('Rate Restaurant', `-->
+<!--      <div class="modal-content rating-stars">-->
+<!--        <span class="star" data-rating="1">&#9733;</span>-->
+<!--        <span class="star" data-rating="2">&#9733;</span>-->
+<!--        <span class="star" data-rating="3">&#9733;</span>-->
+<!--        <span class="star" data-rating="4">&#9733;</span>-->
+<!--        <span class="star" data-rating="5">&#9733;</span>-->
+<!--      </div>-->
+<!--      <button id="submit-rating-button">Submit Rating</button>-->
+<!--    `);-->
+<!--    showModal(ratingModal);-->
+
+<!--    let selectedRating = 0;-->
+
+<!--    // Add event listeners to the stars to capture the selected rating-->
+<!--    const stars = ratingModal.querySelectorAll('.star');-->
+<!--    stars.forEach((star, index) => {-->
+<!--      star.addEventListener('click', function () {-->
+<!--        selectedRating = index + 1; // The index is 0-based, so add 1 to get the rating value-->
+<!--        stars.forEach((s, i) => {-->
+<!--          if (i <= index) {-->
+<!--            s.classList.add('selected');-->
+<!--          } else {-->
+<!--            s.classList.remove('selected');-->
+<!--          }-->
+<!--        });-->
+<!--      });-->
+<!--    });-->
+
+<!--    // Add event listener to the "Submit" button in the rating modal-->
+<!--    ratingModal.querySelector('#submit-rating-button').addEventListener('click', function () {-->
+<!--      if (selectedRating > 0) {-->
+<!--        hideModal(ratingModal);-->
+<!--        saveRatingInDatabase(donationId, selectedRating);-->
+<!--        showSuccessMessage('Rating submitted. Thank you for your submission.');-->
+<!--      } else {-->
+<!--        alert('Please select a rating before submitting.');-->
+<!--      }-->
+<!--    });-->
+<!--  }-->
+
+<!--  // Event listener for the restaurant rating button-->
+<!--  document.getElementById('rate-restaurant-button').addEventListener('click', function () {-->
+<!--    const button = this;-->
+<!--    const donationId = button.getAttribute('data-donation-id');-->
+<!--    showRatingModal(donationId);-->
+<!--  });-->
+<!--</script>-->
+
+
+
+<!-- Your URLs configuration remains unchanged -->
+
+
+
+
+
+<!--      <script>-->
+<!--  const rateRestaurantButton = document.getElementById('rate-restaurant-button');-->
+<!--  const stars = document.querySelectorAll('.star');-->
+
+<!--  rateRestaurantButton.addEventListener('click', () => {-->
+<!--    const modal = document.createElement('div');-->
+<!--    modal.classList.add('modal');-->
+<!--    modal.innerHTML = `-->
+<!--      <div class="modal-content">-->
+<!--        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Rate Restaurant</h2>-->
+<!--        <p>Please rate the Restaurant using the stars below:</p>-->
+<!--        <div class="stars">-->
+<!--          <span class="star">&#9734;</span>-->
+<!--          <span class="star">&#9734;</span>-->
+<!--          <span class="star">&#9734;</span>-->
+<!--          <span class="star">&#9734;</span>-->
+<!--          <span class="star">&#9734;</span>-->
+<!--        </div>-->
+<!--        <button id="submit-rating-button">Submit Rating</button>-->
+<!--      </div>-->
+<!--    `;-->
+<!--    document.body.appendChild(modal);-->
+
+<!--    const starsContainer = modal.querySelector('.stars');-->
+<!--    stars.forEach(star => {-->
+<!--      star.addEventListener('click', () => {-->
+<!--        starsContainer.setAttribute('data-rating', star.dataset.value);-->
+<!--        highlightStars(starsContainer.dataset.rating);-->
+<!--      });-->
+<!--    });-->
+
+<!--    const submitButton = modal.querySelector('#submit-rating-button');-->
+<!--    submitButton.addEventListener('click', () => {-->
+<!--      const rating = parseInt(starsContainer.dataset.rating);-->
+<!--      // Here you can send the rating to the server using AJAX or some other method-->
+<!--      console.log(`NGO rated ${rating} stars.`);-->
+
+<!--      // Create another modal for showing the success message-->
+<!--      const successModal = document.createElement('div');-->
+<!--      successModal.classList.add('modal');-->
+<!--      successModal.innerHTML = `-->
+<!--        <div class="modal-content">-->
+<!--        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>-->
+<!--          <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>-->
+<!--          <p>Rating submitted.</p>-->
+<!--          <p>Thank you for your submission.</p>-->
+<!--        </div>-->
+<!--      `;-->
+<!--      document.body.appendChild(successModal);-->
+
+<!--      setTimeout(() => {-->
+<!--        successModal.remove();-->
+<!--        modal.remove();-->
+<!--        rateRestaurantButton.style.display = "none";-->
+<!--      }, 3000);-->
+<!--    });-->
+<!--  });-->
+
+<!--  function highlightStars(rating) {-->
+<!--    stars.forEach(star => {-->
+<!--      if (star.dataset.value <= rating) {-->
+<!--        star.innerHTML = '&#9733;';-->
+<!--      } else {-->
+<!--        star.innerHTML = '&#9734;';-->
+<!--      }-->
+<!--    });-->
+<!--  }-->
+
+
+<!--    const downloadReportButton = document.getElementById('download-report-button');-->
+
+<!--downloadReportButton.addEventListener('click', () => {-->
+<!--  const processingModal = document.createElement('div');-->
+<!--  processingModal.classList.add('modal');-->
+<!--  processingModal.innerHTML = `-->
+<!--    <div class="modal-content">-->
+<!--      <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Processing....</h2>-->
+<!--      <p>Please wait while we process your request.</p>-->
+<!--    </div>-->
+<!--  `;-->
+<!--  document.body.appendChild(processingModal);-->
+
+<!--  setTimeout(() => {-->
+<!--    processingModal.remove();-->
+<!--    const successModal = document.createElement('div');-->
+<!--    successModal.classList.add('modal');-->
+<!--    successModal.innerHTML = `-->
+<!--      <div class="modal-content">-->
+<!--      <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>-->
+<!--        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>-->
+<!--        <p>Report downloaded successfully.</p>-->
+<!--      </div>-->
+<!--    `;-->
+<!--    document.body.appendChild(successModal);-->
+<!--    setTimeout(() => {-->
+<!--      successModal.remove();-->
+<!--    }, 5000);-->
+<!--  }, 5000);-->
+<!--});-->
+
+<!--</script>-->
     </div>
 
 

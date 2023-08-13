@@ -5,21 +5,20 @@ from datetime import datetime
 
 class Delivery(models.Model):
     STATUS_CHOICES = (
-        ('future', 'future'),
+        ('pending', 'pending'),
         ('delivered', 'delivered'),
-        ('intransit', 'intransit'),
+        ('Intransit', 'Intransit'),
     )
 
-    DeliveryID = models.AutoField(primary_key=True)
     DonationID = models.ForeignKey('donor.Donation', on_delete=models.CASCADE)
-    PickupCode = models.CharField(max_length=5, default='00000')
-    Status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='future')
+    DeliveryID = models.OneToOneField('recipient.RecipientDelivery', on_delete=models.CASCADE, primary_key=True)
+    Status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     PickupDateTime = models.DateTimeField()
-    Destination = models.CharField(max_length=255)
+    PickupPoint = models.CharField(max_length=255)
     DriverID = models.ForeignKey('recipient.Driver', on_delete=models.CASCADE)
-    AcceptedDelivery = models.BooleanField(default=False)
     DistanceTraveled = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     TimeSpentOnRoad = models.DurationField(null=True, blank=True)
+    ActualPickupDateTime = models.DateTimeField(null=True, blank=True)
 
     @property
     def distance_traveled(self):
@@ -30,10 +29,14 @@ class Delivery(models.Model):
 
     @property
     def time_spent_on_road(self):
-        pickup_time = self.PickupDateTime
-        current_time = datetime.now()
-        time_spent = current_time - pickup_time
-        return time_spent
+        pickup_time = self.ActualPickupDateTime
+        delivered_time = self.DonationID.date_delivered
+
+        if pickup_time and delivered_time:
+            time_spent = delivered_time - pickup_time
+            return time_spent
+
+        return None
 
     @classmethod
     def get_deliveries_made(cls):

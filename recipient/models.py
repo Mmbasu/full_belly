@@ -1,16 +1,28 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from users.models import CustomUser, CustomUserManager
 
 
+def default_ngo_photo():
+    return 'organization_photos/ngo_default.jpg'
+
+
 class Organization(models.Model):
+    STATUS_CHOICES = (
+        ('Unverified', 'Unverified'),
+        ('Verified', 'Verified'),
+    )
+
     OrganizationID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=255)
     Description = models.TextField()
-    Photo = models.ImageField(upload_to='organization_photos/')
+    Photo = models.ImageField(upload_to='organization_photos/', default=default_ngo_photo)
     Location = models.CharField(max_length=255, unique=True)
     LicenseNumber = models.CharField(max_length=255)
     ManagerID = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    Status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Unverified')
 
     def __str__(self):
         return self.Name
@@ -24,7 +36,6 @@ class Driver(models.Model):
     STATUS_CHOICES = (
         ('idle', 'idle'),
         ('onDelivery', 'onDelivery'),
-        ('off-Work', 'off-Work'),
     )
 
     DriverID = models.OneToOneField(
@@ -39,8 +50,8 @@ class Driver(models.Model):
     Username = models.CharField(max_length=255)
     Email = models.EmailField(unique=True)
     Status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='idle')
-    Phone = models.CharField(max_length=255)
-    Photo = models.ImageField(upload_to='driver_photos/')
+    phone = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='driver_photos/')
     DriverIDNumber = models.CharField(max_length=255)
     DrivingLicenseNumber = models.CharField(max_length=255)
     CarNumberPlate = models.CharField(max_length=255)
@@ -72,26 +83,40 @@ class Driver(models.Model):
 
 class RecipientDelivery(models.Model):
     STATUS_CHOICES = (
-        ('future', 'future'),
+        ('pending', 'pending'),
         ('delivered', 'delivered'),
-        ('intransit', 'intransit'),
+        ('Intransit', 'Intransit'),
     )
 
+    DeliveryID = models.AutoField(primary_key=True)
+    ManagerID = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='recipient')
     DonationID = models.ForeignKey('donor.Donation', on_delete=models.CASCADE)
     DriverID = models.ForeignKey(Driver, on_delete=models.CASCADE)
-    DeliveryID = models.OneToOneField('driver.Delivery', on_delete=models.CASCADE, primary_key=True)
-    Status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='future')
+    Status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     PickupDateTime = models.DateTimeField()
-    Destination = models.ForeignKey(
-        Organization,
-        on_delete=models.CASCADE,
-        to_field='Location',
-        limit_choices_to={'Location__isnull': False},
-    )
 
     def __str__(self):
-        return f"Delivery {self.DeliveryID} (Recipient View)"
+        return f"Delivery {self.DeliveryID}"
 
     class Meta:
         verbose_name = 'recipient delivery'
         verbose_name_plural = 'recipient deliveries'
+
+class OrganizationRating(models.Model):
+    RATING_CHOICES = [
+        ('ORGANIZATION', 'Organization'),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey('donor.Restaurant', on_delete=models.CASCADE, null=True, blank=True)
+    organization = models.ForeignKey('recipient.Organization', on_delete=models.CASCADE, null=True, blank=True, related_name='organizationrating')
+    donation = models.ForeignKey('donor.Donation', on_delete=models.CASCADE, null=True, blank=True)
+    rated_entity_type = models.CharField(max_length=20, choices=RATING_CHOICES)
+    rating = models.DecimalField(max_digits=2, decimal_places=1,
+                                 validators=[MinValueValidator(0), MaxValueValidator(5.0)])
+
+    def __str__(self):
+        if self.rated_entity_type == 'ORGANIZATION':
+            return f"Rating {self.rating} for ORGANIZATION {self.restaurant}"
+        else:
+            return f"Invalid Rating Entity Type"

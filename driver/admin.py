@@ -5,6 +5,6 @@ from .models import Delivery
 @admin.register(Delivery)
 class DeliveryModel(admin.ModelAdmin):
     list_filter = ('DeliveryID',)
-    list_display = ('DeliveryID', 'DonationID', 'DriverID', 'AcceptedDelivery', 'PickupCode',
-                    'Status', 'PickupDateTime', 'Destination')
-    search_fields = ('Status', 'Destination')
+    list_display = ('DeliveryID', 'DonationID', 'DriverID',
+                    'Status', 'PickupDateTime', 'PickupPoint', 'ActualPickupDateTime')
+    search_fields = ('Status', 'PickupPoint')

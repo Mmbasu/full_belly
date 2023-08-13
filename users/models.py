@@ -24,6 +24,10 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+def default_profile_photo():
+    return 'profile_photos/default_profile.jpg'
+
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = (
@@ -36,14 +40,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30, unique=True, blank=False, null=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    photo = models.ImageField(upload_to='profile_photos/', default=default_profile_photo)
+    twitter_link = models.URLField(default='https://twitter.com')
+    facebook_link = models.URLField(default='https://www.facebook.com')
+    instagram_link = models.URLField(default='https://www.instagram.com')
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True, editable=True)
     activation_token = models.CharField(max_length=40, blank=True, null=True)
-    password_reset_token = models.CharField(max_length=40, blank=True, null=True)
-    password_reset_token_created_at = models.DateTimeField(blank=True, null=True)
-    password_reset_used = models.BooleanField(default=False)
+    temporary_password = models.CharField(max_length=128, blank=True, null=True)
+    delete_account_code = models.CharField(max_length=5, blank=True, null=True)
+
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
@@ -63,23 +72,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             return self.first_name
         return self.email
 
-    def generate_password_reset_token(self):
-        token = default_token_generator.make_token(self)
-        self.password_reset_token = token
-        self.password_reset_token_created_at = timezone.now()
-        self.save()
-        return token
-
-    def mark_password_reset_token_used(self):
-        self.password_reset_used = True
-        self.save()
-
-    def is_password_reset_token_valid(self, token):
-        if self.password_reset_token is None:
-            return False
-        return default_token_generator.check_token(self, token)
-
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
-

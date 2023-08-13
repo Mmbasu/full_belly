@@ -54,7 +54,7 @@
 <section class="py-36">
   <div class="container px-4 mx-auto">
     <div class="relative max-w-lg mx-auto pt-16 pb-16 px-6 md:px-10 lg:px-16 rounded-xl border-2" style="background-color: #ffffff; border-color: #2BA19A;">
-      <a class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2" href="#">
+      <a class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <img class="block" src="https://i.ibb.co/wKwTF3T/Screenshot-from-2023-03-18-08-54-04.png" alt="Screenshot-from-2023-03-18-08-54-04" width="130" style="border: 2px solid #ADD8E6; border-radius: 0.5rem;">
       </a>
       <div class="relative max-w-md mx-auto text-center">
@@ -82,7 +82,7 @@
         <div class="relative w-full h-14 py-4 px-3 mb-6 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
               <div class="flex items-center mb-4">
                 <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" type="password" name="{{ field.name }}" placeholder="{{ field.label }}">
-                <button class="btn btn-outline-danger ml-4" type="button">
+                <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
                   <i class="fa-solid fa-eye-slash"></i>
                 </button>
               </div>
@@ -117,6 +117,17 @@
 </section>
 
 <script>
+
+const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+togglePasswordButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const passwordInput = button.previousElementSibling;
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    button.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+  });
+});
+
     window.history.pushState(null, "", window.location.href);
     window.onpopstate = function () {
         window.history.pushState(null, "", window.location.href);

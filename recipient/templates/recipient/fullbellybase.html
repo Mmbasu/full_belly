@@ -233,12 +233,15 @@ nav.flex.items-center.justify-center {
   font-size: 30px;
   margin: 0 5px;
   cursor: pointer;
+  color: transparent; /* Set the star color to transparent */
+  text-shadow: 0 0 1px orange; /* Add a text-shadow to create the outline effect */
 }
 
-.star:hover,
-.star:focus {
-  color: orange;
-}
+.star.selected,
+  .star.selected ~ .star {
+    color: orange; /* Set the color to orange for selected stars and stars before it */
+    background-color: transparent; /* Set the background to transparent */
+  }
 
 #submit-rating-button {
   display: flex;
@@ -303,6 +306,64 @@ nav.flex.items-center.justify-center {
   color: #fff;
 }
 
+</style>
+
+
+    <style>
+  /* ... (Your existing CSS styles) ... */
+
+  /* Additional CSS for the selected stars */
+  .modal .stars {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .modal .star {
+    font-size: 30px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: transparent; /* Set the star color to transparent */
+    text-shadow: 0 0 1px orange; /* Add a text-shadow to create the outline effect */
+  }
+
+  .modal .star.selected,
+  .modal .star.selected ~ .star {
+    color: orange; /* Set the color to orange for selected stars and stars before it */
+    background-color: transparent; /* Set the background to transparent */
+  }
+
+  .modal #submit-rating-button {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: #2AA198;
+    color: #fff;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .modal #submit-rating-button:hover,
+  .modal #submit-rating-button:focus {
+    background-color: #237473;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Add custom styles for the close button */
+  .modal .close-container {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 30px;
+    cursor: pointer;
+    color: #fff; /* Set the close button color to white */
+    font-size: 24px;
+  }
 </style>
 
 <style>
@@ -482,21 +543,27 @@ nav.flex.items-center.justify-center {
                 <div class="hidden lg:block">
                   <button class="flex items-center" onclick="window.location.href='{% url 'recipient:profile' %}'" title="Profile">
                     <div class="mr-3">
-                      <p class="text-sm text-white">{{ user.get_full_name }}</p>
+                      <p class="text-sm text-white">{{ user.get_full_name|capfirst }}</p>
                     </div>
-                    <div class="mr-2">
-                      <img alt="profile" class="w-10 h-10 rounded-full object-cover object-right" src="{{ driver.Photo.url }}">
-                    </div>
+                    {% with background_color='#2BA19A' %}
+                      <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ background_color }};">
+                        <p class="text-white text-sm">{{ request.user.get_full_name|slice:":1"|upper }}</p>
+                      </div>
+                    {% endwith %}
                   </button>
                 </div>
 
                 <div class="block lg:hidden">
-                  <button class="w-16 h-16 flex items-center" onclick="window.location.href='{% url 'recipient:profile' %}'" title="Profile">
-                    <div>
-                      <img alt="profile" class="w-full h-full rounded-full object-cover" src="{{ driver.Photo.url }}">
-                    </div>
-                  </button>
+                    <button class="w-16 h-16 flex items-center" onclick="window.location.href='{% url 'recipient:profile' %}'" title="Profile">
+                    {% with background_color='#2BA19A' %}
+                      <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ background_color }};">
+                        <p class="text-white text-sm">{{ request.user.get_full_name|slice:":1"|upper }}</p>
+                      </div>
+                    {% endwith %}
+                    </button>
                 </div>
+
+
 
             </div>
 
@@ -651,12 +718,14 @@ nav.flex.items-center.justify-center {
                                 </a>
                             </button>
                             <button class="flex items-center" onclick="window.location.href='{% url 'recipient:profile' %}'">
-                              <div class="mr-3">
-                                <p class="text-sm text-white">{{ request.user.get_full_name }}</p>
-                              </div>
-                              <div class="mr-2">
-                                <img alt="profile" class="w-10 h-10 rounded-full object-cover object-right" src="{{ request.user.Photo.url }}">
-                              </div>
+                                <div class="mr-3">
+                                    <p class="text-sm text-white">{{ request.user.get_full_name|capfirst }}</p>
+                                </div>
+                                    {% with background_color='#2BA19A' %}
+                                    <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ background_color }};">
+                                        <p class="text-white text-sm">{{ request.user.get_full_name|slice:":1"|upper }}</p>
+                                    </div>
+                                    {% endwith %}
                             </button>
 
                         </div>
@@ -693,23 +762,42 @@ nav.flex.items-center.justify-center {
 
 </script>
 
+<script>
+  const inactivityTimeout = 1 * 60 * 1000; // 1 minute
 
-
-  <script>
-    const section = document.querySelector('.overflow-x-scroll');
-    const arrowBtns = document.querySelectorAll('.arrow-btn');
-
-    arrowBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const scrollAmount = section.clientWidth / 2;
-        if (btn.classList.contains('left-btn')) {
-          section.scrollLeft -= scrollAmount;
-        } else if (btn.classList.contains('right-btn')) {
-          section.scrollLeft += scrollAmount;
-        }
-      });
+  // Function to logout the user
+  function logoutUser() {
+    $.ajax({
+      type: 'GET',
+      url: '{% url 'recipient:logout'%}',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      success: function () {
+        // The server returned a successful response, redirect to login page
+        window.location.href = '{% url 'users:login'%}';
+      },
+      error: function (xhr, status, error) {
+        console.error('Error occurred during logout:', status, error);
+        // Handle error if needed
+      },
     });
-  </script>
+  }
+
+  // Function to reset the inactivity timer
+  function resetInactivityTimer() {
+    clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(logoutUser, inactivityTimeout);
+  }
+
+  let logoutTimer;
+
+  // Add event listeners to reset the timer on user activity
+  $(document).on('mousemove mousedown keypress', resetInactivityTimer);
+
+  // Start the timer on page load
+  resetInactivityTimer();
+</script>
 
 
 

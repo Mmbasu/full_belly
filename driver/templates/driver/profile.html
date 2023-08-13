@@ -24,7 +24,7 @@
     <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
       <div class="relative pt-14 bg-white shadow rounded overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-24 object-cover" style="background-color: #183F4A;"></div>
-        <img class="relative w-32 h-32 mb-4 mx-auto rounded-full object-cover object-right" src="{{ driver.Photo.url }}">
+        <img class="relative w-32 h-32 mb-4 mx-auto rounded-full object-cover object-right" src="{{ driver.photo.url }}">
         <div class="px-6 text-center">
           <div class="flex items-center justify-center mb-6">
             <h3 class="text-xl font-medium mr-4">{{ user.get_full_name|capfirst }}</h3>
@@ -33,28 +33,28 @@
             </a>
           </div>
 
-          <p class="mb-6 text-xl text-gray-500">{{ driver.role }}</p>
-          <p class="mb-6 text-xl text-gray-500">{{ driver.CarNumberPlate }}</p>
+          <p class="mb-6 text-xl text-gray-500">{{ driver.OrganizationID }} Driver</p>
+          <p class="mb-6 text-sm">{{ driver.CarNumberPlate }}</p>
           <div class="flex items-center justify-center mb-6">
             <span class="mr-2">
               <i class="fa-lg fa-solid fa-envelope" style="color: #2BA19A;"></i>
             </span>
-            <p class="text-sm">{{ user.email }}</p>
+            <p class="text-sm">{{ driver.Email }}</p>
           </div>
           <div class="flex items-center justify-center mb-6">
             <span class="mr-2">
               <i class="fa-lg fa-solid fa-phone" style="color: #2BA19A;"></i>
             </span>
-            <p class="text-sm">{{ driver.Phone }}</p>
+            <p class="text-sm">{{ driver.phone }}</p>
           </div>
           <div class="mb-6">
-            <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="#" title="Facebook">
+            <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="{{ user.facebook_link }}" title="Facebook">
               <i class="fa-lg fa-brands fa-facebook-f" style="color: #2BA19A;"></i>
             </a>
-            <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="#" title="Twitter">
+            <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="{{ user.twitter_link }}" title="Twitter">
               <i class="fa-lg fa-brands fa-twitter" style="color: #2BA19A;"></i>
             </a>
-            <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="#" title="Instagram">
+            <a class="inline-flex items-center justify-center mr-6 w-10 h-10 hover:bg-gray-50 bg-gray-50 rounded-full" href="{{ user.instagram_link }}" title="Instagram">
               <i class="fa-lg fa-brands fa-instagram" style="color: #2BA19A;"></i>
             </a>
           </div>

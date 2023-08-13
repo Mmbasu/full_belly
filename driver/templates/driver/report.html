@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static tailwind_tags %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet"/>
+    {% tailwind_css %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+
+
+    <link href="{% static 'css/dist/tailwind.min.css' %}" rel="stylesheet">
+    <!--  <link rel="stylesheet" href="{% static 'css/dist/tailwind.min.1.css' %}">-->
+    <style>
+
+  .rating-stars {
+    color: orange;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .overflow-x-scroll {
+    scrollbar-width: none;
+    -moz-scrollbars-none: none;
+    scroll-behavior: smooth; /* Add smooth scrolling behavior */
+  }
+
+  .arrow-btn {
+    z-index: 1;
+  }
+
+  .left-btn {
+    margin-left: -10px;
+  }
+
+  .right-btn {
+    margin-right: -10px;
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      display: none;
+    }
+    .my-section {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .navbar.show {
+      display: block;
+    }
+    .my-section {
+      display: block;
+    }
+  }
+
+  .text-greenish {
+    color: #2BA19A;
+  }
+
+    </style>
+
+
+    <style>
+.navbar-collapse, .navbar {
+  background-color: #183F4A;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 9999; /* ensure the menu is on top of other elements */
+  width: 100%;
+  max-width: 320px; /* adjust as needed */
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.navbar-collapse.show {
+  transform: translateX(0);
+}
+
+.show {
+  transform: translateX(0);
+}
+
+.navbar-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  background-color: #4a5568;
+}
+
+@media (min-width: 1024px) {
+  .navbar-collapse {
+    transform: none;
+  }
+}
+
+h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.truncate {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 640px) {
+  .w-72 {
+    width: 50%;
+  }
+}
+
+button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  color: #000000;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  background-color: #2AA198;
+  color: #fffff;
+  border-color: #2AA198;
+  cursor: pointer;
+}
+
+.custom-border {
+  border-color: #2BA19A;
+}
+
+nav.flex.items-center.justify-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+    </style>
+
+
+<style>
+  .enlarged {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+.enlarged img {
+    width: auto;
+    height: auto;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: cover;
+}
+
+
+  .close-container {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 30px;
+    cursor: pointer;
+  }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.star {
+  font-size: 30px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.star:hover,
+.star:focus {
+  color: orange;
+}
+
+#submit-rating-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#submit-rating-button:hover,
+#submit-rating-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+#schedule-pickup-submit-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#schedule-pickup-submit-button:hover,
+#schedule-pickup-submit-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+#submit-code-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#submit-code-button:hover,
+#submit-code-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+</style>
+
+<style>
+  .pickup-code-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+  .pickup-code-input {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #237473;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    /* Remove scrollbars */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+    ::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+  }
+
+  .pickup-code-input:focus {
+    outline: none;
+  }
+
+  /* Remove scroll buttons */
+  .pickup-code-input::-webkit-outer-spin-button,
+  .pickup-code-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+</style>
+
+    <style>
+  .deletion-code-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+  .deletion-code-input {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #237473;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    /* Remove scrollbars */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+    ::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+  }
+
+  .deletion-code-input:focus {
+    outline: none;
+  }
+
+  /* Remove scroll buttons */
+  .deletion-code-input::-webkit-outer-spin-button,
+  .deletion-code-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  #submit-code-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #2AA198;
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+#submit-code-button:hover,
+#submit-code-button:focus {
+  background-color: #237473;
+  cursor: pointer;
+  color: #fff;
+}
+
+.modal-large {
+  width: 300px;
+  height: 170px;
+}
+
+</style>
+
+    <style>
+  .bg-gradient-custom {
+    background-image: linear-gradient(to right, #2BA19A, #2BA19A);
+  }
+  .bg-gradient-custom-2 {
+    background-image: linear-gradient(to right, #AF8905, #2BA19A);
+  }
+
+  .bg-gradient-custom-3 {
+    background-image: linear-gradient(to right, #F44336, #F44336);
+  }
+</style>
+
+<style>
+  .bg-custom-color {
+    background-color: #183F4A;
+  }
+  .bg-custom-hover {
+    background-color: #183F4A;
+  }
+</style>
+
+</head>
+<body>
+<div>
+
+    <div class="mx-auto lg:ml-80">
+
+        <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+  <section class="bg-coolGray-50 py-4 mt-10">
+    <div class="container px-4 mx-auto">
+      <div class="p-6 border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard relative">
+        <div class="pt-4 bg-white shadow rounded">
+          <div class="py-20 bg-gray-50 rounded">
+            <div class="flex flex-wrap items-center justify-between -m-2">
+              <div class="w-full md:w-auto p-2">
+                <p class="text-2xl text-greenish font-medium ml-8 mb-5">Delivery Details</p>
+              </div>
+            </div>
+
+            <section class="py-1">
+              <div class="container px-4 mx-auto">
+                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                    <div class="flex flex-col md:flex-row -mb-px">
+                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">ID</h3>
+                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DeliveryID }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-1">
+              <div class="container px-4 mx-auto">
+                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                    <div class="flex flex-col md:flex-row -mb-px">
+                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Restaurant</h3>
+                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DonationID.RestaurantID }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-1">
+              <div class="container px-4 mx-auto">
+                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                    <div class="flex flex-col md:flex-row -mb-px">
+                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">NGO</h3>
+                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DonationID.Organization }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-1">
+              <div class="container px-4 mx-auto">
+                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                    <div class="flex flex-col md:flex-row -mb-px">
+                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Meal</h3>
+                      {% if delivery.DonationID.is_perishable %}
+                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DonationID.perishabledonation.MealType }}</p>
+                      {% else %}
+                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DonationID.nonperishabledonation.MealTitle }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-1">
+              <div class="container px-4 mx-auto">
+                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                    <div class="flex flex-col md:flex-row -mb-px">
+                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Quantity</h3>
+                      {% if delivery.DonationID.is_perishable %}
+                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DonationID.perishabledonation.MealQuantityPlates }} Plates</p>
+                      {% else %}
+                        <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DonationID.nonperishabledonation.MealQuantityKgs }} Kgs</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-1">
+              <div class="container px-4 mx-auto">
+                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                    <div class="flex flex-col md:flex-row -mb-px">
+                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Food Type</h3>
+                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.DonationID.is_perishable|yesno:"Perishable Food,Non-Perishable Food" }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-1">
+              <div class="container px-4 mx-auto">
+                <div class="max-w-xl lg:max-w-6xl mx-auto">
+                  <div class="mt-8 mb-8 border-b-2 border-coolGray-200">
+                    <div class="flex flex-col md:flex-row -mb-px">
+                      <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Pickup Location</h3>
+                      <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">{{ delivery.PickupPoint }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

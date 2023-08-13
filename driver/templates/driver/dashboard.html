@@ -49,15 +49,15 @@
       <section class="py-8">
         <div class="container px-4 mx-auto">
           <div class="flex flex-wrap -m-4">
-            <div class="w-full lg:w-1/3 p-4" id="distance-travelled-card">
+            <div class="w-full lg:w-1/3 p-4" id="restaurants-managed-card">
                 <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
                     <div class="flex items-center mb-2">
                         <span class="inline-block mr-2">
-                            <i class="fa-solid fa-road fa-lg" style="color: #AF8905;"></i>
+                            <i class="fa-lg fa-solid fa-utensils" style="color: #AF8905;"></i>
                         </span>
-                        <h2 class="text-lg text-gray-600 font-bold">Distance Travelled</h2>
+                        <h2 class="text-lg text-gray-600 font-bold">Restaurants Served</h2>
                     </div>
-                    <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ distance_travelled|default:0 }} km</h2>
+                    <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ restaurants_served }}</h2>
                     <div class="text-sm text-red-500 flex items-center">
                         <p class="ml-2 mr-3">Current Trend </p>
 <!--                        <i class="fa-solid fa-arrow-trend-up"></i>-->
@@ -67,21 +67,32 @@
             </div>
 
             <div class="w-full lg:w-1/3 p-4" id="time-spent-card">
-                <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
-                    <div class="flex items-center mb-2">
-                        <span class="inline-block mr-2">
-                            <i class="fa-lg fa-solid fa-clock" style="color: #AF8905;"></i>
-                        </span>
-                        <h2 class="text-lg text-gray-600 font-bold">Time Spent on Road</h2>
-                    </div>
-                    <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ time_spent_on_road|default:"0 hours" }}</h2>
-                    <div class="text-sm text-red-500 flex items-center">
-                        <p class="ml-2 mr-3">Current Trend </p>
-<!--                        <i class="fa-solid fa-arrow-trend-up"></i>-->
-                        <i class="fa-solid fa-arrow-trend-down"></i>
-                      </div>
-                </div>
-            </div>
+    <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
+        <div class="flex items-center mb-2">
+            <span class="inline-block mr-2">
+                <i class="fa-lg fa-solid fa-clock" style="color: #AF8905;"></i>
+            </span>
+            <h2 class="text-lg text-gray-600 font-bold">Time Spent on Road</h2>
+        </div>
+        <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">
+            {% if total_time_spent_on_road %}
+                {{ hours }} Hrs
+                {% if minutes %}
+                    {{ minutes }} Mins
+                {% endif %}
+            {% else %}
+                0 Hrs 0 Mins
+            {% endif %}
+        </h2>
+
+        <div class="text-sm text-red-500 flex items-center">
+            <p class="ml-2 mr-3">Current Trend</p>
+            <i class="fa-solid fa-arrow-trend-down"></i>
+        </div>
+    </div>
+</div>
+
+
 
             <div class="w-full lg:w-1/3 p-4" id="deliveries-card">
                 <div class="p-6 rounded bg-gray-50 border border-coolGray-100 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
@@ -91,7 +102,7 @@
                         </span>
                         <h2 class="text-lg text-gray-600 font-bold">Deliveries Made</h2>
                     </div>
-                    <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ deliveries_made|default:0 }}</h2>
+                    <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">{{ total_pickups_made }}</h2>
                     <div class="text-sm text-red-500 flex items-center">
                         <p class="ml-2 mr-3">Current Trend </p>
 <!--                        <i class="fa-solid fa-arrow-trend-up"></i>-->
@@ -124,7 +135,7 @@
                                 <th class="pb-3 font-medium">NGO</th>
                                 <th class="pb-3 font-medium">Meal Type</th>
                                 <th class="pb-3 font-medium">Quantity</th>
-                                <th class="pb-3 font-medium">Distance</th>
+                                <th class="pb-3 font-medium">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -134,7 +145,9 @@
                                     <td class="font-medium">{{ delivery.DonationID.Organization }}</td>
                                     <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealType }}</td>
                                     <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealQuantityPlates }} Plates</td>
-                                    <td class="font-medium">{{ delivery.DonationID.Distance }} km</td>
+                                    <td>
+                                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">{{ delivery.DonationID.Status }}</span>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -166,17 +179,19 @@
                                 <th class="pb-3 font-medium">NGO</th>
                                 <th class="pb-3 font-medium">Meal Type</th>
                                 <th class="pb-3 font-medium">Quantity</th>
-                                <th class="pb-3 font-medium">Distance</th>
+                                <th class="pb-3 font-medium">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for delivery in non_perishable_deliveries %}
                                 <tr class="text-sm bg-gray-50">
-                                    <td class="py-5 px-6 font-medium">{{ delivery.DonationID.Restaurant }}</td>
-                                    <td class="font-medium">{{ delivery.Destination }}</td>
-                                    <td class="font-medium">{{ delivery.DonationID.MealType }}</td>
-                                    <td class="font-medium">{{ delivery.DonationID.Quantity }} Plates</td>
-                                    <td class="font-medium">{{ delivery.DonationID.Distance }} km</td>
+                                    <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID }}</td>
+                                    <td class="font-medium">{{ delivery.DonationID.Organization }}</td>
+                                    <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealTitle }}</td>
+                                    <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealQuantityKgs }} Kgs</td>
+                                    <td>
+                                      <span class="px-2 py-1 text-xs font-bold font-heading border-2 border-green-500 rounded-full text-green-500 bg-white">{{ delivery.DonationID.Status }}</span>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -200,16 +215,25 @@
       </section>
 
       <script>
-const distanceTravelledCard = document.getElementById('distance-travelled-card');
+
 const WelcomeCard_2 = document.getElementById('welcome-card-2');
 const timeSpentCard = document.getElementById('time-spent-card');
 const deliveriesCard = document.getElementById('deliveries-card');
+const restaurantManagedCard = document.getElementById('restaurants-managed-card');
 
-
-const icon_6 = distanceTravelledCard.querySelector('i');
+const icon_6 = restaurantManagedCard.querySelector('i');
 const icon_7 = WelcomeCard_2.querySelector('i');
 const icon_8 = timeSpentCard.querySelector('i');
 const icon_9 = deliveriesCard.querySelector('i');
+
+
+restaurantManagedCard.addEventListener('mouseover', () => {
+  icon_6.classList.replace('fa-utensils', 'fa-spoon');
+});
+
+restaurantManagedCard.addEventListener('mouseout', () => {
+  icon_6.classList.replace('fa-spoon', 'fa-utensils');
+});
 
 WelcomeCard_2.addEventListener('mouseover', () => {
   icon_7.classList.replace('fa-face-smile', 'fa-face-laugh-beam');
@@ -217,15 +241,6 @@ WelcomeCard_2.addEventListener('mouseover', () => {
 
 WelcomeCard_2.addEventListener('mouseout', () => {
   icon_7.classList.replace('fa-face-laugh-beam', 'fa-face-smile');
-});
-
-
-distanceTravelledCard.addEventListener('mouseover', () => {
-  icon_6.classList.replace('fa-road', 'fa-road-circle-check');
-});
-
-distanceTravelledCard.addEventListener('mouseout', () => {
-  icon_6.classList.replace('fa-road-circle-check', 'fa-road');
 });
 
 
@@ -245,10 +260,9 @@ deliveriesCard.addEventListener('mouseout', () => {
   icon_9.classList.replace('fa-truck-fast', 'fa-truck');
 });
 
+
 </script>
 
     </div>
 
 {% endblock content %}
-
-<i class="fa-solid fa-truck fa-lg"></i>

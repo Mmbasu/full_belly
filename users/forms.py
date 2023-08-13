@@ -17,6 +17,11 @@ class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(required=True, max_length=30, widget=forms.TextInput(
         attrs={'class': 'form-control mb-5', 'placeholder': 'Username'}
     ))
+
+    phone = forms.CharField(required=True, max_length=30, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-5', 'placeholder': 'Phone Number'}
+    ))
+
     first_name = forms.CharField(label="First Name", max_length=30, required=True, widget=forms.TextInput(
         attrs={'class': 'form-control mb-5', 'placeholder': 'First Name'}
     ))
@@ -50,7 +55,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'first_name', 'last_name', 'role', 'password1', 'password2')
+        fields = ('email', 'username', 'first_name', 'last_name', 'role', 'password1', 'phone', 'password2')
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -65,7 +70,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
     error_messages = {
         'invalid_login': _(
-            "Please enter a correct username and password. Note that both fields may be case-sensitive. goodluck"
+            "Please enter a correct username and password. Note that both fields may be case-sensitive."
         ),
         'inactive': _("Please activate your account."),
     }

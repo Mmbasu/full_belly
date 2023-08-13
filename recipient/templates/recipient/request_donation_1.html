@@ -1,5 +1,6 @@
 {% extends "recipient/fullbellybase.html" %}
 
+
 {% block title %}Donations{% endblock %}
 
 {% block content %}
@@ -32,255 +33,153 @@
           </div>
         </div>
       </div>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <section class="bg-coolGray-50 py-4">
+    <div class="container px-4 mx-auto">
+      <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
 
-<section class="bg-coolGray-50 py-4">
-  <div class="container px-4 mx-auto">
-    <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-      <div class="pb-6 border-b border-coolGray-100">
+        <div class="pb-6 border-b border-coolGray-100">
         <div class="flex flex-wrap items-center justify-between -m-2">
           <div class="w-full md:w-auto p-2">
-            <p class="text-xl text-coolGray-500 font-medium">Fill in the fields below</p>
+            <p class="text-lg text-coolGray-500 font-medium">Fill the details below</p>
           </div>
-          <div class="w-full md:w-auto p-2">
-            <div class="flex flex-wrap justify-between -m-1.5">
-              <div class="w-full md:w-auto p-1.5">
-                <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'recipient:donation' %}'">
-                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
-                  <p class="relative z-10">Cancel</p>
-                </button>
-              </div>
-                <div class="w-full md:w-auto p-1.5">
-                  <button id="donation-request-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                    <p class="relative z-10">Request</p>
-                  </button>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <select id="restaurant" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Send to all</option>
-                  <option>Ole Sereni</option>
-                  <option>Kempinski</option>
 
-                </select>
-              </div>
-            </div>
-          </div>
+            <div class="w-full md:w-auto p-2">
+                            <div class="flex flex-wrap justify-between -m-1.5">
+                                <div class="w-full md:w-auto p-1.5">
+                                    <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'recipient:donation' %}'">
+                                        <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
+                                        <p class="relative z-10">Cancel</p>
+                                    </button>
+                                </div>
+                                <div class="w-full md:w-auto p-1.5">
+                                    <button type="submit" id="next-page-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                                        <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                                        <p class="relative z-10">Submit</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
         </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Food Items</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <select id="food-type" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Perishable</option>
-                  <option>Non-Perishable</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="other-fields-container">
-        <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Type</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <select class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Breakfast</option>
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Quantity</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Plates</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pt-6">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Other</p>
-              <p class="text-xs text-coolGray-500 font-medium">Enter any Additional Information</p>
-            </div>
-            <div class="w-full md:flex-1 p-3"><textarea placeholder="e.g. Food needed to feed children at Lelei Children's Home" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none"></textarea></div>
-          </div>
-        </div>
-      </div>
       </div>
 
+        <div class="w-full md:flex-1 p-3">
+          <div class="relative w-full py-2 px-3 mb-4 border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_restaurant" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Restaurant</label>
+              <div class="w-1/2 flex items-center">
+                {{ form.RestaurantID }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full md:flex-1 p-3">
+          <div class="relative w-full py-2 px-3 mb-4 border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_is_perishable" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Is Perishable</label>
+              <div class="w-1/2 flex items-center">
+                {{ form.is_perishable }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+<!--  <button type="submit" id="next-page-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">-->
+<!--    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>-->
+<!--    <p class="relative z-10">Submit</p>-->
+<!--  </button>-->
+</form>
 
-    </div>
+</div>
 
-<script>
-  const foodTypeSelect = document.getElementById('food-type');
-const NonPerishableInputFields = `
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Title</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g. beans">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pt-6">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Description</p>
-              <p class="text-xs text-coolGray-500 font-medium">Describe your meal</p>
-            </div>
-            <div class="w-full md:flex-1 p-3"><textarea placeholder="e.g. Sundried harvested beans" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none"></textarea></div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Quantity</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" min="1" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Kgs</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pt-6">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Other</p>
-              <p class="text-xs text-coolGray-500 font-medium">Enter any Additional Information</p>
-            </div>
-            <div class="w-full md:flex-1 p-3"><textarea placeholder="e.g. Food needed to feed people in Mandera county to be transported tomorrow" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none"></textarea></div>
-          </div>
-        </div>
-      </div>
-`;
+<!--<script>-->
+<!--  const foodTypeSelect = document.getElementById('food-type');-->
+<!--  const NonPerishableInputFields = `...`;  // Replace with your Non-Perishable input fields HTML-->
+<!--  const PerishableInputFields = `...`;  // Replace with your Perishable input fields HTML-->
 
-const PerishableInputFields = `
-<div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Type</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <select class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Breakfast</option>
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Quantity</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Plates</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pt-6">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Other</p>
-              <p class="text-xs text-coolGray-500 font-medium">Enter any Additional Information</p>
-            </div>
-            <div class="w-full md:flex-1 p-3"><textarea placeholder="e.g. Food needed to feed children at Lelei Children's Home" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none"></textarea></div>
-          </div>
-        </div>
-      </div>
-`;
+<!--  foodTypeSelect.addEventListener('change', function() {-->
+<!--    const selectedValue = foodTypeSelect.value;-->
+<!--    const otherFieldsContainer = document.getElementById('other-fields-container');-->
 
-foodTypeSelect.addEventListener('change', function() {
-  const selectedValue = foodTypeSelect.value;
-  const otherFieldsContainer = document.getElementById('other-fields-container');
+<!--    if (selectedValue === 'Non-Perishable') {-->
+<!--      otherFieldsContainer.innerHTML = NonPerishableInputFields;-->
+<!--    } else {-->
+<!--      otherFieldsContainer.innerHTML = PerishableInputFields;-->
+<!--    }-->
+<!--  });-->
+<!--</script>-->
 
-  if (selectedValue === 'Non-Perishable') {
-    otherFieldsContainer.innerHTML = NonPerishableInputFields;
-  } else {
-    otherFieldsContainer.innerHTML = PerishableInputFields;
-  }
-});
+<!--<script>-->
+<!--  const donationRequestButton = document.getElementById('donation-request-button');-->
+<!--  donationRequestButton.addEventListener('click', () => {-->
+<!--    const modal = document.createElement('div');-->
+<!--    modal.classList.add('modal');-->
+<!--    modal.innerHTML = `-->
+<!--    <div class="modal-content">-->
+<!--      <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>-->
+<!--        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>-->
+<!--        <p>Donation request sent.</p>-->
+<!--        <p>View your donation on Requested Donation section.</p>-->
+<!--      </div>-->
+<!--    `;-->
+<!--    document.body.appendChild(modal);-->
+<!--    setTimeout(() => {-->
+<!--      modal.remove();-->
+<!--      window.location.href = "{% url 'recipient:donation' %}";-->
+<!--    }, 5000);-->
+<!--  });-->
+<!--</script>-->
 
-</script>
 
-<script>
-  const donationRequestButton = document.getElementById('donation-request-button');
-  donationRequestButton.addEventListener('click', () => {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
-      <div class="modal-content">
-      <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
-        <p>Donation request sent.</p>
-        <p>View your donation on Requested Donation section.</p>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    setTimeout(() => {
-      modal.remove();
-      window.location.href = "{% url 'recipient:donation' %}";
-    }, 5000);
-  });
-</script>
+<!--<script>-->
+<!--  const donationForm = document.getElementById('donation-form');-->
+<!--  donationForm.addEventListener('submit', handleFormSubmit);-->
+
+<!--  function handleFormSubmit(event) {-->
+<!--    event.preventDefault();-->
+
+<!--    const formData = new FormData(donationForm);-->
+<!--    fetch('{% url 'recipient:request_donation_1' %}', {-->
+<!--      method: 'POST',-->
+<!--      body: formData-->
+<!--    })-->
+<!--    .then(response => response.json())-->
+<!--    .then(data => {-->
+<!--      if (data.success) {-->
+<!--        window.location.href = data.redirect;-->
+<!--      }-->
+<!--    })-->
+<!--    .catch(error => {-->
+<!--      console.error('Error:', error);-->
+<!--    });-->
+<!--  }-->
+<!--</script>-->
 
 {% endblock content %}
+
+<!--<script>-->
+<!--  const donationRequestButton = document.getElementById('donation-request-button');-->
+<!--  donationRequestButton.addEventListener('click', () => {-->
+<!--    const modal = document.createElement('div');-->
+<!--    modal.classList.add('modal');-->
+<!--    modal.innerHTML = `-->
+<!--      <div class="modal-content">-->
+<!--      <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>-->
+<!--        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>-->
+<!--        <p>Donation request sent.</p>-->
+<!--        <p>View your donation on Requested Donation section.</p>-->
+<!--      </div>-->
+<!--    `;-->
+<!--    document.body.appendChild(modal);-->
+<!--    setTimeout(() => {-->
+<!--      modal.remove();-->
+<!--      window.location.href = "{% url 'recipient:donation' %}";-->
+<!--    }, 5000);-->
+<!--  });-->
+<!--</script>-->

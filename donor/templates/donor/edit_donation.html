@@ -32,355 +32,160 @@
 <section class="bg-coolGray-50 py-4">
   <div class="container px-4 mx-auto">
     <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-      <div class="pb-6 border-b border-coolGray-100">
-        <div class="flex flex-wrap items-center justify-between -m-2">
-          <div class="w-full md:w-auto p-2">
-            <p class="text-xl text-coolGray-500 font-medium">Fill in the fields below</p>
-          </div>
-          <div class="w-full md:w-auto p-2">
-            <div class="flex flex-wrap justify-between -m-1.5">
-              <div class="w-full md:w-auto p-1.5">
-                <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'donor:donations' %}'">
-                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
-                  <p class="relative z-10">Cancel</p>
-                </button>
-              </div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="pb-6 border-b border-coolGray-100">
+          <div class="flex flex-wrap items-center justify-between -m-2">
+            <div class="w-full md:w-auto p-2">
+              <p class="text-lg text-coolGray-500 font-medium">Edit the details below</p>
+            </div>
+            <div class="w-full md:w-auto p-2">
+              <div class="flex flex-wrap justify-between -m-1.5">
                 <div class="w-full md:w-auto p-1.5">
-                  <button id="edit-donation-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                    <p class="relative z-10">Edit Donation</p>
+                  <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'donor:donations' %}'">
+                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
+                    <p class="relative z-10">Cancel</p>
                   </button>
                 </div>
+                <div class="w-full md:w-auto p-1.5">
+                  <button id="edit-donation-button" type="submit" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                    <p class="relative z-10">Edit Request</p>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Restaurant</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <select id="restaurant" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Sarova</option>
-                  <option>Ole Sereni</option>
-                  <option>Kempinski</option>
 
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">NGO</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <select id="ngo" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Send to all</option>
-                  <option>Red Cross</option>
-                  <option>Rafiki Mwema</option>
+        <div id="nonperishable-donation-fields">
 
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Food Items</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <select id="food-type" class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Perishable</option>
-                  <option>Non-Perishable</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="other-fields-container">
-        <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Type</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <svg class="absolute right-4 top-1/2 transform -translate-y-1/2" width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11.3333 6.1133C11.2084 5.98913 11.0395 5.91943 10.8633 5.91943C10.6872 5.91943 10.5182 5.98913 10.3933 6.1133L8.00001 8.47329L5.64001 6.1133C5.5151 5.98913 5.34613 5.91943 5.17001 5.91943C4.99388 5.91943 4.82491 5.98913 4.70001 6.1133C4.63752 6.17527 4.58792 6.249 4.55408 6.33024C4.52023 6.41148 4.50281 6.49862 4.50281 6.58663C4.50281 6.67464 4.52023 6.76177 4.55408 6.84301C4.58792 6.92425 4.63752 6.99799 4.70001 7.05996L7.52667 9.88663C7.58865 9.94911 7.66238 9.99871 7.74362 10.0326C7.82486 10.0664 7.912 10.0838 8.00001 10.0838C8.08801 10.0838 8.17515 10.0664 8.25639 10.0326C8.33763 9.99871 8.41136 9.94911 8.47334 9.88663L11.3333 7.05996C11.3958 6.99799 11.4454 6.92425 11.4793 6.84301C11.5131 6.76177 11.5305 6.67464 11.5305 6.58663C11.5305 6.49862 11.5131 6.41148 11.4793 6.33024C11.4454 6.249 11.3958 6.17527 11.3333 6.1133Z" fill="#8896AB"></path>
-                </svg>
-                <select class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Breakfast</option>
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Quantity</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Plates</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Expiry Time</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Minutes</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Pickup Location</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Location">
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+          {% if non_perishable_donation %}
 
+          <div class="relative w-full py-2 px-3 mb-4  border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_MealTitle" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Meal Title</label>
+              <div class="w-1/2 flex items-center">
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input form-control mb-5" type="text" name="MealTitle" id="id_MealTitle" value="{{ donation_form.initial.MealTitle }}" required>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="relative w-full py-2 px-3 mb-4  border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_MealDescription" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Meal Description</label>
+              <div class="w-1/2 flex items-center">
+                <textarea class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input form-control mb-5" name="MealDescription" id="id_MealDescription" rows="4" required>{{ donation_form.initial.MealDescription }}</textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative w-full py-2 px-3 mb-4  border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_MealQuantityKgs" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Meal Quantity (Kgs)</label>
+              <div class="w-1/2 flex items-center">
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input form-control mb-5" type="text" name="MealQuantityKgs" id="id_MealQuantityKgs" value="{{ non_perishable_donation.MealQuantityKgs }}" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative w-full py-2 px-3 mb-4  border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_pickup_location" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Pickup Location</label>
+              <div class="w-1/2 flex items-center">
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input form-control mb-5" type="text" name="pickup_location" id="id_pickup_location" value="{{ donation_form.initial.pickup_location}}" required>
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
+
+        </div>
+
+
+        <div id="perishable_donation-fields">
+
+          {% if perishable_donation %}
+
+          <div class="relative w-full py-2 px-3 mb-4  border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_MealType" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Meal Type</label>
+              <div class="w-1/2 flex items-center">
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input form-control mb-5" type="text" name="MealType" id="id_MealType" value="{{ donation_form.initial.MealType }}" required>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="relative w-full py-2 px-3 mb-4  border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_MealQuantityPlates" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Meal Quantity (Plates)</label>
+              <div class="w-1/2 flex items-center">
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input form-control mb-5" type="text" name="MealQuantityPlates" id="id_MealQuantityPlates" value="{{ perishable_donation.MealQuantityPlates }}" required>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="relative w-full py-2 px-3 mb-4  border-b border-coolGray-100 focus-within:border-green-500 rounded-lg">
+            <div class="flex items-center">
+              <label for="id_pickup_location" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">Pickup Location</label>
+              <div class="w-1/2 flex items-center">
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input form-control mb-5" type="text" name="pickup_location" id="id_pickup_location" value="{{ donation_form.initial.pickup_location }}" required>
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
+
+        </div>
+      </form>
     </div>
   </div>
 </section>
 
+<script>
+  function showDonationFields() {
+    const isPerishable = {{ is_perishable }};
+    const perishableFields = document.getElementById("perishable_donation-fields");
+    const nonPerishableFields = document.getElementById("nonperishable-donation-fields");
+
+    if (isPerishable) {
+      perishableFields.style.display = "block";
+      nonPerishableFields.style.display = "none";
+    } else {
+      perishableFields.style.display = "none";
+      nonPerishableFields.style.display = "block";
+    }
+  }
+
+  // Call the function on page load
+  showDonationFields();
+</script>
+
     </div>
 
-<script>
-  const foodTypeSelect = document.getElementById('food-type');
-const NonPerishableInputFields = `
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Title</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g. beans">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pt-6">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Description</p>
-              <p class="text-xs text-coolGray-500 font-medium">Describe your meal</p>
-            </div>
-            <div class="w-full md:flex-1 p-3"><textarea placeholder="e.g. Sundried harvested beans" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none"></textarea></div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Photo</p>
-              <p class="text-xs text-coolGray-500 font-medium">Add Meal Photos</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
-                <i class="fa-lg fa-solid fa-upload"></i>
-                <p class="mt-4 text-sm text-greenish font-medium">
-                  <span class="text-greenish">Click to Upload a file</span>
-                  <span>or drag and drop</span>
-                </p>
-                <p class="text-xs text-greenish font-medium">PNG, JPG up to 10MB</p>
-                <input class="absolute top-0 left-0 w-full h-full opacity-0" type="file">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Quantity</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" min="1" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Kgs</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Pickup Location</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Location">
-            </div>
-          </div>
-        </div>
-      </div>
-`;
 
-const PerishableInputFields = `
-<div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Type</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative">
-                <svg class="absolute right-4 top-1/2 transform -translate-y-1/2" width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11.3333 6.1133C11.2084 5.98913 11.0395 5.91943 10.8633 5.91943C10.6872 5.91943 10.5182 5.98913 10.3933 6.1133L8.00001 8.47329L5.64001 6.1133C5.5151 5.98913 5.34613 5.91943 5.17001 5.91943C4.99388 5.91943 4.82491 5.98913 4.70001 6.1133C4.63752 6.17527 4.58792 6.249 4.55408 6.33024C4.52023 6.41148 4.50281 6.49862 4.50281 6.58663C4.50281 6.67464 4.52023 6.76177 4.55408 6.84301C4.58792 6.92425 4.63752 6.99799 4.70001 7.05996L7.52667 9.88663C7.58865 9.94911 7.66238 9.99871 7.74362 10.0326C7.82486 10.0664 7.912 10.0838 8.00001 10.0838C8.08801 10.0838 8.17515 10.0664 8.25639 10.0326C8.33763 9.99871 8.41136 9.94911 8.47334 9.88663L11.3333 7.05996C11.3958 6.99799 11.4454 6.92425 11.4793 6.84301C11.5131 6.76177 11.5305 6.67464 11.5305 6.58663C11.5305 6.49862 11.5131 6.41148 11.4793 6.33024C11.4454 6.249 11.3958 6.17527 11.3333 6.1133Z" fill="#8896AB"></path>
-                </svg>
-                <select class="appearance-none w-full py-2.5 px-4 text-coolGray-900 text-base font-normal bg-white border outline-none border-coolGray-200 focus:border-green-500 rounded-lg shadow-input">
-                  <option>Breakfast</option>
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Photo</p>
-              <p class="text-xs text-coolGray-500 font-medium">Add Meal Photos</p>
-            </div>
-            <div class="w-full md:w-auto p-3">
-              <img src="flex-ui-assets/images/dashboard/forms/avatar.png" alt="">
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
-                <i class="fa-lg fa-solid fa-upload"></i>
-                <p class="mt-4 text-sm text-greenish font-medium">
-                  <span class="text-greenish">Click to Upload a file</span>
-                  <span>or drag and drop</span>
-                </p>
-                <p class="text-xs text-greenish font-medium">PNG, JPG up to 10MB</p>
-                <input class="absolute top-0 left-0 w-full h-full opacity-0" type="file">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Quantity</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Plates</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Meal Expiry Time</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <div class="flex items-center focus-within:border-green-500 overflow-hidden border border-coolGray-200 rounded-lg shadow-input">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none border-l" type="number">
-                <p class="px-4 text-base text-coolGray-500 font-normal">Minutes</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="py-6 border-b border-coolGray-100">
-        <div class="w-full md:w-9/12">
-          <div class="flex flex-wrap -m-3">
-            <div class="w-full md:w-1/3 p-3">
-              <p class="text-sm text-coolGray-800 font-semibold">Pickup Location</p>
-            </div>
-            <div class="w-full md:flex-1 p-3">
-              <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Location">
-            </div>
-          </div>
-        </div>
-      </div>
-`;
-
-foodTypeSelect.addEventListener('change', function() {
-  const selectedValue = foodTypeSelect.value;
-  const otherFieldsContainer = document.getElementById('other-fields-container');
-
-  if (selectedValue === 'Non-Perishable') {
-    otherFieldsContainer.innerHTML = NonPerishableInputFields;
-  } else {
-    otherFieldsContainer.innerHTML = PerishableInputFields;
-  }
-});
-
-</script>
-
-
-<script>
-  const editDonationButton = document.getElementById('edit-donation-button');
-  editDonationButton.addEventListener('click', () => {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
-      <div class="modal-content modal-large">
-        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
-        <p>Donation Edited</p>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    setTimeout(() => {
-      modal.remove();
-      window.location.href = "{% url 'donor:donations' %}";
-    }, 2500);
-  });
-</script>
+<!--<script>-->
+<!--  const editDonationButton = document.getElementById('edit-donation-button');-->
+<!--  editDonationButton.addEventListener('click', () => {-->
+<!--    const modal = document.createElement('div');-->
+<!--    modal.classList.add('modal');-->
+<!--    modal.innerHTML = `-->
+<!--      <div class="modal-content modal-large">-->
+<!--        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>-->
+<!--        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>-->
+<!--        <p>Donation Edited</p>-->
+<!--      </div>-->
+<!--    `;-->
+<!--    document.body.appendChild(modal);-->
+<!--    setTimeout(() => {-->
+<!--      modal.remove();-->
+<!--      window.location.href = "{% url 'donor:donations' %}";-->
+<!--    }, 2500);-->
+<!--  });-->
+<!--</script>-->
 
 
 {% endblock content %}

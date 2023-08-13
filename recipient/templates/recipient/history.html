@@ -44,101 +44,75 @@
               <p class="text-lg text-coolGray-500 font-medium">Perishable Food Items</p>
             </div>
             <div class="p-4 overflow-x-auto">
+              {% if perishable_deliveries %}
               <table class="table-auto w-full">
                 <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">Meal Type</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Expiry</th><th class="pb-3 font-medium">Action</th></tr>
+                  <tr class="text-sm text-left" style="color: #AF8905;">
+                    <th class="pb-3 font-medium">Restaurant</th>
+                    <th class="pb-3 font-medium">Meal Type</th>
+                    <th class="pb-3 font-medium">Quantity</th>
+                    <th class="pb-3 font-medium">Driver</th>
+                    <th class="pb-3 font-medium">Action</th>
+                  </tr>
                 </thead>
                 <tbody>
+                {% for delivery in perishable_deliveries %}
                   <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Breakfast</td>
-                    <td class="font-medium">23 Plates</td>
-                    <td class="font-medium">120 Minutes</td>
+                    <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID.Name }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealType }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.perishabledonation.MealQuantityPlates }} Plates</td>
+                    <td class="font-medium">{{ delivery.DriverID }}</td>
                     <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
+                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' delivery.DonationID_id %}" title="More Details">
+    <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
+</a>
+
                     </td>
                   </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Lunch</td>
-                    <td class="font-medium">50 Plates</td>
-                    <td class="font-medium">90 Minutes</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Breakfast</td>
-                    <td class="font-medium">23 Plates</td>
-                    <td class="font-medium">120 Minutes</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                    <td class="font-medium">Lunch</td>
-                    <td class="font-medium">50 Plates</td>
-                    <td class="font-medium">90 Minutes</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
+                {% endfor %}
                 </tbody>
               </table>
+              {% else %}
+              <p class="text-center text-gray-500 py-5">You have not made any perishable deliveries yet</p>
+              {% endif %}
             </div>
 
             <div class="flex px-6 pb-4 border-b">
               <p class="text-lg text-coolGray-500 font-medium">Non-Perishable Food Items</p>
             </div>
             <div class="p-4 overflow-x-auto">
+              {% if non_perishable_deliveries %}
               <table class="table-auto w-full">
 
                 <thead>
-                  <tr class="text-sm text-left" style="color: #AF8905;"><th class="pb-3 font-medium">Restaurant</th><th class="pb-3 font-medium">Meal Title</th><th class="pb-3 font-medium">Quantity</th><th class="pb-3 font-medium">Status</th></tr>
+                  <tr class="text-sm text-left" style="color: #AF8905;">
+                    <th class="pb-3 font-medium">Restaurant</th>
+                    <th class="pb-3 font-medium">Meal Title</th>
+                    <th class="pb-3 font-medium">Quantity</th>
+                    <th class="pb-3 font-medium">Driver</th>
+                    <th class="pb-3 font-medium">Action</th>
+                  </tr>
                 </thead>
                 <tbody>
+                {% for delivery in non_perishable_deliveries %}
                   <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
+                    <td class="py-5 px-6 font-medium">{{ delivery.DonationID.RestaurantID.Name }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealTitle }}</td>
+                    <td class="font-medium">{{ delivery.DonationID.nonperishabledonation.MealQuantityKgs }} Kgs</td>
+                    <td class="font-medium">{{ delivery.DriverID }}</td>
                     <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
+                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' delivery.DonationID_id %}" title="More Details">
+                          <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
                       </a>
                     </td>
+
                   </tr>
-                  <tr class="text-sm">
-                    <td class="py-5 px-6 font-medium">Sarova</td>
-                     <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr class="text-sm bg-gray-50">
-                    <td class="py-5 px-6 font-medium">Kempinski</td>
-                    <td class="font-medium">Beans</td>
-                    <td class="font-medium">9 Kgs</td>
-                    <td>
-                      <a class="inline-block hover:bg-transparent" href="{% url 'recipient:history_details' %}" title="More Details">
-                        <i class="fa-lg fa-solid fa-eye" style="color: #2BA19A;"></i>
-                      </a>
-                    </td>
-                  </tr>
+                {% endfor %}
                 </tbody>
               </table>
+              {% else %}
+                <p class="text-center text-gray-500 py-5">You have not made any non-perishable deliveries yet</p>
+              {% endif %}
             </div>
           </div>
         </div>

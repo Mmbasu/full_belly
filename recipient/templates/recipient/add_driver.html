@@ -42,26 +42,20 @@
   {% csrf_token %}
   <div class="mt-4"></div>
   {% for field in form %}
+  {% if field.name != 'OrganizationID' %} <!-- Exclude the OrganizationID field -->
   <div class="relative w-full py-2 px-3 mb-4 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
     <div class="flex items-center">
       <label for="{{ field.id_for_label }}" class="block w-1/4 pr-4 font-medium text-sm text-gray-700">{{ field.label }}</label>
       <div class="w-1/2 flex items-center"> <!-- Adjusted width to 1/2 -->
-        {% if field.name == 'Photo' %}
+        {% if field.name == 'photo' %}
           <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="{{ field.name }}" id="{{ field.name }}" accept="image/*" data-field-name="{{ field.name }}">
-        {% elif field.name == 'OrganizationID' %}
-          <select class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" name="{{ field.name }}" id="{{ field.id_for_label }}">
-            <option value="" style="padding-left: 5px;">Select organization</option>
-            {% for choice in field.field.choices %}
-              <option value="{{ choice.0 }}" {% if choice.0 == field.value %}selected{% endif %}>{{ choice.1 }}</option>
-            {% endfor %}
-          </select>
         {% else %}
           <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %}autocomplete="new-password"{% endif %} id="{{ field.id_for_label }}" data-field-name="{{ field.name }}">
-        {% endif %}
-        {% if field.name == 'password1' or field.name == 'password2' %}
-        <button class="btn btn-outline-secondary toggle-password ml-2" type="button">
-          <i class="fa-solid fa-eye-slash"></i>
-        </button>
+          {% if field.name == 'password1' or field.name == 'password2' %}
+          <button class="btn btn-outline-secondary toggle-password ml-2" type="button">
+            <i class="fa-solid fa-eye-slash"></i>
+          </button>
+          {% endif %}
         {% endif %}
       </div>
     </div>
@@ -73,6 +67,7 @@
     </div>
     {% endif %}
   </div>
+  {% endif %}
   {% endfor %}
 
   <div class="flex justify-end space-x-4 mt-8">
@@ -81,14 +76,13 @@
       <p class="relative z-10">Cancel</p>
     </button>
 
-    <button id="add-driver-button" class="group relative font-semibold leading-
-
-6 px-4 py-3 w-32 uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" type="submit">
+    <button id="add-driver-button" class="group relative font-semibold leading-6 px-4 py-3 w-32 uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" type="submit">
       <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
       <p class="relative z-10">Add Driver</p>
     </button>
   </div>
 </form>
+
 
 
 
@@ -103,17 +97,14 @@
 
   $(document).ready(function() {
   // Toggle password visibility
-  $('.toggle-password').click(function() {
-    var passwordInput = $(this).siblings('input[type="password"]');
-    var passwordFieldType = passwordInput.attr('type');
-
-    if (passwordFieldType === 'password') {
-      passwordInput.attr('type', 'text');
-      $(this).html('<i class="fa-solid fa-eye"></i>');
-    } else {
-      passwordInput.attr('type', 'password');
-      $(this).html('<i class="fa-solid fa-eye-slash"></i>');
-    }
+  const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+  togglePasswordButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const passwordInput = button.previousElementSibling;
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      button.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+    });
   });
 
   $('#add-driver-form').submit(function(event) {
