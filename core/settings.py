@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'recipient',
     'django_browser_reload',
     'users',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -90,6 +91,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # 'default': {
+    #             'ENGINE': 'django.db.backends.mysql',
+    #             'NAME': ' 	lemurian_full_belly',
+    #             'USER': 'lemurian_belly',
+    #             'PASSWORD': 'eRr%So*C8hpH',
+    #             'HOST': 'localhost',
+    #             'PORT': '3306',
+    #         }
 }
 
 

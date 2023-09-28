@@ -87,6 +87,9 @@ def donate(request):
     return render(request, 'recipient/donate_0.html')
 
 
+
+from django.http import JsonResponse
+
 @login_required
 @requires_password_change
 def ngo_details(request):
@@ -107,13 +110,20 @@ def ngo_details(request):
             organization = form.save(commit=False)
             organization.ManagerID = request.user
             organization.save()
-            return redirect('recipient:ngo_details')
+            return JsonResponse({'success': True})  # Return success: True
+        else:
+            # Form validation failed, return errors in JSON response
+            errors = {}
+            for field, error_list in form.errors.items():
+                errors[field] = [error for error in error_list]
+            return JsonResponse({'success': False, 'errors': errors})
 
     context = {
         'organization': organization,
         'form': form,
     }
     return render(request, template, context)
+
 
 
 @login_required
@@ -215,10 +225,11 @@ from .forms import ProfileForm, DriverUpdateForm, DriverCreationForm, Perishable
 from django.http import JsonResponse
 
 
-@login_required
 @requires_password_change
+@login_required
 def edit_profile(request):
     user = request.user
+    data = {}
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=user)
@@ -228,14 +239,21 @@ def edit_profile(request):
             user.instagram_link = form.cleaned_data.get("instagram_link")
             user.facebook_link = form.cleaned_data.get("facebook_link")
             user.save()
-            return JsonResponse({"message": "Profile updated successfully"})
+            data['message'] = "Profile updated successfully"
         else:
-            return JsonResponse({"error": "Invalid form data"}, status=400)
+            data['errors'] = form.errors
     else:
         form = ProfileForm(instance=user)
 
-    context = {"form": form}
-    return render(request, "recipient/edit_profile.html", context)
+    if request.method == 'POST':
+        if form.is_valid():
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors
+            return JsonResponse({'success': False, 'errors': errors})
+    else:
+        context = {"form": form}
+        return render(request, "recipient/edit_profile.html", context)
 
 
 @login_required
@@ -442,6 +460,8 @@ def save_schedule_pickup(request):
 
 from django.db.models import Avg, Count, Q, Sum
 
+from django.db.models import F
+
 
 @login_required
 @requires_password_change
@@ -449,12 +469,19 @@ def request_donation(request):
     top_restaurants = Restaurant.objects.annotate(avg_rating=Avg('restaurantrating__rating'),
                                                   num_ratings=Count('restaurantrating__rating')).order_by(
         '-avg_rating')[:5]
-    other_restaurants = Restaurant.objects.annotate(avg_rating=Avg('restaurantrating__rating'),
-                                                    num_ratings=Count('restaurantrating__rating')).exclude(
-        pk__in=top_restaurants.values_list('pk', flat=True))
 
-    return render(request, 'recipient/request_donation.html',
-                  {'top_restaurants': top_restaurants, 'other_restaurants': other_restaurants})
+    top_restaurant_pks = [restaurant.pk for restaurant in top_restaurants]
+
+    other_restaurants = Restaurant.objects.annotate(avg_rating=Avg('restaurantrating__rating'),
+                                                    num_ratings=Count('restaurantrating__rating')).filter(
+        ~Q(pk__in=top_restaurant_pks))
+
+    context = {
+        'top_restaurants': top_restaurants,
+        'other_restaurants': other_restaurants,
+    }
+
+    return render(request, 'recipient/request_donation.html', context)
 
 
 from django.shortcuts import render, redirect
@@ -493,8 +520,8 @@ def request_donation_1(request):
     return render(request, 'recipient/request_donation_1.html', {'form': form})
 
 
-@login_required
 @requires_password_change
+@login_required
 def perishable_donation_create(request, donation_id):
     donation = Donation.objects.get(pk=donation_id)
     perishable_donation_form = PerishableDonationForm()
@@ -505,14 +532,19 @@ def perishable_donation_create(request, donation_id):
             perishable_donation = perishable_donation_form.save(commit=False)
             perishable_donation.Donation = donation
             perishable_donation.save()
-            return redirect('recipient:donation')
+            return JsonResponse({'success': True})
+        else:
+            errors = {}
+            for field, error_list in perishable_donation_form.errors.items():
+                errors[field] = [error for error in error_list]
+            return JsonResponse({'success': False, 'errors': errors})
 
     return render(request, 'recipient/perishable_donation_create.html',
                   {'donation': donation, 'perishable_donation_form': perishable_donation_form})
 
 
-@login_required
 @requires_password_change
+@login_required
 def non_perishable_donation_create(request, donation_id):
     donation = Donation.objects.get(pk=donation_id)
     non_perishable_donation_form = NonPerishableDonationForm()
@@ -523,7 +555,13 @@ def non_perishable_donation_create(request, donation_id):
             non_perishable_donation = non_perishable_donation_form.save(commit=False)
             non_perishable_donation.Donation = donation
             non_perishable_donation.save()
-            return redirect('recipient:donation')
+            return JsonResponse({'success': True})
+
+        # Form is not valid, prepare errors in JSON format
+        errors = {}
+        for field, error_list in non_perishable_donation_form.errors.items():
+            errors[field] = [error for error in error_list]
+        return JsonResponse({'success': False, 'errors': errors})
 
     return render(request, 'recipient/non_perishable_donation_create.html',
                   {'donation': donation, 'non_perishable_donation_form': non_perishable_donation_form})
@@ -536,6 +574,8 @@ def donation_details(request, donation_id):
 
     return render(request, 'recipient/donation_details.html', {'donation': donation})
 
+
+from django.http import JsonResponse
 
 @login_required
 @requires_password_change
@@ -559,13 +599,19 @@ def edit_donation_request(request, donation_id):
     if request.method == 'POST':
         if donation_form and donation_form.is_valid():
             donation_form.save()
-            return redirect('recipient:donation')
+            return JsonResponse({'success': True})
+        else:
+            # Form validation failed, return errors in JSON response
+            errors = {field: error[0] for field, error in donation_form.errors.items()}
+            return JsonResponse({'success': False, 'errors': errors})
 
     return render(request, 'recipient/edit_donation_request.html', {
         'donation_form': donation_form,
         'perishable_donation': perishable_donation,
         'non_perishable_donation': non_perishable_donation,
     })
+
+
 
 
 @login_required
@@ -590,7 +636,6 @@ def restaurant_details(request, restaurant_id):
 
 from .forms import OrganizationForm
 
-
 @login_required
 @requires_password_change
 def edit_ngo_details(request):
@@ -602,12 +647,17 @@ def edit_ngo_details(request):
             form.save()
             return JsonResponse({"message": "NGO edited successfully"})
         else:
-            return JsonResponse({"error": "Invalid form data"}, status=400)
+            # Form validation failed, return errors in JSON response
+            errors = {}
+            for field, error_list in form.errors.items():
+                errors[field] = error_list
+            return JsonResponse({"errors": errors}, status=400)
     else:
         form = OrganizationForm(instance=organization)
 
     context = {'form': form}
     return render(request, 'recipient/edit_ngo_details.html', context)
+
 
 
 @login_required
@@ -623,6 +673,14 @@ def driver_list(request):
     context = {'organization': organization, 'drivers': drivers}
     return render(request, 'recipient/driver.html', context)
 
+
+from django.http import JsonResponse
+
+from django.http import JsonResponse
+from .forms import DriverUpdateForm
+from .models import Driver
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 @login_required
 @requires_password_change
@@ -643,12 +701,20 @@ def edit_driver(request, driver_id):
             user.photo = form.cleaned_data['photo']
             user.save()
 
-            return redirect('recipient:drivers')
+            return JsonResponse({'success': True})
+        else:
+            # Form is not valid, collect error messages
+            form_errors = form.errors
+            errors = {field: [error for error in field_errors] for field, field_errors in form_errors.items()}
+
+            return JsonResponse({'success': False, 'errors': errors})
     else:
         form = DriverUpdateForm(instance=driver)
 
     context = {'form': form, 'driver_id': driver_id}
     return render(request, 'recipient/edit_driver.html', context)
+
+
 
 
 @login_required
@@ -984,6 +1050,22 @@ def delete_account(request):
                 return JsonResponse({'success': False})
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON format'})
+
+
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+@login_required
+@require_POST  # Require POST requests only for this view
+def check_password_view(request):
+    current_password = request.POST.get('password', '')  # Get the password from the POST data
+
+    # Check if the provided password matches the user's current password
+    if request.user.check_password(current_password):
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
 
 
 

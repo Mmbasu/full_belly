@@ -53,7 +53,8 @@
                                 <p class="text-sm text-coolGray-800 font-semibold">NGO Name</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Red cross" name="Name" required>
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Red cross" name="Name" id="id_Name">
+                                <div class="text-red-500 text-sm mt-2" id="Name-error"></div>
                             </div>
                         </div>
                     </div>
@@ -66,7 +67,8 @@
                                 <p class="text-xs text-coolGray-500 font-medium">Describe your NGO</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <textarea placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none" name="Description" required></textarea>
+                                <textarea placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none" name="Description" id="id_Description"></textarea>
+                                <div class="text-red-500 text-sm mt-2" id="Description-error"></div>
                             </div>
                         </div>
                     </div>
@@ -80,7 +82,8 @@
                             </div>
                             <div class="w-full md:flex-1 p-3">
                                 <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
-                                    <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*" required>
+                                    <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*">
+                                    <div class="text-red-500 text-sm mt-2" id="Photo-error"></div>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +98,8 @@
                                 <p class="text-sm text-coolGray-800 font-semibold">NGO Location</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Mavoko, Athi River" name="Location" required>
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Mavoko, Athi River" name="Location" id="id_Location">
+                                <div class="text-red-500 text-sm mt-2" id="Location-error"></div>
                             </div>
                         </div>
                     </div>
@@ -107,7 +111,8 @@
                                 <p class="text-sm text-coolGray-800 font-semibold">NGO License No.</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="LicenseNumber" required>
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="LicenseNumber" id="id_LicenseNumber">
+                                <div class="text-red-500 text-sm mt-2" id="LicenseNumber-error"></div>
                             </div>
                         </div>
                     </div>
@@ -116,6 +121,83 @@
         </div>
     </section>
 </form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    // Function to clear previous errors
+    function clearErrors() {
+      const errorDivs = form.querySelectorAll(".text-red-500");
+      errorDivs.forEach((errorDiv) => {
+        errorDiv.innerHTML = '';
+      });
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      clearErrors(); // Clear previous errors
+
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"), // Replace with your method to get CSRF token
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            // Clear previous errors
+            clearErrors();
+
+            // Redirect to NGO details page
+            window.location.href = "{% url 'recipient:ngo_details' %}";
+          } else {
+            // Handle form errors
+            const errors = data.errors;
+            for (const field in errors) {
+              if (Object.hasOwnProperty.call(errors, field)) {
+                const errorMessages = errors[field].join('<br>');
+                const errorElement = document.getElementById(field + '-error');
+                if (errorElement) {
+                  errorElement.innerHTML = '<span>' + errorMessages + '</span>';
+                }
+              }
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle errors if needed
+        });
+    });
+
+    // Function to get CSRF cookie value
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  });
+</script>
+
+
+
+
+
     </div>
 
 

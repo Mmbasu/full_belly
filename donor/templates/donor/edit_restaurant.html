@@ -64,7 +64,8 @@
                 <p class="text-sm text-gray-700 font-semibold">Restaurant Name</p>
               </div>
               <div class="w-full md:flex-1 p-3">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="Name" value="{{ form.Name.value }}" required>
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="Name" value="{{ form.Name.value }}">
+                <div class="text-red-500 text-sm mt-2" id="Name-error"></div>
               </div>
             </div>
           </div>
@@ -79,6 +80,7 @@
               </div>
               <div class="w-full md:flex-1 p-3">
                 <textarea name="Description" placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none" required>{{ form.Description.value }}</textarea>
+                <div class="text-red-500 text-sm mt-2" id="Description-error"></div>
               </div>
             </div>
           </div>
@@ -130,7 +132,8 @@
                 <p class="text-sm text-gray-700 font-semibold">Restaurant Location</p>
               </div>
               <div class="w-full md:flex-1 p-3">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="Location" value="{{ form.Location.value }}" required>
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="Location" value="{{ form.Location.value }}">
+                <div class="text-red-500 text-sm mt-2" id="Location-error"></div>
               </div>
             </div>
           </div>
@@ -143,7 +146,8 @@
                 <p class="text-sm text-gray-700 font-semibold">Restaurant License No.</p>
               </div>
               <div class="w-full md:flex-1 p-3">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="LicenseNumber" value="{{ form.LicenseNumber.value }}" required>
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="LicenseNumber" value="{{ form.LicenseNumber.value }}">
+                <div class="text-red-500 text-sm mt-2" id="LicenseNumber-error"></div>
               </div>
             </div>
           </div>
@@ -156,7 +160,8 @@
                 <p class="text-sm text-gray-700 font-semibold">Health Certificate No.</p>
               </div>
               <div class="w-full md:flex-1 p-3">
-                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="HealthCertificateNumber" value="{{ form.HealthCertificateNumber.value }}" required>
+                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" name="HealthCertificateNumber" value="{{ form.HealthCertificateNumber.value }}">
+                <div class="text-red-500 text-sm mt-2" id="HealthCertificateNumber-error"></div>
               </div>
             </div>
           </div>
@@ -166,38 +171,97 @@
 </section>
       </form>
 
-                    <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const changeBtn = document.getElementById('change-photo-btn');
-    const cancelBtn = document.getElementById('cancel-photo-btn');
-    const photoSection = document.getElementById('photo-section');
-    const uploadPhotoSection = document.getElementById('upload-photo-section');
 
-    // Function to show add photo section and hide profile section
-    function showAddPhoto() {
-      photoSection.style.display = 'none';
-      uploadPhotoSection.style.display = 'flex';
-    }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const changeBtn = document.getElementById('change-photo-btn');
+  const cancelBtn = document.getElementById('cancel-photo-btn');
+  const photoSection = document.getElementById('photo-section');
+  const uploadPhotoSection = document.getElementById('upload-photo-section');
 
-    // Function to hide add photo section and show profile section
-    function cancelAddPhoto() {
-      uploadPhotoSection.style.display = 'none';
-      photoSection.style.display = 'flex';
-    }
+  // Function to show add photo section and hide profile section
+  function showAddPhoto() {
+    photoSection.style.display = 'none';
+    uploadPhotoSection.style.display = 'flex';
+  }
 
-    // Add event listener to change button
+  // Function to hide add photo section and show profile section
+  function cancelAddPhoto() {
+    uploadPhotoSection.style.display = 'none';
+    photoSection.style.display = 'flex';
+  }
+
+  // Add event listener to change button
+  if (changeBtn) {
     changeBtn.addEventListener('click', (event) => {
       event.preventDefault(); // Prevent the default form submission
       showAddPhoto();
     });
+  }
 
-    // Add event listener to cancel button
+  // Add event listener to cancel button
+  if (cancelBtn) {
     cancelBtn.addEventListener('click', (event) => {
       event.preventDefault(); // Prevent the default form submission
       cancelAddPhoto();
     });
-  });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const editForm = document.getElementById('edit-restaurant-form');
+
+  if (editForm) {
+    editForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      // Clear previous errors
+      const errorDivs = editForm.querySelectorAll('.text-red-500');
+      errorDivs.forEach((errorDiv) => {
+        errorDiv.innerHTML = '';
+      });
+
+      const formData = new FormData(editForm);
+
+      try {
+        const response = await fetch(editForm.action, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Redirect to the donor restaurants page
+          window.location.href = '{% url "donor:restaurants" %}';
+        } else {
+          // Handle form errors
+          const errors = data.errors;
+          for (const field in errors) {
+            if (Object.hasOwnProperty.call(errors, field)) {
+              const errorMessages = errors[field].join('<br>');
+              const errorElement = document.getElementById(field + '-error');
+              if (errorElement) {
+                errorElement.innerHTML = '<span>' + errorMessages + '</span>';
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+});
+
 </script>
+
+
+
     </div>
 
 

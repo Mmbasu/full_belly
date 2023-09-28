@@ -134,6 +134,8 @@ def profile(request):
     return render(request, 'driver/profile.html', context)
 
 
+from django.http import JsonResponse
+
 @login_required
 @requires_password_change
 def edit_profile(request):
@@ -165,7 +167,8 @@ def edit_profile(request):
 
             return JsonResponse({"message": "Profile updated successfully"})
         else:
-            return JsonResponse({"error": "Invalid form data"}, status=400)
+            errors = form.errors
+            return JsonResponse({"errors": errors})
     else:
         form = ProfileForm(instance=user)
 
@@ -175,12 +178,18 @@ def edit_profile(request):
 
 
 
+
+from django.db.models import Q
+
 @login_required
 @requires_password_change
 def deliveries(request):
     try:
         driver = request.user.driver
-        deliveries = Delivery.objects.filter(DriverID=driver)
+        # Filter deliveries with 'pending' or 'in-transit' status
+        deliveries = Delivery.objects.filter(
+            Q(DriverID=driver, Status='pending') | Q(DriverID=driver, Status='Intransit')
+        )
     except Driver.DoesNotExist:
         # Handle the case when the logged-in user is not a driver or does not have a driver profile.
         deliveries = []
@@ -189,6 +198,7 @@ def deliveries(request):
         'deliveries': deliveries
     }
     return render(request, 'driver/deliveries.html', context)
+
 
 
 @login_required
@@ -213,23 +223,25 @@ def history_details(request, delivery_id):
     delivery = Delivery.objects.get(DeliveryID=delivery_id)
     donation = delivery.DonationID
 
-    # Calculate hours and minutes
-    time_spent = delivery.time_spent_on_road
-    if time_spent:
-        hours = time_spent.days * 24 + time_spent.seconds // 3600
-        minutes = (time_spent.seconds // 60) % 60
-    else:
-        hours = None
-        minutes = None
+    # Calculate time spent on the specific delivery
+    time_spent_on_delivery = None
+    if delivery.DonationID.date_delivered and delivery.ActualPickupDateTime:
+        time_spent_on_delivery = delivery.DonationID.date_delivered - delivery.ActualPickupDateTime
+
+    # Calculate hours and minutes for template display
+    hours = time_spent_on_delivery.days * 24 + time_spent_on_delivery.seconds // 3600 if time_spent_on_delivery else None
+    minutes = (time_spent_on_delivery.seconds // 60) % 60 if time_spent_on_delivery else None
 
     context = {
         'delivery': delivery,
         'donation': donation,
+        'time_spent_on_delivery': time_spent_on_delivery,
         'hours': hours,
         'minutes': minutes,
     }
 
     return render(request, 'driver/history_details.html', context)
+
 
 
 @login_required

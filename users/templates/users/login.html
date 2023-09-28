@@ -100,7 +100,7 @@
         <div class="flex flex-wrap items-center justify-between mb-6">
           <div class="w-full sm:w-auto"><a class="inline-block text-lg" style="color: #AF8905;" href="{% url 'users:forgot_password' %}">Forgot password?</a></div>
         </div>
-        <button type="submit" class="group relative font-medium leading-6 px-6 mb-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+        <button type="submit" id="login_button" class="group relative font-medium leading-6 px-6 mb-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
               <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
               <p class="relative z-10">Sign In</p>
             </button>
@@ -179,16 +179,165 @@ togglePasswordButtons.forEach(button => {
 
 
 
+<!--<script>-->
+<!--  $(document).ready(function() {-->
+
+<!--    $('#login-form').submit(function(event) {-->
+<!--      event.preventDefault();-->
+<!--      var formData = new FormData(this);-->
+<!--      var jsonFormData = {};-->
+<!--      for (var [key, value] of formData.entries()) {-->
+<!--        jsonFormData[key] = value;-->
+<!--      }-->
+
+<!--      // Show processing modal-->
+<!--      var processingModal = createModal('Processing', 'Logging You in...');-->
+<!--      $('body').append(processingModal);-->
+
+<!--      // Clear any existing error messages when the login button is pressed-->
+<!--      clearErrorMessages();-->
+
+<!--      axios.post("{% url 'users:login' %}", JSON.stringify(jsonFormData), {-->
+<!--        headers: {-->
+<!--          'Content-Type': 'application/json',-->
+<!--          'X-CSRFToken': '{{ csrf_token }}'-->
+<!--        }-->
+<!--      })-->
+<!--        .then(function(response) {-->
+<!--          // Remove processing modal-->
+<!--          $(processingModal).remove();-->
+
+<!--          if (response.data.success) {-->
+<!--            window.location.href = response.data.redirect_url;-->
+<!--          } else {-->
+<!--            // Clear any existing error messages-->
+<!--            clearErrorMessages();-->
+
+<!--            // Add error message to form fields with errors-->
+<!--            for (const field in response.data.errors) {-->
+<!--              if (field === '__all__') {-->
+<!--                $('#login-form').prepend('<div class="invalid-feedback text-red-600 mb-2">' + response.data.errors[field] + '</div>');-->
+<!--              } else {-->
+<!--                var errorField = $('#id_' + field);-->
+<!--                errorField.addClass('border-red-600');-->
+<!--                errorField.parent().append('<div class="invalid-feedback text-red-600">' + response.data.errors[field][0] + '</div>');-->
+<!--              }-->
+<!--            }-->
+<!--          }-->
+<!--        })-->
+<!--        .catch(function(error) {-->
+<!--          console.error(error);-->
+<!--          $(processingModal).remove(); // Remove processing modal on error-->
+<!--        });-->
+<!--    });-->
+
+<!--    // Function to create a modal with the given heading and message-->
+<!--    function createModal(heading, message) {-->
+<!--      var modal = document.createElement('div');-->
+<!--      modal.classList.add('modal', 'fixed', 'inset-0', 'flex', 'items-center', 'justify-center', 'bg-gray-800', 'bg-opacity-50', 'z-50');-->
+<!--      modal.innerHTML = `-->
+<!--        <div class="modal-content modal-large">-->
+<!--          <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>-->
+<!--          <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">${heading}</h2>-->
+<!--          <p>${message}</p>-->
+<!--        </div>-->
+<!--      `;-->
+<!--      return modal;-->
+<!--    }-->
+
+<!--    // Function to clear error messages-->
+<!--    function clearErrorMessages() {-->
+<!--      $('.invalid-feedback').remove();-->
+<!--    }-->
+
+<!--    // Add event listener to the login button to clear errors-->
+<!--    $('#login_button').click(function() {-->
+<!--      clearErrorMessages();-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->
+
 <script>
   $(document).ready(function() {
+    // Function to create a modal with the given heading and message
+    function createModal(heading, message) {
+      var modal = document.createElement('div');
+      modal.classList.add('modal', 'fixed', 'inset-0', 'flex', 'items-center', 'justify-center', 'bg-gray-800', 'bg-opacity-50', 'z-50');
+      modal.innerHTML = `
+        <div class="modal-content modal-large">
+          <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+          <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">${heading}</h2>
+          <p>${message}</p>
+        </div>
+      `;
+      return modal;
+    }
 
+    // Function to clear error messages
+    function clearErrorMessages() {
+      $('.invalid-feedback').remove();
+    }
+
+    // Function to disable the login form
+    function disableLoginForm() {
+      $('#login-form :input').prop('disabled', true);
+    }
+
+    // Function to enable the login form
+    function enableLoginForm() {
+      $('#login-form :input').prop('disabled', false);
+    }
+
+    // Function to disable the login button
+    function disableLoginButton() {
+      $('#login_button').prop('disabled', true);
+    }
+
+    // Function to enable the login button
+    function enableLoginButton() {
+      $('#login_button').prop('disabled', false);
+    }
+
+    // Function to check login button status
+    function checkLoginButtonStatus() {
+      axios.get("{% url 'users:check_login_button_status' %}")
+        .then(function(response) {
+          if (response.data.disable_login_button) {
+            disableLoginForm(); // Disable the entire login form
+          } else {
+            enableLoginForm(); // Enable the login form
+          }
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    }
+
+    // Call the function to check login button status on page load
+    checkLoginButtonStatus();
+
+    // Event handler for form submission
     $('#login-form').submit(function(event) {
       event.preventDefault();
+
+      // Check if the form is disabled
+      if ($('#login-form :input:disabled').length > 0) {
+        return; // Do nothing if the form is disabled
+      }
+
       var formData = new FormData(this);
       var jsonFormData = {};
       for (var [key, value] of formData.entries()) {
         jsonFormData[key] = value;
       }
+
+      // Show processing modal
+      var processingModal = createModal('Processing', 'Logging You in...');
+      $('body').append(processingModal);
+
+      // Clear any existing error messages when the login button is pressed
+      clearErrorMessages();
+
       axios.post("{% url 'users:login' %}", JSON.stringify(jsonFormData), {
         headers: {
           'Content-Type': 'application/json',
@@ -196,19 +345,14 @@ togglePasswordButtons.forEach(button => {
         }
       })
         .then(function(response) {
+          // Remove processing modal
+          $(processingModal).remove();
+
           if (response.data.success) {
-            if (response.data.redirect === 'driver_dashboard') {
-              window.location.href = "{% url 'driver:dashboard' %}";
-            } else if (response.data.redirect === 'donor_dashboard') {
-              window.location.href = "{% url 'donor:dashboard' %}";
-            } else if (response.data.redirect === 'recipient_dashboard') {
-              window.location.href = "{% url 'recipient:dashboard' %}";
-            } else {
-              window.location.href = "{% url 'recipient:dashboard' %}"; // Replace with your default dashboard URL
-            }
+            window.location.href = response.data.redirect_url;
           } else {
             // Clear any existing error messages
-            $('.invalid-feedback').remove();
+            clearErrorMessages();
 
             // Add error message to form fields with errors
             for (const field in response.data.errors) {
@@ -220,14 +364,23 @@ togglePasswordButtons.forEach(button => {
                 errorField.parent().append('<div class="invalid-feedback text-red-600">' + response.data.errors[field][0] + '</div>');
               }
             }
+
+            // Check if the server returned a flag to disable the login button
+            if (response.data.disable_login_button) {
+              disableLoginButton();
+            }
           }
         })
         .catch(function(error) {
           console.error(error);
+          $(processingModal).remove(); // Remove processing modal on error
         });
     });
   });
 </script>
+
+
+
 
 
 {% endblock content %}

@@ -31,7 +31,7 @@
                 <div class="w-full md:w-auto p-2">
                   <div class="flex flex-wrap justify-between -m-1.5">
                     <div class="w-full md:w-auto p-1.5">
-                      <button id="accept-delivery-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" onclick="window.location.href='{% url 'driver:raise_issue' %}'">
+                      <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
                         <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
                         <p class="relative z-10">Raise Issue</p>
                       </button>
@@ -41,7 +41,9 @@
               </div>
             </div>
 
-            <div class="p-4 overflow-x-auto">
+
+
+            <div class="p-4 relative overflow-x-auto">
               <table class="table-auto w-full">
 
                 <thead>
@@ -77,6 +79,18 @@
                   </tr>
                 </tbody>
               </table>
+              <div class="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-40">
+                <div class="p-6 rounded bg-white border border-coolGray-100 shadow-sm">
+                  <div class="flex items-center mb-2">
+                    <span class="inline-block mr-2">
+                      <i class="fa-lg fa-solid fa-headset" style="color: #AF8905;"></i>
+                    </span>
+                    <h2 class="text-lg text-gray-600 font-bold">Ticket Submission</h2>
+                  </div>
+
+                  <h2 class="mb-2 text-3xl font-bold" style="color: #AF8905;">Coming Soon</h2>
+                </div>
+              </div>
             </div>
           </div>
         </div>

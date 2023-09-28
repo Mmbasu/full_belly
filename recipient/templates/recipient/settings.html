@@ -58,6 +58,7 @@
                                               <i class="fa-solid fa-eye-slash"></i>
                                             </button>
                                         </div>
+                                        <p id="current-password-error" class="text-red-500 text-sm mt-2"></p>
                                     </div>
                                 </div>
                             </div>
@@ -73,6 +74,7 @@
                                               <i class="fa-solid fa-eye-slash"></i>
                                             </button>
                                         </div>
+                                        <p id="new-password-error" class="text-red-500 text-sm mt-2"></p>
                                     </div>
                                 </div>
                             </div>
@@ -88,6 +90,7 @@
                                               <i class="fa-solid fa-eye-slash"></i>
                                             </button>
                                         </div>
+                                        <p id="confirm-password-error" class="text-red-500 text-sm mt-2"></p>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +100,6 @@
             </div>
         </div>
     </section>
-
 
 
         {% if show_delete_section %}
@@ -131,13 +133,14 @@
                                     </div>
                                     <div class="w-full md:flex-1 p-3 relative">
                                         <div class="flex items-center">
-                                            <input name="current_password" class="w-80 px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="password" placeholder="********" required>
+                                            <input name="current_password" class="w-80 px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="password" placeholder="********">
                                             <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
                                                 <i class="fa-solid fa-eye-slash"></i>
                                             </button>
                                         </div>
                                         <p id="password-error" class="text-red-500 text-sm mt-2"></p>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -148,7 +151,10 @@
         {% endif %}
 
 
+
+
     <script>
+
 
 const togglePasswordButtons = document.querySelectorAll('.toggle-password');
 togglePasswordButtons.forEach(button => {
@@ -160,11 +166,15 @@ togglePasswordButtons.forEach(button => {
   });
 });
 
-
-      const changePasswordButton = document.getElementById('change-password-button');
+const changePasswordButton = document.getElementById('change-password-button');
 const changePasswordForm = document.getElementById('change-password-form');
 
 changePasswordButton.addEventListener('click', () => {
+
+    document.getElementById('current-password-error').textContent = '';
+  document.getElementById('new-password-error').textContent = '';
+  document.getElementById('confirm-password-error').textContent = '';
+
   const modal = document.createElement('div');
   modal.classList.add('modal');
   modal.innerHTML = `
@@ -212,11 +222,24 @@ changePasswordButton.addEventListener('click', () => {
             location.reload();
           }, 3000);
         } else {
-          console.log('Password change failed:', data.errors);
+          // Handle form errors here
+          if (data.errors) {
+            if (data.errors.old_password) {
+              document.getElementById('current-password-error').textContent = data.errors.old_password[0];
+            }
+            if (data.errors.new_password1) {
+              document.getElementById('new-password-error').textContent = data.errors.new_password1[0];
+            }
+            if (data.errors.new_password2) {
+              document.getElementById('confirm-password-error').textContent = data.errors.new_password2[0];
+            }
+          }
+          modal.remove();
         }
       })
       .catch(error => {
-        console.log('An error occurred while changing password:', error);
+        // Handle network errors or other issues
+        console.error('An error occurred while changing password:', error);
       });
   });
 
@@ -226,8 +249,10 @@ changePasswordButton.addEventListener('click', () => {
   });
 });
 
+</script>
 
-    </script>
+
+
 
         <script>
     function moveToNext(input) {
@@ -259,7 +284,6 @@ changePasswordButton.addEventListener('click', () => {
         }
     }
 
-
     const deleteAccountButton = document.getElementById('delete-account-button');
     const passwordField = document.querySelector('input[name="current_password"]');
     const passwordError = document.getElementById('password-error');
@@ -271,27 +295,40 @@ changePasswordButton.addEventListener('click', () => {
         } else {
             passwordError.textContent = ''; // Clear the error message if password is entered
 
-            const processingModal = document.createElement('div');
-            processingModal.classList.add('modal');
-            processingModal.innerHTML = `
-                <div class="modal-content">
-                    <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Account Deletion Request</h2>
-                    <p>Processing...</p>
-                </div>
-            `;
-            document.body.appendChild(processingModal);
+            // Add password matching check here
+            fetch('/recipient/check-password/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}', // Replace with actual CSRF token
+                },
+                body: JSON.stringify({ password: passwordField.value }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Password matches, proceed with deletion code
+                    const processingModal = document.createElement('div');
+                    processingModal.classList.add('modal');
+                    processingModal.innerHTML = `
+                        <div class="modal-content">
+                            <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Account Deletion Request</h2>
+                            <p>Processing...</p>
+                        </div>
+                    `;
+                    document.body.appendChild(processingModal);
 
-        fetch('/recipient/send-deletion-code/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}', // Replace with actual CSRF token
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            processingModal.remove(); // Hide "Processing" modal
-            if (data.success) {
+                    fetch('/recipient/send-deletion-code/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}', // Replace with actual CSRF token
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        processingModal.remove(); // Hide "Processing" modal
+                        if (data.success) {
                 const codeModal = document.createElement('div');
                 codeModal.classList.add('modal');
                 codeModal.innerHTML = `
@@ -375,14 +412,21 @@ changePasswordButton.addEventListener('click', () => {
             })
             .catch(error => console.error('Error:', error));
                 });
-            } else {
-                alert('Failed to send deletion code. Please try again later.');
-            }
-        })
-        .catch(error => console.error('Error:', error));
+                        } else {
+                            alert('Failed to send deletion code. Please try again later.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                } else {
+                    // Password doesn't match, show error
+                    passwordError.textContent = 'Your current password was entered incorrectly. Please enter it again.';
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
     });
 </script>
+
 
 </div>
 

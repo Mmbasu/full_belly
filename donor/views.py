@@ -79,6 +79,9 @@ def restaurants(request):
 from django.shortcuts import render, redirect
 from .forms import RestaurantCreationForm
 
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+
 @requires_password_change
 @login_required
 def add_restaurant(request):
@@ -88,12 +91,16 @@ def add_restaurant(request):
             restaurant = form.save(commit=False)
             restaurant.ManagerID = request.user
             restaurant.save()
-            return redirect('donor:restaurants')
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors
+            return JsonResponse({'success': False, 'errors': errors})
     else:
         form = RestaurantCreationForm()
 
     context = {'form': form}
     return render(request, 'donor/add_restaurant.html', context)
+
 
 @requires_password_change
 @login_required
@@ -104,12 +111,16 @@ def edit_restaurant(request, restaurant_id):
         form = RestaurantCreationForm(request.POST, request.FILES, instance=restaurant)
         if form.is_valid():
             form.save()
-            return redirect('donor:restaurants')
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors
+            return JsonResponse({'success': False, 'errors': errors})
     else:
         form = RestaurantCreationForm(instance=restaurant)
 
     context = {'form': form}
     return render(request, 'donor/edit_restaurant.html', context)
+
 
 @requires_password_change
 @login_required
@@ -121,17 +132,25 @@ def restaurant_details(request, restaurant_id):
     return render(request, 'donor/restaurant_details.html', context)
 
 
+from django.db.models import F
+
+
 @requires_password_change
 @login_required
 def donate(request):
     top_organizations = Organization.objects.annotate(avg_rating=Avg('organizationrating__rating'),
-                                                      num_ratings=Count('organizationrating__rating')).order_by('-avg_rating')[:5]
+                                                      num_ratings=Count('organizationrating__rating')).order_by(
+        '-avg_rating')[:5]
+
+    top_organization_pks = [organization.pk for organization in top_organizations]
+
     other_organizations = Organization.objects.annotate(avg_rating=Avg('organizationrating__rating'),
-                                                        num_ratings=Count('organizationrating__rating')).exclude(
-        pk__in=top_organizations.values_list('pk', flat=True))
+                                                        num_ratings=Count('organizationrating__rating')).filter(
+        ~Q(pk__in=top_organization_pks))
 
     return render(request, 'donor/donate_0.html',
                   {'top_organizations': top_organizations, 'other_organizations': other_organizations})
+
 
 @requires_password_change
 @login_required
@@ -223,6 +242,7 @@ def make_donation(request):
 
     return render(request, 'donor/donate_1.html', {'form': form})
 
+
 @requires_password_change
 @login_required
 def perishable_donation_create(request, donation_id):
@@ -235,10 +255,17 @@ def perishable_donation_create(request, donation_id):
             perishable_donation = perishable_donation_form.save(commit=False)
             perishable_donation.Donation = donation
             perishable_donation.save()
-            return redirect('donor:donations')
+            return JsonResponse({'success': True})
+        else:
+            errors = {}
+            for field, error_list in perishable_donation_form.errors.items():
+                errors[field] = [error for error in error_list]
+            return JsonResponse({'success': False, 'errors': errors})
 
     return render(request, 'donor/perishable_donation_create.html',
                   {'donation': donation, 'perishable_donation_form': perishable_donation_form})
+
+
 
 @requires_password_change
 @login_required
@@ -252,10 +279,18 @@ def non_perishable_donation_create(request, donation_id):
             non_perishable_donation = non_perishable_donation_form.save(commit=False)
             non_perishable_donation.Donation = donation
             non_perishable_donation.save()
-            return redirect('donor:donations')
+            return JsonResponse({'success': True})
+
+        # Form is not valid, prepare errors in JSON format
+        errors = {}
+        for field, error_list in non_perishable_donation_form.errors.items():
+            errors[field] = [error for error in error_list]
+        return JsonResponse({'success': False, 'errors': errors})
 
     return render(request, 'donor/non_perishable_donation_create.html',
                   {'donation': donation, 'non_perishable_donation_form': non_perishable_donation_form})
+
+
 
 @requires_password_change
 @login_required
@@ -278,10 +313,16 @@ def raise_issue(request):
     return render(request, 'donor/raise_issue.html')
 
 
+from django.http import JsonResponse
+
+
+from django.http import JsonResponse
+
 @requires_password_change
 @login_required
 def edit_profile(request):
     user = request.user
+    data = {}
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=user)
@@ -291,14 +332,21 @@ def edit_profile(request):
             user.instagram_link = form.cleaned_data.get("instagram_link")
             user.facebook_link = form.cleaned_data.get("facebook_link")
             user.save()
-            return JsonResponse({"message": "Profile updated successfully"})
+            data['message'] = "Profile updated successfully"
+        else:
+            data['errors'] = form.errors
     else:
         form = ProfileForm(instance=user)
 
-    context = {"form": form}
-    return render(request, "donor/edit_profile.html", context)
-
-
+    if request.method == 'POST':
+        if form.is_valid():
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors
+            return JsonResponse({'success': False, 'errors': errors})
+    else:
+        context = {"form": form}
+        return render(request, "donor/edit_profile.html", context)
 
 
 @requires_password_change
@@ -387,7 +435,6 @@ def donation_details(request, donation_id):
     return render(request, 'donor/donation_details.html', {'donation': donation})
 
 
-from django.shortcuts import get_object_or_404
 
 @requires_password_change
 @login_required
@@ -407,22 +454,25 @@ def edit_donation(request, donation_id):
     if donation.is_perishable:
         try:
             perishable_donation = PerishableDonation.objects.get(Donation_id=donation_id)
-            donation_form = PerishableDonationForm(request.POST or None, request.FILES or None,
-                                                   instance=perishable_donation)
+            donation_form = PerishableDonationForm(request.POST or None, request.FILES or None, instance=perishable_donation)
         except PerishableDonation.DoesNotExist:
             pass
     else:
         try:
             non_perishable_donation = NonPerishableDonation.objects.get(Donation_id=donation_id)
-            donation_form = NonPerishableDonationForm(request.POST or None, request.FILES or None,
-                                                      instance=non_perishable_donation)
+            donation_form = NonPerishableDonationForm(request.POST or None, request.FILES or None, instance=non_perishable_donation)
         except NonPerishableDonation.DoesNotExist:
             pass
 
     if request.method == 'POST':
-        if donation_form and donation_form.is_valid():
-            donation_form.save()
-            return redirect('donor:donations')
+        if donation_form:
+            if donation_form.is_valid():
+                donation_form.save()
+                return JsonResponse({'success': True})
+            else:
+                # Form validation failed, return errors in JSON response
+                errors = {field: error[0] for field, error in donation_form.errors.items()}
+                return JsonResponse({'success': False, 'errors': errors})
 
     return render(request, 'donor/edit_donation.html', {
         'donation_form': donation_form,
@@ -430,6 +480,7 @@ def edit_donation(request, donation_id):
         'non_perishable_donation': non_perishable_donation,
         'is_perishable': donation.is_perishable,
     })
+
 
 @requires_password_change
 @login_required
@@ -606,9 +657,9 @@ from django.views.decorators.csrf import csrf_exempt
 from donor.models import Donation
 
 
-@requires_password_change
 @csrf_exempt
 @require_POST
+@requires_password_change
 def rate_organization(request, donation_id):
     user = request.user
     try:
@@ -710,5 +761,19 @@ def delete_account(request):
             return JsonResponse({'success': False, 'error': 'Invalid JSON format'})
 
 
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+@login_required
+@require_POST  # Require POST requests only for this view
+def check_password_view(request):
+    current_password = request.POST.get('password', '')  # Get the password from the POST data
+
+    # Check if the provided password matches the user's current password
+    if request.user.check_password(current_password):
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
 
 

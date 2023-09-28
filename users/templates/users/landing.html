@@ -201,23 +201,30 @@ body {
       </div>
       <div class="w-full md:w-1/2 p-6">
         <div class="md:max-w-xl">
-          <div class="mb-5 p-1 flex flex-col md:flex-row bg-white overflow-hidden focus-within:ring-2 focus-within:ring-blue-350 border border-gray-200 rounded-10">
-            <input class="w-full flex-1 px-5 py-3.5 text-base text-gray-500 bg-transparent outline-none placeholder-gray-500 rounded-tl-md rounded-bl-md" type="email" placeholder="Your email address">
-            <div class="group relative">
-              <div class="w-full lg:w-auto p-1.5">
-                <button class="group relative font-heading px-6 py-5 w-full lg:w-auto uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                  <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                  <p class="relative z-10">Subscribe</p>
-                </button>
+          <form id="newsletter-form" method="post" action="{% url 'users:newsletter' %}">
+            {% csrf_token %}
+            <div class="flex flex-col md:flex-row items-center">
+              <input class="w-full flex-1 px-5 py-3.5 text-base text-gray-500 bg-transparent outline-none placeholder-gray-500 rounded-tl-md rounded-bl-md" type="text" placeholder="example@gmail.com" name="email" id="id_email">
+              <div class="group relative">
+                <div class="w-full lg:w-auto p-1.5">
+                  <button class="group relative font-heading px-6 py-5 w-full lg:w-auto uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                    <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                    <p class="relative z-10">Subscribe</p>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <p class="text-gray-500 text-sm">We never share your information to any third party</p>
+            <div id="email-error" class="text-red-500 text-sm error-message"></div>
+          </form>
+          <p class="text-gray-500 text-sm">We never share your information with any third party</p>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+
+
 
 
 <section id="mission-vision-section" class="py-28 overflow-hidden">
@@ -382,7 +389,74 @@ document.body.style.setProperty('--rand4', Math.random());
 document.body.style.setProperty('--rand5', Math.random());
 document.body.style.setProperty('--rand6', Math.random());
 
+
+
+
+// Get the form element
+const newsletterForm = document.getElementById('newsletter-form');
+
+// Function to clear field errors
+function clearFieldErrors() {
+  const errorDivs = document.querySelectorAll('.text-red-500');
+  errorDivs.forEach((errorDiv) => {
+    errorDiv.innerHTML = ''; // Clear the error message
+  });
+}
+
+// Add a submit event listener to the form
+newsletterForm.addEventListener('submit', async (e) => {
+  e.preventDefault(); // Prevent the default form submission
+
+  // Get the email input field and error message div
+  const emailInput = document.getElementById('id_email');
+  const emailError = document.getElementById('email-error');
+
+  // Clear any previous error messages
+  emailError.textContent = '';
+
+  // Get the email value from the input field
+  const email = emailInput.value;
+
+  // Create a FormData object to send the data to the server
+  const formData = new FormData();
+  formData.append('email', email);
+
+  try {
+    // Send a POST request to the server
+    const response = await fetch(newsletterForm.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}', // Include the CSRF token
+      },
+    });
+
+    // Parse the JSON response
+    const data = await response.json();
+
+    // Check if there are errors
+    if (data.errors) {
+      // Display the error message under the email input field
+      emailError.textContent = data.errors.email;
+    } else if (data.success) {
+      // Show a success alert
+      alert('You have successfully signed up for our newsletter.');
+      // You can redirect the user to another page or perform any other actions here
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
+
 </script>
+
+
+
+
+
+
+
 
 
 

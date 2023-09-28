@@ -51,6 +51,50 @@ import json
 #     return render(request, 'users/login.html', {'form': form})
 
 
+# from django.http import JsonResponse
+# from django.shortcuts import render, redirect
+# from django.contrib.auth import authenticate, login as auth_login
+# from django.views.decorators.csrf import ensure_csrf_cookie
+# from django.urls import reverse
+#
+# @ensure_csrf_cookie
+# def login(request):
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             form = CustomAuthenticationForm(data=data)
+#             username = form.data.get('username')
+#             password = form.data.get('password')
+#             try:
+#                 user = CustomUser.objects.get(username=username)
+#                 if not user.is_active:
+#                     return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['inactive']]}})
+#             except CustomUser.DoesNotExist:
+#                 pass
+#             user = authenticate(request=request, username=username, password=password)
+#             if user is not None:
+#                 if form.is_valid():
+#                     auth_login(request, user)
+#                     return JsonResponse({'success': True, 'redirect_url': get_dashboard_url(user.role)})
+#                 else:
+#                     return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
+#             else:
+#                 return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
+#         except json.decoder.JSONDecodeError:
+#             return JsonResponse({'success': False, 'errors': {'all': ['Invalid data format']}})
+#     else:
+#         form = CustomAuthenticationForm()
+#     return render(request, 'users/login.html', {'form': form})
+
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.urls import reverse
+import json
+from django.utils import timezone
+from .models import CustomUser  # Import your CustomUser model
+
 @ensure_csrf_cookie
 def login(request):
     if request.method == 'POST':
@@ -59,38 +103,76 @@ def login(request):
             form = CustomAuthenticationForm(data=data)
             username = form.data.get('username')
             password = form.data.get('password')
+
+            # Check if login attempts exceeded
             try:
                 user = CustomUser.objects.get(username=username)
-                if not user.is_active:
-                    return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['inactive']]}})
+                if user.failed_login_attempts >= 3:
+                    if user.last_login_attempt_exceeded is None:
+                        user.last_login_attempt_exceeded = timezone.now()
+                        user.save()
+                    if user.last_login_attempt_exceeded is not None:  # Check if it's not None
+                        # Check if it's been more than 1 minute since the last attempt exceeded
+                        if (timezone.now() - user.last_login_attempt_exceeded).total_seconds() < 60:
+                            return JsonResponse({'success': False, 'disable_login_button': True,
+                                                 'errors': {'__all__': [form.error_messages['invalid_login_attempts']]}})
+                        else:
+                            # Reset failed login attempts if more than 1 minute has passed
+                            user.failed_login_attempts = 0
+                            user.last_login_attempt_exceeded = None
+                            user.save()
+
             except CustomUser.DoesNotExist:
                 pass
+
             user = authenticate(request=request, username=username, password=password)
+
             if user is not None:
                 if form.is_valid():
                     auth_login(request, user)
-
-                    # Redirect the user based on their role
-                    if user.role == 'driver':
-                        return JsonResponse({'success': True, 'redirect': 'driver_dashboard'})
-                    elif user.role == 'donor':
-                        return JsonResponse({'success': True, 'redirect': 'donor_dashboard'})
-                    elif user.role == 'recipient':
-                        return JsonResponse({'success': True, 'redirect': 'recipient_dashboard'})
-                    else:
-                        return JsonResponse(
-                            {'success': True})  # Redirect to a default dashboard if role is not specified
-
+                    # Reset the failed login attempts count and timestamp on successful login
+                    user.failed_login_attempts = 0
+                    user.last_login_attempt_exceeded = None
+                    user.save()
+                    return JsonResponse({'success': True, 'redirect_url': get_dashboard_url(user.role)})
                 else:
                     return JsonResponse(
                         {'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
             else:
-                return JsonResponse({'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
+                # Authentication failed, increment failed login attempts
+                try:
+                    user = CustomUser.objects.get(username=username)
+                    if not user.is_active:
+                        return JsonResponse(
+                            {'success': False, 'errors': {'__all__': [form.error_messages['inactive']]}})
+
+                    # Increment failed login attempts if it's less than 3
+                    user.failed_login_attempts += 1
+                    user.save()
+                    return JsonResponse(
+                        {'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
+                except CustomUser.DoesNotExist:
+                    return JsonResponse(
+                        {'success': False, 'errors': {'__all__': [form.error_messages['invalid_login']]}})
         except json.decoder.JSONDecodeError:
             return JsonResponse({'success': False, 'errors': {'all': ['Invalid data format']}})
     else:
         form = CustomAuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
+
+
+
+
+def get_dashboard_url(role):
+    if role == 'driver':
+        return reverse('driver:dashboard')
+    elif role == 'donor':
+        return reverse('donor:dashboard')
+    elif role == 'recipient':
+        return reverse('recipient:dashboard')
+    else:
+        return reverse('recipient:dashboard')  # Replace with your default dashboard URL
+
 
 
 def register(request):
@@ -155,6 +237,7 @@ def activate_account(request, uidb64, token):
 
 import json
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 
 def forgot_password(request):
     if request.method == 'POST':
@@ -185,11 +268,15 @@ def forgot_password(request):
             except CustomUser.DoesNotExist:
                 return JsonResponse({'success': True})
         else:
-            return JsonResponse({'success': False, 'errors': form.errors})
+            errors = {}
+            for field_name, field_errors in form.errors.items():
+                errors[field_name] = field_errors[0]
+            return JsonResponse({'success': False, 'errors': errors})
     else:
         form = CustomPasswordResetForm()
 
     return render(request, 'users/forgot_password.html', {'form': form})
+
 
 
 
@@ -288,4 +375,68 @@ def forgot_password(request):
 
 def landing(request):
     return render(request, 'users/landing.html')
+
+from django.http import JsonResponse
+from django.shortcuts import render
+from .forms import NewsletterSubscriptionForm
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+
+@ensure_csrf_cookie
+def newsletter(request):
+    if request.method == 'POST':
+        form = NewsletterSubscriptionForm(request.POST)
+
+        if form.is_valid():
+            # Process the valid form data, e.g., save to the database
+            # Replace this with your actual logic
+            email = form.cleaned_data['email']
+            # Save or process the email as needed
+
+            # Sending the email
+            subject = 'Full Belly Project Newsletter'
+
+            # Render the HTML template
+            html_content = render_to_string('users/news_welcome_email.html')
+
+            # Create the email message
+            msg = EmailMultiAlternatives(subject, '', settings.EMAIL_HOST_USER, [email])
+            msg.attach_alternative(html_content, "text/html")
+
+            # Send the email
+            try:
+                msg.send(fail_silently=True)
+            except Exception as e:
+                return JsonResponse({'success': False, 'errors': {'email': str(e)}})
+
+            # Return a success JSON response
+            return JsonResponse({'success': True})
+        else:
+            # Return a JSON response with form errors
+            errors = form.errors
+            return JsonResponse({'errors': errors})
+
+    return render(request, 'landing.html', {'form': NewsletterSubscriptionForm()})
+
+
+from django.http import JsonResponse
+from django.contrib.auth import authenticate
+
+def check_login_button_status(request):
+    if request.method == 'POST':
+        # Extract username and password from the request POST data
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Attempt authentication with provided username and password
+        user = authenticate(request=request, username=username, password=password)
+
+        if user is not None and hasattr(user, 'failed_login_attempts'):
+            if user.failed_login_attempts >= 3:
+                return JsonResponse({'disable_login_button': True})
+
+    return JsonResponse({'disable_login_button': False})
+
+
 

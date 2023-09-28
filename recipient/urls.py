@@ -55,5 +55,6 @@ urlpatterns = [
                     path('check-rating-exists/<int:donation_id>/', views.check_rating_exists, name='check_rating_exists'),
                     path('send-deletion-code/', views.send_deletion_code, name='send_deletion_code'),
                     path('delete-account/', views.delete_account, name='delete_account'),
+                    path('check-password/', views.check_password_view, name='check_password'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -52,6 +52,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     activation_token = models.CharField(max_length=40, blank=True, null=True)
     temporary_password = models.CharField(max_length=128, blank=True, null=True)
     delete_account_code = models.CharField(max_length=5, blank=True, null=True)
+    failed_login_attempts = models.PositiveIntegerField(default=0)
+    last_login_attempt_exceeded = models.DateTimeField(null=True, blank=True)
 
 
     USERNAME_FIELD = 'username'

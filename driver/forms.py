@@ -3,6 +3,7 @@ import re
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.validators import validate_email
 
 
 class ChangePasswordForm(PasswordChangeForm):
@@ -63,43 +64,54 @@ class ProfileForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email', 'phone', 'photo', 'twitter_link', 'instagram_link',
                   'facebook_link']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        first_name = cleaned_data.get('first_name')
-        last_name = cleaned_data.get('last_name')
-        email = cleaned_data.get('email')
-        phone = cleaned_data.get('phone')
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if not first_name.isalpha():
+            raise forms.ValidationError("First name should contain only letters.")
+        return first_name
 
-        if not first_name or not last_name or not email or not phone:
-            raise forms.ValidationError("All fields are required.")
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if not last_name.isalpha():
+            raise forms.ValidationError("Last name should contain only letters.")
+        return last_name
 
-        return cleaned_data
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        try:
+            validate_email(email)
+        except forms.ValidationError:
+            raise forms.ValidationError("Invalid email address.")
+
+        return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if not phone.isdigit() or len(phone) != 10:
+            raise forms.ValidationError("Phone number should be numerical and contain 10 digits")
+        return phone
+
 
     def clean_twitter_link(self):
         twitter_link = self.cleaned_data.get('twitter_link')
         if twitter_link:
-            if not re.match(r'^https?://(www\.)?twitter\.com/', twitter_link):
+            if not re.match(r'^https?://(www\.)?twitter\.com/', twitter_link, re.IGNORECASE):
                 raise forms.ValidationError("Invalid Twitter link.")
-        else:
-            twitter_link = self.instance.twitter_link  # Use existing value
         return twitter_link
 
     def clean_instagram_link(self):
         instagram_link = self.cleaned_data.get('instagram_link')
         if instagram_link:
-            if not re.match(r'^https?://(www\.)?instagram\.com/', instagram_link):
+            if not re.match(r'^https?://(www\.)?instagram\.com/', instagram_link, re.IGNORECASE):
                 raise forms.ValidationError("Invalid Instagram link.")
-        else:
-            instagram_link = self.instance.instagram_link  # Use existing value
         return instagram_link
 
     def clean_facebook_link(self):
         facebook_link = self.cleaned_data.get('facebook_link')
         if facebook_link:
-            if not re.match(r'^https?://(www\.)?facebook\.com/', facebook_link):
+            if not re.match(r'^https?://(www\.)?facebook\.com/', facebook_link, re.IGNORECASE):
                 raise forms.ValidationError("Invalid Facebook link.")
-        else:
-            facebook_link = self.instance.facebook_link  # Use existing value
         return facebook_link
 
     def clean_photo(self):

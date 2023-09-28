@@ -167,13 +167,13 @@
                                             <div class="flex flex-col md:flex-row -mb-px">
                                                 <h3 class="mb-2 text-lg font-bold ml-0 md:ml-0 lg:ml-20" style="color: #AF8905;">Time Taken</h3>
                                                 <p class="text-sm font-medium mt-1 md:mt-0 ml-0 md:ml-10 lg:ml-20">
-                                                    {% if hours %}
+                                                    {% if time_spent_on_delivery %}
                                                         {{ hours }} Hrs
                                                         {% if minutes %}
-                                                            {{ minutes }} Minutes
+                                                            {{ minutes }} Mins
                                                         {% endif %}
                                                     {% else %}
-                                                        N/A
+                                                        0 Hrs 0 Mins
                                                     {% endif %}
                                                 </p>
                                             </div>
@@ -239,3 +239,38 @@ downloadReportButton.addEventListener('click', () => {
 
 
 {% endblock content %}
+
+
+<!--      <script>-->
+<!--    const downloadReportButton = document.getElementById('download-report-button');-->
+
+<!--downloadReportButton.addEventListener('click', () => {-->
+<!--  const processingModal = document.createElement('div');-->
+<!--  processingModal.classList.add('modal');-->
+<!--  processingModal.innerHTML = `-->
+<!--    <div class="modal-content">-->
+<!--      <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #AF8905;">Processing....</h2>-->
+<!--      <p>Please wait while we process your request.</p>-->
+<!--    </div>-->
+<!--  `;-->
+<!--  document.body.appendChild(processingModal);-->
+
+<!--  setTimeout(() => {-->
+<!--    processingModal.remove();-->
+<!--    const successModal = document.createElement('div');-->
+<!--    successModal.classList.add('modal');-->
+<!--    successModal.innerHTML = `-->
+<!--      <div class="modal-content">-->
+<!--      <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>-->
+<!--        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>-->
+<!--        <p>Report downloaded successfully.</p>-->
+<!--      </div>-->
+<!--    `;-->
+<!--    document.body.appendChild(successModal);-->
+<!--    setTimeout(() => {-->
+<!--      successModal.remove();-->
+<!--    }, 5000);-->
+<!--  }, 5000);-->
+<!--});-->
+
+<!--</script>-->

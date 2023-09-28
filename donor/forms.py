@@ -3,13 +3,14 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
 import re
 from donor.models import Restaurant, Donation, NonPerishableDonation, PerishableDonation
+from .validators import validate_text_with_spaces_and_punctuation, validate_letters_only
 
 
 class ProfileForm(forms.ModelForm):
-    first_name = forms.CharField(label="First Name", required=True, max_length=255, widget=forms.TextInput(
+    first_name = forms.CharField(label="First Name", validators=[validate_text_with_spaces_and_punctuation], required=True, max_length=255, widget=forms.TextInput(
         attrs={'class': 'form-control mb-5'}
     ))
-    last_name = forms.CharField(label="Last Name", required=True, max_length=255, widget=forms.TextInput(
+    last_name = forms.CharField(label="Last Name", validators=[validate_text_with_spaces_and_punctuation], required=True, max_length=255, widget=forms.TextInput(
         attrs={'class': 'form-control mb-5'}
     ))
     email = forms.EmailField(label="Email", required=True, widget=forms.EmailInput(
@@ -36,43 +37,54 @@ class ProfileForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email', 'phone', 'photo', 'twitter_link', 'instagram_link',
                   'facebook_link']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        first_name = cleaned_data.get('first_name')
-        last_name = cleaned_data.get('last_name')
-        email = cleaned_data.get('email')
-        phone = cleaned_data.get('phone')
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if not first_name.isalpha():
+            raise forms.ValidationError("First name should contain only letters.")
+        return first_name
 
-        if not first_name or not last_name or not email or not phone:
-            raise forms.ValidationError("All fields are required.")
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if not last_name.isalpha():
+            raise forms.ValidationError("Last name should contain only letters.")
+        return last_name
 
-        return cleaned_data
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        try:
+            validate_email(email)
+        except forms.ValidationError:
+            raise forms.ValidationError("Invalid email address.")
+
+        return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if not phone.isdigit() or len(phone) != 10:
+            raise forms.ValidationError("Phone number should be numerical and contain 10 digits.")
+        return phone
+
 
     def clean_twitter_link(self):
         twitter_link = self.cleaned_data.get('twitter_link')
         if twitter_link:
-            if not re.match(r'^https?://(www\.)?twitter\.com/', twitter_link):
+            if not re.match(r'^https?://(www\.)?twitter\.com/', twitter_link, re.IGNORECASE):
                 raise forms.ValidationError("Invalid Twitter link.")
-        else:
-            twitter_link = self.instance.twitter_link  # Use existing value
         return twitter_link
 
     def clean_instagram_link(self):
         instagram_link = self.cleaned_data.get('instagram_link')
         if instagram_link:
-            if not re.match(r'^https?://(www\.)?instagram\.com/', instagram_link):
+            if not re.match(r'^https?://(www\.)?instagram\.com/', instagram_link, re.IGNORECASE):
                 raise forms.ValidationError("Invalid Instagram link.")
-        else:
-            instagram_link = self.instance.instagram_link  # Use existing value
         return instagram_link
 
     def clean_facebook_link(self):
         facebook_link = self.cleaned_data.get('facebook_link')
         if facebook_link:
-            if not re.match(r'^https?://(www\.)?facebook\.com/', facebook_link):
+            if not re.match(r'^https?://(www\.)?facebook\.com/', facebook_link, re.IGNORECASE):
                 raise forms.ValidationError("Invalid Facebook link.")
-        else:
-            facebook_link = self.instance.facebook_link  # Use existing value
         return facebook_link
 
     def clean_photo(self):
@@ -81,7 +93,6 @@ class ProfileForm(forms.ModelForm):
         if not photo:
             raise forms.ValidationError("Profile photo is required.")
 
-        # Add additional validation for the profile photo if needed
 
         return photo
 
@@ -116,39 +127,82 @@ class ChangePasswordForm(PasswordChangeForm):
     )
 
 
+from django import forms
+from django.core.validators import validate_slug, MinLengthValidator, validate_email, MinValueValidator
+from django.core.exceptions import ValidationError
+from .models import Restaurant
+
 class RestaurantCreationForm(forms.ModelForm):
-    Name = forms.CharField(label="Restaurant Name", max_length=255, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5'}
-    ))
-    Description = forms.CharField(label="Restaurant Description", widget=forms.Textarea(
-        attrs={'class': 'form-control mb-5'}
-    ))
-    Photo = forms.ImageField(label="Restaurant Photo", widget=forms.ClearableFileInput(
-        attrs={'class': 'form-control mb-5'}
-    ))
-    Location = forms.CharField(label="Restaurant Location", max_length=255, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5'}
-    ))
-    LicenseNumber = forms.CharField(label="Restaurant License No.", max_length=255, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5'}
-    ))
-    HealthCertificateNumber = forms.CharField(label="Health Certificate No.", max_length=255, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-5'}
-    ))
+    Name = forms.CharField(
+        label="Restaurant Name",
+        max_length=30,
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[validate_text_with_spaces_and_punctuation],  # Use validate_slug to check for code injection
+        error_messages={
+            'required': 'This field is required.'
+        },
+    )
 
-    def clean_name(self):
-        name = self.cleaned_data['Name']
-        # Add any specific name cleaning/validation if needed
-        return name
+    Description = forms.CharField(
+        label="Restaurant Description",
+        widget=forms.Textarea(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation],
+        error_messages={
+            'required': 'This field is required.'
+        },
+    )
 
-    def clean_license_number(self):
-        license_number = self.cleaned_data['LicenseNumber']
-        # Add any specific license number cleaning/validation if needed
-        return license_number
+    Photo = forms.ImageField(
+        label="Restaurant Photo",
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-5'}),
+    )
+
+    Location = forms.CharField(
+        label="Restaurant Location",
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation],  # Ensure the field is not empty
+        error_messages={
+            'required': 'This field is required.'
+        },
+    )
+
+    LicenseNumber = forms.CharField(
+        label="Restaurant License No.",
+        max_length=30,
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation],
+        error_messages={
+            'required': 'This field is required.'
+        },
+    )
+
+    HealthCertificateNumber = forms.CharField(
+        label="Health Certificate No.",
+        max_length=255,
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation],  # Check for numerical value and code injection
+        error_messages={
+            'required': 'This field is required.'
+        },
+    )
 
     def clean(self):
         cleaned_data = super().clean()
-        # Add any cross-field validation if needed
+
+        # Check if LicenseNumber and HealthCertificateNumber are numerical and not the same
+        license_number = cleaned_data.get('LicenseNumber')
+        health_certificate_number = cleaned_data.get('HealthCertificateNumber')
+
+        if license_number is not None and not license_number.isdigit():
+            raise ValidationError("License number should contain only digits.")
+
+        if health_certificate_number is not None and not health_certificate_number.isdigit():
+            raise ValidationError("Health Certificate number should contain only digits.")
+
+        if license_number == health_certificate_number:
+            raise ValidationError("License number and Health Certificate number should be different.")
+
         return cleaned_data
 
     class Meta:
@@ -156,6 +210,7 @@ class RestaurantCreationForm(forms.ModelForm):
         fields = (
             'Name', 'Description', 'Photo', 'Location', 'LicenseNumber', 'HealthCertificateNumber'
         )
+
 
 
 from django import forms
@@ -200,25 +255,52 @@ class DonationForm(forms.ModelForm):
         fields = ['RestaurantID', 'OrganizationID', 'is_perishable']
 
 
+from django import forms
+from django.core.validators import MinLengthValidator
+from django.core.exceptions import ValidationError
+
 
 class PerishableDonationForm(forms.ModelForm):
     MealType = forms.CharField(
         label="Meal Type",
         max_length=30,
-        widget=forms.TextInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[
+            MinLengthValidator(1),
+            validate_text_with_spaces_and_punctuation,
+            validate_letters_only,  # Use the custom validator here
+        ],
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
+
     MealPhotos = forms.ImageField(
         label="Meal Photos",
-        required=False,
-        widget=forms.FileInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.FileInput(attrs={'class': 'form-control mb-5'}),
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
+
+    from django.core.validators import MinValueValidator
+
     MealQuantityPlates = forms.IntegerField(
         label="Meal Quantity (Plates)",
-        widget=forms.NumberInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.NumberInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinValueValidator(10, 'Minimum quantity must be 10 plates')],
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
+
     pickup_location = forms.CharField(
         label="Pickup Location",
-        widget=forms.TextInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation, validate_letters_only],
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
 
     class Meta:
@@ -226,30 +308,57 @@ class PerishableDonationForm(forms.ModelForm):
         fields = ['MealType', 'MealPhotos', 'MealQuantityPlates', 'pickup_location']
 
 
+from django import forms
+from django.core.validators import MinLengthValidator
+from django.core.exceptions import ValidationError
+
+
 class NonPerishableDonationForm(forms.ModelForm):
     MealTitle = forms.CharField(
         label="Meal Title",
         max_length=30,
-        widget=forms.TextInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation],
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
+
     MealDescription = forms.CharField(
         label="Meal Description",
-        widget=forms.TextInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation],
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
+
     MealPhotos = forms.ImageField(
         label="Meal Photos",
-        required=False,
-        widget=forms.FileInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.FileInput(attrs={'class': 'form-control mb-5'}),
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
+
     MealQuantityKgs = forms.DecimalField(
         label="Meal Quantity (Kgs)",
         max_digits=5,
         decimal_places=2,
-        widget=forms.NumberInput(attrs={'class': 'form-control mb-5'})
+        validators=[MinValueValidator(2, 'Minimum quantity must be 2 Kgs')],
+        widget=forms.NumberInput(attrs={'class': 'form-control mb-5'}),
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
+
     pickup_location = forms.CharField(
         label="Pickup Location",
-        widget=forms.TextInput(attrs={'class': 'form-control mb-5'})
+        widget=forms.TextInput(attrs={'class': 'form-control mb-5'}),
+        validators=[MinLengthValidator(1), validate_text_with_spaces_and_punctuation, validate_letters_only],
+        error_messages={
+            'required': 'This field is required.',
+        },
     )
 
     class Meta:

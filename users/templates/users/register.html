@@ -18,88 +18,70 @@
 
 <form id="register-form" method="post" action="{% url 'users:register' %}">
   {% csrf_token %}
-  {% for field in form %}
-    {% if field.name == 'role' %}
-    <div class="relative w-full h-14 py-4 px-3 mb-6 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
-      <div class="flex items-center">
-        <select class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" name="role" id="{{ field.id_for_label }}">
-          <option value="">Select role</option>
-          {% for choice in field.field.choices %}
-          <option value="{{ choice.0 }}" {% if choice.0 == field.value %}selected{% endif %}>{{ choice.1 }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      {% if field.errors %}
-      <div id="{{ field.name }}-error" class="text-red-500 text-sm mt-1 error-message">
-        {% for error in field.errors %}
-        <span>{{ error }}</span><br>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-    {% else %}
-    <div class="relative w-full h-14 py-4 px-3 mb-6 border-gray-400 focus-within:border-green-500 rounded-lg {% if field.errors %}is-invalid{% endif %}">
-      <div class="flex items-center">
-        <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg" placeholder="{{ field.label }}" type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}" name="{{ field.name }}" {% if field.name == 'password1' or field.name == 'password2' %}autocomplete="new-password"{% endif %} {% if field.name == 'password1' %}id="password-input"{% endif %} id="{{ field.name }}" data-field-name="{{ field.name }}">
-        {% if field.name == 'password1' or field.name == 'password2' %}
-        <button class="btn btn-outline-secondary toggle-password ml-2" type="button">
-          <i class="fa-solid fa-eye-slash"></i>
-        </button>
-        {% endif %}
-      </div>
-      {% if field.errors %}
-      <div id="{{ field.name }}-error" class="text-red-500 text-sm mt-1 error-message">
-        {% for error in field.errors %}
-        <span>{{ error }}</span><br>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-    {% endif %}
-  {% endfor %}
 
+  <!-- Email Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" placeholder="E-mail address" type="email" name="email">
+  <div id="email-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
 
-<!--  <div id="success-popup" class="modal" tabindex="-1" role="dialog">-->
-<!--  <div class="modal-dialog" role="document">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <div class="text-center w-100">-->
-<!--          <h2 class="modal-title text-green-500 text-3xl font-bold">SUCCESS !!</h2>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <p class="text-white">Your account has been created successfully.</p>-->
-<!--        <p class="text-white">Please wait while we redirect you to the Login Page.</p>-->
-<!--        <p class="text-white">Check your email and activate your account before logging in.</p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+  <!-- Username Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" placeholder="Username" type="text" name="username">
+  <div id="username-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
 
-<!--<div id="error-popup" class="modal" tabindex="-1" role="dialog">-->
-<!--  <div class="modal-dialog" role="document">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <div class="text-center w-100">-->
-<!--          <h2 class="modal-title text-blue-500 text-3xl font-bold">ERROR !!</h2>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="modal-body"></div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+<!-- Phone Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" placeholder="Phone Number" type="text" name="phone">
+  <div id="phone-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
 
-<!--<div class="modal" id="loading-popup">-->
-<!--  <div class="modal-dialog">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-body">-->
-<!--        <p class="text-white">Loading...</p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+<!-- First Name Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" placeholder="First Name" type="text" name="first_name">
+  <div id="first_name-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
 
+<!-- Last Name Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" placeholder="Last Name" type="text" name="last_name">
+  <div id="last_name-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
 
+<!-- Password1 Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <div class="flex items-center">
+    <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" placeholder="Password" type="password" name="password1" autocomplete="new-password" id="password-input">
+    <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
+      <i class="fa-solid fa-eye-slash"></i>
+    </button>
+  </div>
+  <div id="password1-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
+
+<!-- Password2 Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <div class="flex items-center">
+    <input class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" placeholder="Confirm password" type="password" name="password2">
+    <button class="btn btn-outline-danger ml-4 toggle-password" type="button">
+      <i class="fa-solid fa-eye-slash"></i>
+    </button>
+  </div>
+  <div id="password2-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
+
+<!-- Role Input -->
+<div class="w-full md:flex-1 p-3 relative py-4 px-3 border-gray-400">
+  <div class="flex items-center">
+    <select class="block w-full h-14 bg-transparent text-sm text-dark font-medium rounded-lg border border-gray-400 focus:border-green-500" name="role" id="role">
+      <option value="">Select role</option>
+      <option value="donor">Donor</option>
+      <option value="recipient">Recipient</option>
+    </select>
+  </div>
+  <div id="role-error" class="text-red-500 text-sm mt-1 error-message"></div>
+</div>
 
   <button id="register-button" class="group relative font-semibold leading-6 px-6 mt-4 py-5 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md" type="submit">
     <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
@@ -114,6 +96,8 @@
 
 
 
+
+
       </div>
     </div>
   </div>
@@ -121,68 +105,96 @@
 
 
 <script>
+  // Function to create a modal with the given message and heading
+  function createModal(message, heading) {
+    const modal = document.createElement('div');
+    modal.classList.add('modal', 'fixed', 'inset-0', 'flex', 'items-center', 'justify-center', 'bg-gray-800', 'bg-opacity-50', 'z-50');
+    modal.innerHTML = `
+      <div class="modal-content modal-large">
+        <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+        <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">${heading}</h2>
+        <p>${message}</p>
+      </div>
+    `;
+    return modal;
+  }
 
+  // Function to show the success modal
+  function showSuccessModal() {
+    const successModal = createModal('Account created successfully. Check your email for an activation link.', 'Success');
+    document.body.appendChild(successModal);
 
-const togglePasswordButtons = document.querySelectorAll('.toggle-password');
-togglePasswordButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const passwordInput = button.previousElementSibling;
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    button.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
-  });
-});
+    // Hide the success modal after a few seconds (adjust the timeout as needed)
+    setTimeout(() => {
+      document.body.removeChild(successModal);
+    }, 5000); // Hide after 5 seconds (5000 milliseconds)
+  }
 
+  // Function to create and show the loading modal
+  function showLoadingModal() {
+    const loadingModal = createModal('Please wait while we process your request.', 'Loading...');
+    document.body.appendChild(loadingModal);
+  }
 
-  $(document).ready(function() {
+  // Function to hide the loading modal
+  function hideLoadingModal() {
+    const loadingModal = document.querySelector('.modal');
+    if (loadingModal) {
+      document.body.removeChild(loadingModal);
+    }
+  }
 
-    $('#register-form').submit(function(event) {
-      event.preventDefault();
+  // Get the form element
+  const newsletterForm = document.getElementById('newsletter-form');
 
-      var formData = $(this).serialize();
+  // Add a submit event listener to the form
+  newsletterForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent the default form submission
 
-      $.ajax({
-        type: 'POST',
-        url: '{% url "users:register" %}',
-        data: formData,
-        dataType: 'json',
-        beforeSend: function() {
-          // Show loading modal
-          $('#loading-popup').removeClass('hidden');
+    // Get the email input field and error message div
+    const emailInput = document.getElementById('id_email');
+    const emailError = document.getElementById('email-error');
+
+    // Clear any previous error messages
+    emailError.textContent = '';
+
+    // Get the email value from the input field
+    const email = emailInput.value;
+
+    // Show the loading modal while waiting for the response
+    showLoadingModal();
+
+    // Create a FormData object to send the data to the server
+    const formData = new FormData();
+    formData.append('email', email);
+
+    try {
+      // Send a POST request to the server
+      const response = await fetch(newsletterForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}', // Include the CSRF token
         },
-        success: function(response) {
-          if (response.success) {
-            // Hide loading modal
-            $('#loading-popup').addClass('hidden');
-
-            // Show success modal
-            $('#success-popup').removeClass('hidden');
-
-            // Redirect to login page after a delay
-            setTimeout(function() {
-              window.location.href = '{% url "users:login" %}';
-            }, 3000);
-          } else {
-            // Hide success modal if it's shown for any previous registration attempt
-            $('#success-popup').addClass('hidden');
-
-            // Handle form errors
-            var errors = response.errors;
-            for (var field in errors) {
-              var errorMessages = errors[field].join('<br>');
-              $('#' + field + '-error').html('<span>' + errorMessages + '</span>');
-            }
-          }
-        },
-        error: function(error) {
-          console.error(error);
-        },
-        complete: function() {
-          // Hide loading modal
-          $('#loading-popup').addClass('hidden');
-        }
       });
-    });
+
+      // Hide the loading modal when the response is received
+      hideLoadingModal();
+
+      // Parse the JSON response
+      const data = await response.json();
+
+      // Check if there are errors
+      if (data.errors) {
+        // Display the error message under the email input field
+        emailError.textContent = data.errors.email;
+      } else if (data.success) {
+        // Show the success modal when the server indicates success
+        showSuccessModal();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   });
 </script>
 

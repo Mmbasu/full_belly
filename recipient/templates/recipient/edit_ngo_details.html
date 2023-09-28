@@ -41,7 +41,7 @@
                         <div class="w-full md:w-auto p-2">
                             <div class="flex flex-wrap justify-between -m-1.5">
                                 <div class="w-full md:w-auto p-1.5">
-                                    <button class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'recipient:ngo_details' %}'">
+                                    <button type="button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color overflow-hidden rounded-md" onclick="window.location.href='{% url 'recipient:ngo_details' %}'">
                                         <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom-3"></div>
                                         <p class="relative z-10">Cancel</p>
                                     </button>
@@ -63,7 +63,8 @@
                                 <p class="text-sm text-coolGray-800 font-semibold">NGO Name</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Name" name="Name" value="{{ form.Name.value }}">
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Name" name="Name" id="id_Name" value="{{ form.Name.value }}">
+                                <div class="text-red-500 text-sm mt-2" id="Name-error"></div>
                             </div>
                         </div>
                     </div>
@@ -76,7 +77,8 @@
                                 <p class="text-xs text-coolGray-500 font-medium">Describe your NGO</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <textarea placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none" name="Description">{{ form.Description.value }}</textarea>
+                                <textarea placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-50 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none" id="id_Description" name="Description">{{ form.Description.value }}</textarea>
+                                <div class="text-red-500 text-sm mt-2" id="Description-error"></div>
                             </div>
                         </div>
                     </div>
@@ -107,7 +109,8 @@
                             </div>
                             <div class="w-full md:flex-1 p-3">
                                 <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
-                                    <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*" required>
+                                    <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*">
+                                    <div class="text-red-500 text-sm mt-2" id="Photo-error"></div>
                                 </div>
                             </div>
                             <div class="w-full md:w-auto p-1.5">
@@ -127,7 +130,8 @@
                                 <p class="text-sm text-coolGray-800 font-semibold">NGO Location</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Address, City" name="Location" value="{{ form.Location.value }}">
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="Address, City" id="id_Location" name="Location" value="{{ form.Location.value }}">
+                                <div class="text-red-500 text-sm mt-2" id="Location-error"></div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +143,8 @@
                                 <p class="text-sm text-coolGray-800 font-semibold">NGO License No.</p>
                             </div>
                             <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="License No." name="LicenseNumber" value="{{ form.LicenseNumber.value }}">
+                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="LicenseNumber" id="id_LicenseNumber" value="{{ form.LicenseNumber.value }}">
+                                <div class="text-red-500 text-sm mt-2" id="LicenseNumber-error"></div>
                             </div>
                         </div>
                     </div>
@@ -150,69 +155,95 @@
 </form>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-  const editRestaurantButton = document.getElementById('edit-ngo-button');
-  const form = document.querySelector("form");
+  document.addEventListener("DOMContentLoaded", function () {
+    const editRestaurantButton = document.getElementById('edit-ngo-button');
+    const form = document.querySelector("form");
 
-  editRestaurantButton.addEventListener('click', function (event) {
-    event.preventDefault();
+    editRestaurantButton.addEventListener('click', function (event) {
+      event.preventDefault();
 
-    const formData = new FormData(form);
+      const formData = new FormData(form);
 
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-CSRFToken': getCookie('csrftoken'),
-      },
-    })
-    .then((response) => {
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-      return response.json();
-    })
-    .then((data) => {
-      console.log('Response data:', data);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+      })
+      .then((response) => {
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response data:', data);
 
-      // Show success modal
-      const modal = document.createElement('div');
-      modal.classList.add('modal');
-      modal.innerHTML = `
-        <div class="modal-content modal-large">
-          <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
-          <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
-          <p>NGO Edited</p>
-        </div>
-      `;
-      document.body.appendChild(modal);
-      setTimeout(() => {
-        modal.remove();
-        window.location.href = "{% url 'recipient:ngo_details' %}";
-      }, 2500);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      // Handle errors if needed
+        if (data.success) {
+          // Clear previous errors
+          clearErrors();
+
+          // Show success modal
+          const modal = document.createElement('div');
+          modal.classList.add('modal');
+          modal.innerHTML = `
+            <div class="modal-content modal-large">
+              <div><i class="fa-solid fa-circle-check fa-beat-fade fa-2xl" style="margin-top: 20px; margin-bottom: 30px; color: #2BA19A;"></i></div>
+              <h2 class="mb-2 text-2xl lg:text-2xl font-bold font-heading" style="color: #2BA19A;">Success</h2>
+              <p>NGO Edited</p>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          setTimeout(() => {
+            modal.remove();
+            window.location.href = "{% url 'recipient:ngo_details' %}";
+          }, 2500);
+        } else {
+          // Handle form errors
+          const errors = data.errors;
+          for (const field in errors) {
+            if (Object.hasOwnProperty.call(errors, field)) {
+              const errorMessages = errors[field].join('<br>');
+              const errorElement = document.getElementById(field + '-error');
+              if (errorElement) {
+                errorElement.innerHTML = '<span>' + errorMessages + '</span>';
+              }
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle errors if needed
+      });
     });
-  });
 
-  // Function to get CSRF cookie value
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === name + '=') {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
+    // Function to get CSRF cookie value
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + '=') {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
       }
+      return cookieValue;
     }
-    return cookieValue;
-  }
-});
+
+    // Function to clear previous errors
+    function clearErrors() {
+      const errorDivs = form.querySelectorAll(".text-red-500");
+      errorDivs.forEach((errorDiv) => {
+        errorDiv.innerHTML = '';
+      });
+    }
+  });
 </script>
+
 
 
 

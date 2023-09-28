@@ -28,122 +28,141 @@
           </div>
         </div>
       </div>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <section class="bg-coolGray-50 py-4">
-        <div class="container px-4 mx-auto">
-            <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
-                <div class="pb-6 border-b border-coolGray-100">
-                    <div class="flex flex-wrap items-center justify-between -m-2">
-                        <div class="w-full md:w-auto p-2">
-                            <p class="text-lg text-coolGray-500 font-medium">Fill the details below</p>
-                        </div>
-                        <div class="w-full md:w-auto p-2">
-                            <div class="flex flex-wrap justify-between -m-1.5">
-                                <div class="w-full md:w-auto p-1.5">
-                                    <button type="submit" id="add-restaurant-button" class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
-                                        <div class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
-                                        <p class="relative z-10">Add Restaurant</p>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<form method="post" enctype="multipart/form-data" id="add-restaurant-form">
+  {% csrf_token %}
+  <section class="bg-coolGray-50 py-4">
+    <div class="container px-4 mx-auto">
+      <div class="p-6 h-full border border-coolGray-100 overflow-hidden bg-white rounded-md shadow-dashboard">
+        <div class="pb-6 border-b border-coolGray-100">
+          <div class="flex flex-wrap items-center justify-between -m-2">
+            <div class="w-full md:w-auto p-2">
+              <p class="text-lg text-coolGray-500 font-medium">Fill the details below</p>
+            </div>
+            <div class="w-full md:w-auto p-2">
+              <div class="flex flex-wrap justify-between -m-1.5">
+                <div class="w-full md:w-auto p-1.5">
+                  <button type="submit" id="add-restaurant-button"
+                    class="group relative font-medium leading-6 px-5 mb-2 py-3 w-full uppercase text-white text-xs font-semibold tracking-px bg-custom-color hover:bg-custom-hover overflow-hidden rounded-md">
+                    <div
+                      class="absolute top-0 left-0 transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-custom"></div>
+                    <p class="relative z-10">Add Restaurant</p>
+                  </button>
                 </div>
-                <div class="py-6 border-b border-coolGray-100">
-                    <div class="w-full md:w-9/12">
-                        <div class="flex flex-wrap -m-3">
-                            <div class="w-full md:w-1/3 p-3">
-                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Name</p>
-                            </div>
-                            <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Red cross" name="Name" required>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="py-6 border-b border-coolGray-100">
+          <div class="w-full md:w-9/12">
+            <div class="flex flex-wrap -m-3">
+              <div class="w-full md:w-1/3 p-3">
+                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Name</p>
+              </div>
+              <div class="w-full md:flex-1 p-3">
+                <input
+                  class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input"
+                  type="text" placeholder="e.g, Red cross" name="Name">
+                <div class="text-red-500 text-sm mt-2" id="Name-error"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="py-6 border-b border-coolGray-100">
+          <div class="w-full md:w-9/12">
+            <div class="flex flex-wrap -m-3">
+              <div class="w-full md:w-1/3 p-3">
+                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Description</p>
+                <p class="text-xs text-coolGray-500 font-medium">Describe your Restaurant</p>
+              </div>
+              <div class="w-full md:flex-1 p-3">
+                <textarea
+                  placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best"
+                  class="block w-full h-30 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none"
+                  name="Description" rows="5"></textarea>
+                <div class="text-red-500 text-sm mt-2" id="Description-error"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="py-6 border-b border-coolGray-100">
+          <div class="w-full md:w-9/12">
+            <div class="flex flex-wrap -m-3" id="upload-photo-section">
+              <div class="w-full md:w-1/3 p-3">
+                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Photo</p>
+                <p class="text-xs text-coolGray-500 font-medium">Upload photo</p>
+              </div>
+              <div class="w-full md:flex-1 p-3">
+                <div
+                  class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
+                  <input
+                    class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*">
                 </div>
-                <div class="py-6 border-b border-coolGray-100">
-                    <div class="w-full md:w-9/12">
-                        <div class="flex flex-wrap -m-3">
-                            <div class="w-full md:w-1/3 p-3">
-                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Description</p>
-                                <p class="text-xs text-coolGray-500 font-medium">Describe your Restaurant</p>
-                            </div>
-                            <div class="w-full md:flex-1 p-3">
-                                <textarea placeholder="e.g. combines flavors & inspiration from the Far East & the West to create what we think is the best" class="block w-full h-30 p-6 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input resize-none" name="Description" rows="5" required></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="py-6 border-b border-coolGray-100">
-                    <div class="w-full md:w-9/12">
-                        <div class="flex flex-wrap -m-3" id="upload-photo-section">
-                            <div class="w-full md:w-1/3 p-3">
-                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Photo</p>
-                                <p class="text-xs text-coolGray-500 font-medium">Upload photo</p>
-                            </div>
-                            <div class="w-full md:flex-1 p-3">
-                                <div class="relative flex flex-col items-center justify-center p-6 h-44 text-center text-greenish focus-within:border-greenish border border-dashed border-coolGray-200 rounded-lg">
-                                    <input class="block w-full p-6 h-44 bg-transparent text-sm text-center text-greenish font-medium rounded-lg focus-within:border-greenish border border-dashed border-greenish rounded-lg" type="file" name="Photo" id="id_Photo" accept="image/*" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-
-                <div class="py-6 border-b border-coolGray-100">
-                    <div class="w-full md:w-9/12">
-                        <div class="flex flex-wrap -m-3">
-                            <div class="w-full md:w-1/3 p-3">
-                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Location</p>
-                            </div>
-                            <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Mavoko, Athi River" name="Location" required>
-                            </div>
-                        </div>
+          <div class="py-6 border-b border-coolGray-100">
+            <div class="w-full md:w-9/12">
+                <div class="flex flex-wrap -m-3">
+                    <div class="w-full md:w-1/3 p-3">
+                        <p class="text-sm text-coolGray-800 font-semibold">Restaurant Location</p>
                     </div>
-                </div>
-                <div class="py-6 border-b border-coolGray-100">
-                    <div class="w-full md:w-9/12">
-                        <div class="flex flex-wrap -m-3">
-                            <div class="w-full md:w-1/3 p-3">
-                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant License No.</p>
-                            </div>
-                            <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="LicenseNumber" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="py-6 border-b border-coolGray-100">
-                    <div class="w-full md:w-9/12">
-                        <div class="flex flex-wrap -m-3">
-                            <div class="w-full md:w-1/3 p-3">
-                                <p class="text-sm text-coolGray-800 font-semibold">Restaurant Health Certificate Number No.</p>
-                            </div>
-                            <div class="w-full md:flex-1 p-3">
-                                <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="HealthCertificateNumber" required>
-                            </div>
-                        </div>
+                    <div class="w-full md:flex-1 p-3">
+                        <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, Mavoko, Athi River" name="Location">
+                        <div class="text-red-500 text-sm mt-2" id="Location-error"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="py-6 border-b border-coolGray-100">
+            <div class="w-full md:w-9/12">
+                <div class="flex flex-wrap -m-3">
+                    <div class="w-full md:w-1/3 p-3">
+                        <p class="text-sm text-coolGray-800 font-semibold">Restaurant License No.</p>
+                    </div>
+                    <div class="w-full md:flex-1 p-3">
+                        <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="LicenseNumber">
+                        <div class="text-red-500 text-sm mt-2" id="LicenseNumber-error"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="py-6 border-b border-coolGray-100">
+            <div class="w-full md:w-9/12">
+                <div class="flex flex-wrap -m-3">
+                    <div class="w-full md:w-1/3 p-3">
+                        <p class="text-sm text-coolGray-800 font-semibold">Restaurant Health Certificate Number No.</p>
+                    </div>
+                    <div class="w-full md:flex-1 p-3">
+                        <input class="w-full px-4 py-2.5 text-base text-coolGray-900 font-normal outline-none focus:border-green-500 border border-coolGray-200 rounded-lg shadow-input" type="text" placeholder="e.g, 22782728827" name="HealthCertificateNumber">
+                        <div class="text-red-500 text-sm mt-2" id="HealthCertificateNumber-error"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
 </form>
+
 <script>
   $('#add-restaurant-form').submit(function(event) {
     event.preventDefault();
 
-    var formData = new FormData(this);  // Use FormData to include file input field
+    // Clear previous errors
+    $('.text-red-500').html('');
+
+    var formData = new FormData(this);
 
     $.ajax({
       type: 'POST',
       url: '{% url "donor:add_restaurant" %}',  // Replace with the URL for adding a restaurant
       data: formData,
       dataType: 'json',
-      contentType: false,  // Set contentType and processData to false when using FormData
+      contentType: false,
       processData: false,
       beforeSend: function() {
         // Show loading modal
@@ -192,6 +211,7 @@
     });
   });
 </script>
+
 
     </div>
 
